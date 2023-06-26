@@ -17,7 +17,7 @@ import com.example.demo.dto.Xofer;
 import com.example.demo.service.XoferServiceIMPL;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class XoferController {
 	
 	@Autowired

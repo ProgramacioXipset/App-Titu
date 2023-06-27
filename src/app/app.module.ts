@@ -16,6 +16,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TaulesInferiorsComponent } from './dashboard/taules-inferiors/taules-inferiors.component';
+import { TaulaAnadaComponent } from './dashboard/taules-inferiors/taula-anada/taula-anada.component';
+import { TaulaTornadaComponent } from './dashboard/taules-inferiors/taula-tornada/taula-tornada.component';
+import { TaulaAvuixavuiComponent } from './dashboard/taules-inferiors/taula-avuixavui/taula-avuixavui.component';
+import { BotoAfegirRutaComponent } from './dashboard/taules-inferiors/boto-afegir-ruta/boto-afegir-ruta.component';
+import { PopupCrearComponent } from './dashboard/popup-crear/popup-crear.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { PopupCrearViatgeComponent } from './dashboard/popup-crear-viatge/popup-crear-viatge.component';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
+import { PopupCrearDireccioComponent } from './dashboard/popup-crear-direccio/popup-crear-direccio.component';
+import { PopupCrearCamioComponent } from './dashboard/popup-crear-camio/popup-crear-camio.component';
+import { PopupCrearRemolcComponent } from './dashboard/popup-crear-remolc/popup-crear-remolc.component';
+import { PopupCrearXoferComponent } from './dashboard/popup-crear-xofer/popup-crear-xofer.component';
+import { PopupModificarXoferComponent } from './dashboard/popup-modificar-xofer/popup-modificar-xofer.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +38,18 @@ import { TaulesInferiorsComponent } from './dashboard/taules-inferiors/taules-in
     DashboardComponent,
     NavbarComponent,
     TaulaPrincipalComponent,
-    TaulesInferiorsComponent
+    TaulesInferiorsComponent,
+    TaulaAnadaComponent,
+    TaulaTornadaComponent,
+    TaulaAvuixavuiComponent,
+    BotoAfegirRutaComponent,
+    PopupCrearComponent,
+    PopupCrearViatgeComponent,
+    PopupCrearDireccioComponent,
+    PopupCrearCamioComponent,
+    PopupCrearRemolcComponent,
+    PopupCrearXoferComponent,
+    PopupModificarXoferComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +60,10 @@ import { TaulesInferiorsComponent } from './dashboard/taules-inferiors/taules-in
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatRadioModule,
+    MatSelectModule
   ],
   providers: [ authInterceptorProviders ],
   bootstrap: [AppComponent]

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {LoginService} from '../servicios/login.service'
 import { UserService } from 'src/app/servicios/user.service';
 import { Observer } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
 
   submitted = false; // Indicador de estado de envío de formulario
 
-  constructor(private loginService: LoginService, private servicioPerfil: UserService) { }
+  constructor(private loginService: LoginService, private servicioPerfil: UserService, private router: Router) { }
 
   ngOnInit(): void {
     const authToken = sessionStorage.getItem('auth-token');

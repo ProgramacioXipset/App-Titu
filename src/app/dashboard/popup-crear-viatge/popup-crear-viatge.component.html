@@ -1,0 +1,60 @@
+<div class="contenidor d-flex flex-column justify-content-around">
+    <div class="text-center">
+        <h1>Afegir viatge</h1>
+    </div>
+    <form [formGroup]="options" class="h-75 d-flex flex-column justify-content-around" (ngSubmit)="submitForm()">
+        <div>
+          <mat-radio-group [formControl]="floatLabelControl" class="d-flex justify-content-around" required>
+            <mat-radio-button value="Anada">Anada</mat-radio-button>
+            <mat-radio-button value="Tornada">Tornada</mat-radio-button>
+            <mat-radio-button value="Avui X Avui">Avui X Avui</mat-radio-button>
+          </mat-radio-group>
+        </div>
+    
+        <div class="camps d-flex justify-content-around">   
+            <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" [floatLabel]="getFloatLabelValue()">
+                <mat-select required [formControl]="origenSeleccionat">
+                    <mat-option>Seleccionar</mat-option>    
+                    <mat-option *ngFor="let direccio of direccions" [value]="direccio.id">{{direccio.adreca + ", " + direccio.poblacio}}</mat-option>
+                </mat-select>
+                <mat-label>Origen</mat-label>
+            </mat-form-field>
+
+            <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" [floatLabel]="getFloatLabelValue()">
+                <mat-select required [formControl]="destiSeleccionat">
+                    <mat-option>Seleccionar</mat-option>
+                    <mat-option *ngFor="let direccio of direccions" [value]="direccio.id">{{direccio.adreca + ", " + direccio.poblacio}}</mat-option>
+                </mat-select>
+                <mat-label>Destí</mat-label>
+            </mat-form-field>
+
+            <div class="afegir_direccio align-middle" (click)="openDialog()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-around">
+            <mat-form-field class="w-75">
+                <mat-label>Comentari</mat-label>
+                <textarea matInput [formControl]="comentariControl"></textarea>
+            </mat-form-field>
+        </div>
+
+        <!-- Mostrar mensaje de éxito -->
+        <div *ngIf="enviado === true" class="mensaje-exito text-center text-success">
+            El formulario se ha enviado correctamente.
+        </div>
+
+        <!-- Mostrar mensaje de error -->
+        <div *ngIf="enviado === false" class="mensaje-error text-center text-danger">
+            Ha ocurrido un error al enviar el formulario. Por favor, inténtalo nuevamente.
+        </div>
+
+        <div class="text-center">
+            <button mat-raised-button color="primary" type="submit" class="btn btn-success w-50">Enviar</button>
+          </div>
+      </form>
+</div>

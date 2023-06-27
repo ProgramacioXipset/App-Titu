@@ -3,6 +3,8 @@ import { DateService } from 'src/app/servicios/data.service';
 import { LoginService } from 'src/app/servicios/login.service';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
+import { PopupCrearComponent } from '../popup-crear/popup-crear.component';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +18,7 @@ export class NavbarComponent implements OnInit {
   fechaControl = new FormControl();
   selectedDate: FormControl = new FormControl();
 
-  constructor(private dateService: DateService, private loginService: LoginService, private router: Router) { 
+  constructor(public dialog: MatDialog, private dateService: DateService, private loginService: LoginService, private router: Router) { 
     this.dataAvuiFormatejada = this.dateService.dataAvui.getDate() + "/" + (this.dateService.dataAvui.getMonth() + 1) + "/" + this.dateService.dataAvui.getFullYear();
     this.dataDemaFormatejada = this.dateService.dataDema.getDate() + "/" + (this.dateService.dataDema.getMonth() + 1) + "/" + this.dateService.dataDema.getFullYear();
     this.isAuthenticated = false;
@@ -32,6 +34,18 @@ export class NavbarComponent implements OnInit {
       this.isAuthenticated = user !== null;
     });
   }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(PopupCrearComponent, {
+      height: '500px',
+      width: '700px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
 
   diaSeguent() {
     this.dateService.diaSeguent();

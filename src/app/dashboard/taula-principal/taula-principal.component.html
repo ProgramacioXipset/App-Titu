@@ -6,7 +6,7 @@
             <th>Viatges</th>
         </tr>
         <tr *ngFor="let xofer of xofers">
-            <td class="xofer">{{ xofer.nom }}</td>
+            <td class="xofer" (click)="openDialog(xofer)">{{ xofer.nom }}</td>
             <td></td>
             <td></td>
         </tr>

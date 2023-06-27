@@ -1,0 +1,41 @@
+<div class="contenidor d-flex flex-column justify-content-around">
+    <div class="text-center">
+        <h1>Afegir direcció</h1>
+    </div>
+    <form [formGroup]="options" class="h-75 d-flex flex-column justify-content-around" (ngSubmit)="submitForm()"> 
+        <div class="d-flex justify-content-around">
+            <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="w-75">
+                <mat-label>Adreça</mat-label>
+                <input required matInput [formControl]="adrecaControl">
+            </mat-form-field>
+        </div>
+
+        <div class="d-flex justify-content-around">
+            <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="w-75">
+                <mat-label>Població</mat-label>
+                <input required matInput [formControl]="poblacioControl">
+            </mat-form-field>
+        </div>
+
+        <div class="d-flex justify-content-around">
+            <mat-form-field class="w-75">
+                <mat-label>Codi postal</mat-label>
+                <input required matInput type="number" [formControl]="cpostalControl">
+            </mat-form-field>
+        </div>
+
+        <!-- Mostrar mensaje de éxito -->
+        <div *ngIf="enviado === true" class="mensaje-exito text-center text-success">
+            El formulario se ha enviado correctamente.
+        </div>
+
+        <!-- Mostrar mensaje de error -->
+        <div *ngIf="enviado === false" class="mensaje-error text-center text-danger">
+            Ha ocurrido un error al enviar el formulario. Por favor, inténtalo nuevamente.
+        </div>
+
+        <div class="text-center">
+            <button mat-raised-button color="primary" type="submit" class="btn btn-success w-50">Enviar</button>
+          </div>
+      </form>
+</div>

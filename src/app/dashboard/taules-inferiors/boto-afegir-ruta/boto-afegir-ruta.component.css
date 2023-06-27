@@ -1,6 +1,5 @@
 .contenidor, table {
-    width: 100vw;
-    border-bottom: 1px solid black;
+    width: 100%;
 }
 
 table {
@@ -11,6 +10,6 @@ table, th, td {
     border: 1px solid gainsboro;
 }
 
-.xofer {
-    width: 10%;
+div:hover table tr td svg {
+    color: green;
 }

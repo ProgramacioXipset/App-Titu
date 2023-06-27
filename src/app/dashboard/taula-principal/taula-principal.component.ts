@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { XoferService } from 'src/app/servicios/xofer.service';
+import { PopupModificarXoferComponent } from '../popup-modificar-xofer/popup-modificar-xofer.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-taula-principal',
@@ -8,8 +10,10 @@ import { XoferService } from 'src/app/servicios/xofer.service';
 })
 export class TaulaPrincipalComponent {
   xofers: any = null;
+  dialogOpen = false;
+  selectedXofer: any;
 
-  constructor(private xoferService:XoferService){
+  constructor(private xoferService:XoferService, public dialog: MatDialog){
 
   }
 
@@ -20,4 +24,22 @@ export class TaulaPrincipalComponent {
       .subscribe( (result: any) => {this.xofers = result;})
   }
 
+  openDialog(xofer: any) {
+    this.selectedXofer = xofer;
+    this.dialogOpen = true;
+
+    console.log(this.selectedXofer.nom);
+    
+
+    const dialogRef = this.dialog.open(PopupModificarXoferComponent, {
+      data: { xofer: this.selectedXofer },
+      height: '500px',
+      width: '700px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // Realiza acciones después de que se cierre el diálogo si es necesario
+      this.dialogOpen = false;
+    });
+  }
 }

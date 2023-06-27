@@ -1,0 +1,36 @@
+<div class="contenidor d-flex flex-column justify-content-around">
+    <div class="text-center">
+        <h1>Afegir viatge</h1>
+    </div>
+    <form [formGroup]="options" class="h-75 d-flex flex-column justify-content-around" (ngSubmit)="submitForm()">
+        <div class="camps d-flex justify-content-around">   
+            <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="w-75">
+                <mat-label>Matricula</mat-label>
+                <input required matInput [formControl]="matriculaControl">
+                <mat-error *ngIf="matriculaControl.hasError('required')">Es requereix el camp</mat-error>
+                <mat-error *ngIf="matriculaControl.hasError('pattern')">La matricula ha de tenir 4 números seguits de 3 lletres</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="d-flex justify-content-around">
+            <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="w-75">
+                <mat-label>Marca i model</mat-label>
+                <input matInput [formControl]="marcaModelControl">
+            </mat-form-field>
+        </div>
+
+        <!-- Mostrar mensaje de éxito -->
+        <div *ngIf="enviado === true" class="mensaje-exito text-center text-success">
+            El formulario se ha enviado correctamente.
+        </div>
+
+        <!-- Mostrar mensaje de error -->
+        <div *ngIf="enviado === false" class="mensaje-error text-center text-danger">
+            Ha ocurrido un error al enviar el formulario. Por favor, inténtalo nuevamente.
+        </div>
+
+        <div class="text-center">
+            <button mat-raised-button color="primary" type="submit" class="btn btn-success w-50">Enviar</button>
+          </div>
+      </form>
+</div>

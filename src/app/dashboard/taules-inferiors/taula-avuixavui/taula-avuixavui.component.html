@@ -1,0 +1,10 @@
+<div class="contenidor">
+    <table>
+        <tr>
+            <th>Avui X Avui</th>
+        </tr>
+        <tr *ngFor="let avuiXAvui of avuiXAvuis">
+            <td>{{ avuiXAvui.id_direccio_origen.poblacio + " - " + avuiXAvui.id_direccio_desti.poblacio }}</td>
+        </tr>
+    </table>
+</div>

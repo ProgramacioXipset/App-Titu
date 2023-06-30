@@ -35,20 +35,17 @@
       <div class="camps d-flex justify-content-around">
         <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" [floatLabel]="getFloatLabelValue()" class="camp">
             <mat-label>Camió</mat-label>
-            <mat-select matNativeControl [formControl]="camioSeleccionat">
-              <ng-container *ngIf="data.xofer.id_camio">  
-                <mat-option value="{{ data.xofer.id_camio.id }}">{{ data.xofer.id_camio.matricula }}</mat-option>    
-              </ng-container>
-              <mat-option *ngFor="let camio of camions" [value]="camio.id">{{camio.matricula}}</mat-option>
+            <mat-select [(value)]="data.xofer.id_camio.id" [formControl]="camioSeleccionat">
+              <mat-option *ngFor="let camio of camions" [value]="camio.id">{{ camio.matricula + "(" + camio.marca_model + ")" }}</mat-option>
             </mat-select>
         </mat-form-field>
        
         <div class="d-flex flex-column align-items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+          <svg (click)="openCamio()" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
           </svg>
 
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+          <svg (click)="openModificarCamio()" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
             <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
           </svg>
         </div>
@@ -64,16 +61,13 @@
       <div class="camps d-flex justify-content-around">
         <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" [floatLabel]="getFloatLabelValue()" class="camp">
             <mat-label>Remolc</mat-label>
-            <mat-select matNativeControl [formControl]="remolcSeleccionat">
-              <ng-container *ngIf="data.xofer.id_remolc">
-                <mat-option value="{{ data.xofer.id_remolc.id }}">{{ data.xofer.id_remolc.matricula }}</mat-option>
-              </ng-container>
+            <mat-select [(value)]="data.xofer.id_remolc.id" [formControl]="remolcSeleccionat">
               <mat-option *ngFor="let remolc of remolcs" [value]="remolc.id">{{remolc.matricula}}</mat-option>
             </mat-select>
         </mat-form-field>
 
         <div class="d-flex flex-column align-items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+          <svg (click)="openRemolc()" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
           </svg>
 
@@ -87,8 +81,9 @@
         {{ enviado ? 'El formulario se ha enviado correctamente.' : 'Ha ocurrido un error al enviar el formulario. Por favor, inténtalo nuevamente.' }}
       </div>
   
-      <div class="text-center">
+      <div class="text-center d-flex flex-row justify-content-around">
         <button mat-raised-button color="primary" type="submit" class="btn btn-success w-50">Enviar</button>
+        <button mat-raised-button class="btn btn-danger w-25" (click)="submitDelete()">Eliminar</button>
       </div>
     </form>
   </div>

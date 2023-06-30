@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DireccioService } from 'src/app/servicios/direccio.service';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
+import { XoferService } from 'src/app/servicios/xofer.service';
+import { EventosService } from 'src/app/servicios/eventos.service';
 
 const dniPattern = /^[0-9]{8}[A-Za-z]$/;
 const telPattern = /^[0-9]{9}$/
@@ -24,6 +26,8 @@ export class PopupCrearXoferComponent {
   enviado: boolean | null = null;
 
   constructor(
+    private xoferService: XoferService,
+    private eventosService: EventosService,
     private _formBuilder: FormBuilder,
     private direccioService: DireccioService,
     private http: HttpClient,
@@ -62,7 +66,9 @@ export class PopupCrearXoferComponent {
         cognoms: cognomValue,
         telefon: telefonValue,
         email: emailValue,
-        dni: dniValue
+        dni: dniValue,
+        id_camio: { id: 1 },
+        id_remolc: { id: 1 }
       };
 
       if (endpoint) {
@@ -71,6 +77,7 @@ export class PopupCrearXoferComponent {
             console.log('Formulario enviado correctamente');
             this.enviado = true;
             this.options.reset();
+            this.eventosService.emitXoferCreated();
           },
           (error) => {
             console.error('Error al enviar el formulario:', error);

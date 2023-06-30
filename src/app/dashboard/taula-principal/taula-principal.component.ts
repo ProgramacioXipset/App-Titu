@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { XoferService } from 'src/app/servicios/xofer.service';
 import { PopupModificarXoferComponent } from '../popup-modificar-xofer/popup-modificar-xofer.component';
 import { MatDialog } from '@angular/material/dialog';
+import { EventosService } from 'src/app/servicios/eventos.service';
 
 @Component({
   selector: 'app-taula-principal',
@@ -13,15 +14,22 @@ export class TaulaPrincipalComponent {
   dialogOpen = false;
   selectedXofer: any;
 
-  constructor(private xoferService:XoferService, public dialog: MatDialog){
+  constructor(private xoferService: XoferService, public dialog: MatDialog, private eventosService: EventosService) {
 
   }
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
+    this.cargarXofers(); // Llama al método para cargar los xofers al iniciar el componente
+    this.eventosService.xoferCreated$.subscribe(() => {
+      this.cargarXofers(); // Actualiza los xofers cuando se crea uno nuevo
+    });
+  }
+
+  cargarXofers() {
     this.xoferService.retornarXofer()
-      .subscribe( (result: any) => {this.xofers = result;})
+      .subscribe((result: any) => {
+        this.xofers = result;
+      });
   }
 
   openDialog(xofer: any) {
@@ -29,7 +37,6 @@ export class TaulaPrincipalComponent {
     this.dialogOpen = true;
 
     console.log(this.selectedXofer.nom);
-    
 
     const dialogRef = this.dialog.open(PopupModificarXoferComponent, {
       data: { xofer: this.selectedXofer },
@@ -40,6 +47,7 @@ export class TaulaPrincipalComponent {
     dialogRef.afterClosed().subscribe(result => {
       // Realiza acciones después de que se cierre el diálogo si es necesario
       this.dialogOpen = false;
+      this.cargarXofers(); // Actualiza los xofers al cerrar el diálogo
     });
   }
 }

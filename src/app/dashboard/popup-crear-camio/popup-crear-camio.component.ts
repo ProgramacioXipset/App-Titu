@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FloatLabelType } from '@angular/material/form-field';
 import { DireccioService } from 'src/app/servicios/direccio.service';
@@ -12,7 +12,7 @@ const matriculaPattern = /^[0-9]{4}[A-Za-z]{3}$/;
   styleUrls: ['./popup-crear-camio.component.css']
 })
 export class PopupCrearCamioComponent {
-
+  @Output() camionCreado: EventEmitter<any> = new EventEmitter<void>();
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   matriculaControl = new FormControl('', Validators.pattern(matriculaPattern));
@@ -65,6 +65,7 @@ export class PopupCrearCamioComponent {
             console.log('Formulario enviado correctamente');
             // Realizar acciones adicionales después de guardar los datos en la base de datos
             this.enviado = true;
+            this.camionCreado.emit();            
             this.options.reset();
           },
           (error) => {

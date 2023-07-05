@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { AnadaService } from 'src/app/servicios/anada.service';
+import { EventosService } from 'src/app/servicios/eventos.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupModificarViatgeComponent } from '../../popup-modificar-viatge/popup-modificar-viatge.component';
 
 @Component({
   selector: 'app-taula-tornada',
@@ -8,15 +11,41 @@ import { AnadaService } from 'src/app/servicios/anada.service';
 })
 export class TaulaTornadaComponent {
   tornades: any = null;
+  dialogOpen = false;
+  selectedTornada: any;
 
-  constructor(private anadaService:AnadaService){
+  constructor(private anadaService:AnadaService, private eventosService: EventosService, public dialog: MatDialog){
 
   }
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
+    this.cargarTornada();
+    this.eventosService.viatgeCreated$.subscribe(() => {
+      this.cargarTornada(); // Actualiza los xofers cuando se crea uno nuevo
+    });
+  }
+
+  cargarTornada() {
     this.anadaService.retornarTornada()
-      .subscribe( (result: any) => {this.tornades = result;})
+    .subscribe( (result: any) => {this.tornades = result;});
+  }
+
+  openDialog(tornada: any) {
+    this.selectedTornada = tornada;
+    this.dialogOpen = true;
+
+    console.log(this.selectedTornada.id);
+
+    const dialogRef = this.dialog.open(PopupModificarViatgeComponent, {
+      data: { viatge: this.selectedTornada },
+      height: '500px',
+      width: '700px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // Realiza acciones después de que se cierre el diálogo si es necesario
+      this.dialogOpen = false;
+      this.cargarTornada(); // Actualiza los xofers al cerrar el diálogo
+    });
   }
 }

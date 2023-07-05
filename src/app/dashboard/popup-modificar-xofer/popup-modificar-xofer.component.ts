@@ -11,6 +11,7 @@ import { PopupCrearRemolcComponent } from '../popup-crear-remolc/popup-crear-rem
 import { PopupModificarCamioComponent } from '../popup-modificar-camio/popup-modificar-camio.component';
 import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatSelect } from '@angular/material/select';
+import { PopupModificarRemolcComponent } from '../popup-modificar-remolc/popup-modificar-remolc.component';
 
 const dniPattern = /^[0-9]{8}[A-Za-z]$/;
 const telPattern = /^[0-9]{9}$/
@@ -174,6 +175,7 @@ export class PopupModificarXoferComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.recargar();
     });
   }
 
@@ -185,6 +187,7 @@ export class PopupModificarXoferComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.recargar();
     });
   }
 
@@ -195,7 +198,7 @@ export class PopupModificarXoferComponent {
     console.log(camionEnviar);    
     
     const dialogRef = this.dialog.open(PopupModificarCamioComponent, {
-      data: {camio: camionEnviar },
+      data: {camio: camionEnviar, xofer: this.data.xofer },
       height: '500px',
       width: '700px',
     });
@@ -214,10 +217,41 @@ export class PopupModificarXoferComponent {
     });
   }
 
+  openModificarRemolc(): void {
+    const valor = this.remolcs.findIndex((element: { id: any; }) => element.id === this.remolcSeleccionat.value);
+    const remolcEnviar = this.remolcs[valor];
+
+    console.log(remolcEnviar);    
+    
+    const dialogRef = this.dialog.open(PopupModificarRemolcComponent, {
+      data: {camio: remolcEnviar, xofer: this.data.xofer },
+      height: '500px',
+      width: '700px',
+    });
+
+    dialogRef.componentInstance.remolcModificado.subscribe((remolcModificado) => {
+      // Actualizar el valor del select
+      this.remolcSeleccionat.setValue(remolcModificado.id);
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.recargar();
+      // Actualizar el valor seleccionado y la validez del select
+      // this.selectCamiones.writeValue(requestBody.id);
+      // this.selectCamiones.updateValueAndValidity();
+    });
+  }
+
   recargar() {
     this.camioService.retornarCamio()
       .subscribe((result: any) => {
         this.camions = result;
       });
+
+    this.remolcService.retornarRemolc()
+      .subscribe((result: any) => {
+        this.remolcs = result;
+    });
   }
 }

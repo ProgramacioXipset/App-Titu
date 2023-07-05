@@ -5,6 +5,7 @@ import { DireccioService } from 'src/app/servicios/direccio.service';
 import { HttpClient } from '@angular/common/http';
 import {MatDialog} from '@angular/material/dialog';
 import { PopupCrearDireccioComponent } from '../popup-crear-direccio/popup-crear-direccio.component';
+import { EventosService } from 'src/app/servicios/eventos.service';
 
 @Component({
   selector: 'app-popup-crear-viatge',
@@ -25,7 +26,8 @@ export class PopupCrearViatgeComponent {
     private _formBuilder: FormBuilder,
     private direccioService: DireccioService,
     private http: HttpClient,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private eventosService: EventosService
   ) {
     this.options = this._formBuilder.group({
       floatLabel: this.floatLabelControl,
@@ -80,6 +82,7 @@ export class PopupCrearViatgeComponent {
             console.log('Formulario enviado correctamente');
             // Realizar acciones adicionales después de guardar los datos en la base de datos
             this.enviado = true;
+            this.eventosService.emitViatgeCreated();
             this.options.reset();
           },
           (error) => {

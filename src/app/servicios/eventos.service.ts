@@ -7,9 +7,11 @@ import { Subject } from 'rxjs';
 export class EventosService {
   private xoferCreatedSource = new Subject<void>();
   private camioCreatedSource = new Subject<void>();
+  private viatgeCreatedSource = new Subject<void>();
 
   xoferCreated$ = this.xoferCreatedSource.asObservable();
   camioCreated$ = this.camioCreatedSource.asObservable();
+  viatgeCreated$ = this.viatgeCreatedSource.asObservable();
 
   emitXoferCreated() {
     this.xoferCreatedSource.next();
@@ -17,5 +19,9 @@ export class EventosService {
 
   emitCamioCreated() {
     this.camioCreatedSource.next();
+  }
+
+  emitViatgeCreated() {
+    this.viatgeCreatedSource.next();
   }
 }

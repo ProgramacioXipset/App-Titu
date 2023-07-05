@@ -8,18 +8,17 @@ import { FloatLabelType } from '@angular/material/form-field';
 const matriculaPattern = /^[0-9]{4}[A-Za-z]{3}$/;
 
 @Component({
-  selector: 'app-popup-modificar-camio',
-  templateUrl: './popup-modificar-camio.component.html',
-  styleUrls: ['./popup-modificar-camio.component.css']
+  selector: 'app-popup-modificar-remolc',
+  templateUrl: './popup-modificar-remolc.component.html',
+  styleUrls: ['./popup-modificar-remolc.component.css']
 })
-export class PopupModificarCamioComponent {
-  @Output() camionModificado: EventEmitter<any> = new EventEmitter();
+export class PopupModificarRemolcComponent {
+  @Output() remolcModificado: EventEmitter<any> = new EventEmitter();
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
   enviado: boolean | null = null;
   options: FormGroup;
-  matriculaControl = new FormControl(this.data.camio.matricula, Validators.pattern(matriculaPattern));
-  marcaModelControl = new FormControl(this.data.camio.marca_model);
+  matriculaControl = new FormControl(this.data.remolc.matricula, Validators.pattern(matriculaPattern));
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
@@ -28,25 +27,22 @@ export class PopupModificarCamioComponent {
 
     this.options = this._formBuilder.group({
       floatLabel: this.floatLabelControl,
-      matriculaControl: this.matriculaControl,
-      marcaModelControl: this.marcaModelControl
+      matriculaControl: this.matriculaControl
     });
   }
     ngOnInit(): void {
-      console.log(this.data.camio.matricula);
+      console.log(this.data.remolc.matricula);
       
   }
 
   submitForm() {
-    const endpoint = "https://app-titu.herokuapp.com/Camio/" + this.data.camio.id;
+    const endpoint = "https://app-titu.herokuapp.com/Remolc/" + this.data.remolc.id;
 
     const matriculaValue = this.matriculaControl.value;
-    const marcaModelvalue = this.marcaModelControl.value;
 
     const requestBody = {
-      id: this.data.camio.id,
-      matricula: matriculaValue,
-      marca_model: marcaModelvalue
+      id: this.data.remolc.id,
+      matricula: matriculaValue
     };
 
     console.log(requestBody);
@@ -55,7 +51,7 @@ export class PopupModificarCamioComponent {
         (response) => {
           console.log('Formulario enviado correctamente');
           this.enviado = true;
-          this.camionModificado.emit();
+          this.remolcModificado.emit();
         },
         (error) => {
           console.error('Error al enviar el formulario:', error);
@@ -83,12 +79,12 @@ export class PopupModificarCamioComponent {
   }
 
   submitDelete() {
-    const endpoint = "https://app-titu.herokuapp.com/Camio/" + this.data.camio.id;
+    const endpoint = "https://app-titu.herokuapp.com/Remolc/" + this.data.remolc.id;
 
     const confirmed = confirm('Segur que vols eliminar aquest camió?');
 
     if (confirmed) {
-      if (this.data.xofer.id_camio.id === this.data.camio.id) {
+      if (this.data.xofer.id_remolc.id === this.data.remolc.id) {
         const formData = this.options.value;
       
         const nomValue = this.data.xofer.nom;
@@ -128,12 +124,12 @@ export class PopupModificarCamioComponent {
       }
 
       if (endpoint) {
-        this.eliminarCamio(endpoint).subscribe(
+        this.eliminarRemolc(endpoint).subscribe(
           (response) => {
             console.log('Formulario enviado correctamente');
             this.enviado = true;
             this.options.reset();
-            this.camionModificado.emit();            
+            this.remolcModificado.emit();            
           },
           (error) => {
             console.error('Error al enviar el formulario:', error);
@@ -146,7 +142,7 @@ export class PopupModificarCamioComponent {
     }
   }
 
-  eliminarCamio(endpoint: string) {
+  eliminarRemolc(endpoint: string) {
     const token = window.sessionStorage.getItem("auth-token"); // Reemplaza con el valor real de tu token
     console.log(token);
     
@@ -164,7 +160,7 @@ export class PopupModificarCamioComponent {
     
   }
 
-  openModificarCamio(): void {
+  openModificarRemolc(): void {
     
   }
 }

@@ -1,0 +1,16 @@
+.contenidor, table {
+    width: 100vw;
+    border-bottom: 1px solid black;
+}
+
+table {
+    text-align: center;
+}
+
+table, th, td {
+    border: 1px solid gainsboro;
+}
+
+.xofer {
+    width: 10%;
+}

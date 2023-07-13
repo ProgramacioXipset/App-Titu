@@ -1,0 +1,10 @@
+<div class="contenidor">
+    <table>
+        <tr>
+            <th>Anada</th>
+        </tr>
+        <tr *ngFor="let anada of anades" (click)="openDialog(anada)">
+            <td>{{ anada.id_direccio_origen.poblacio + " - " + anada.id_direccio_desti.poblacio }}</td>
+        </tr>
+    </table>
+</div>

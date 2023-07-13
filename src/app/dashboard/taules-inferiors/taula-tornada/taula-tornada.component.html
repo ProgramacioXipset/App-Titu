@@ -1,0 +1,10 @@
+<div class="contenidor">
+    <table>
+        <tr>
+            <th>Tornada</th>
+        </tr>
+        <tr *ngFor="let tornada of tornades" (click)="openDialog(tornada)">
+            <td>{{ tornada.id_direccio_origen.poblacio + " - " + tornada.id_direccio_desti.poblacio }}</td>
+        </tr>
+    </table>
+</div>

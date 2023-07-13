@@ -1,0 +1,15 @@
+.contenidor, table {
+    width: 100%;
+}
+
+table {
+    text-align: center;
+}
+
+table, th, td {
+    border: 1px solid gainsboro;
+}
+
+div:hover table tr td svg {
+    color: green;
+}

@@ -1,0 +1,11 @@
+.contenidor {
+    width: 100vw;
+}
+
+.contenidor > * {
+    width: 50vw;
+}
+
+app-taula-anada, app-taula-tornada, app-taula-avuixavui {
+    overflow-y: scroll;
+}

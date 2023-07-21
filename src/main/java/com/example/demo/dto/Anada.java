@@ -36,18 +36,22 @@ public class Anada {
 	@JoinColumn(name = "id_ruta")
     @JsonIgnoreProperties({ "anada", "tornada", "avui_x_avui" })
 	Ruta id_ruta;
+	
+	@Column(name = "externa")//no hace falta si se llama igual
+	private Integer externa;
 
 	public Anada() {
 		super();
 	}
 
-	public Anada(int id, Direccio id_direccio_origen, Direccio id_direccio_desti, String comentari, Ruta id_ruta) {
+	public Anada(int id, Direccio id_direccio_origen, Direccio id_direccio_desti, String comentari, Ruta id_ruta, Integer externa) {
 		super();
 		this.id = id;
 		this.id_direccio_origen = id_direccio_origen;
 		this.id_direccio_desti = id_direccio_desti;
 		this.comentari = comentari;
 		this.id_ruta = id_ruta;
+		this.externa = externa;
 	}
 
 	public int getId() {
@@ -89,10 +93,19 @@ public class Anada {
 	public void setId_ruta(Ruta id_ruta) {
 		this.id_ruta = id_ruta;
 	}
+	
+	public Integer getExterna() {
+		return externa;
+	}
+
+	public void setExterna(Integer externa) {
+		this.externa = externa;
+	}
 
 	@Override
 	public String toString() {
 		return "Anada [id=" + id + ", id_direccio_origen=" + id_direccio_origen + ", id_direccio_desti="
-				+ id_direccio_desti + ", comentari=" + comentari + ", id_ruta=" + id_ruta + "]";
+				+ id_direccio_desti + ", comentari=" + comentari + ", id_ruta=" + id_ruta + ", externa=" + externa
+				+ "]";
 	}
 }

@@ -49,6 +49,7 @@ public class AvuiXAvuiController {
 		AvuiXAvui_seleccionado.setId_direccio_desti(AvuiXAvui.getId_direccio_desti());
 		AvuiXAvui_seleccionado.setComentari(AvuiXAvui.getComentari());
 		AvuiXAvui_seleccionado.setId_ruta(AvuiXAvui.getId_ruta());
+		AvuiXAvui_seleccionado.setExterna(AvuiXAvui.getExterna());
 
 
 		AvuiXAvui_actualizado = AvuiXAvuiServiceImpl.actualizarAvuiXAvui(AvuiXAvui_seleccionado);

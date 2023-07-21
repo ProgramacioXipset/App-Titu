@@ -56,6 +56,7 @@ public class AnadaController {
 		Anada_seleccionado.setId_direccio_desti(Anada.getId_direccio_desti());
 		Anada_seleccionado.setComentari(Anada.getComentari());
 		Anada_seleccionado.setId_ruta(Anada.getId_ruta());
+		Anada_seleccionado.setExterna(Anada.getExterna());
 
 		Anada_actualizado = AnadaServiceImpl.actualizarAnada(Anada_seleccionado);
 

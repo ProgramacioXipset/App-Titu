@@ -25,6 +25,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { PopupCrearViatgeComponent } from './dashboard/popup-crear-viatge/popup-crear-viatge.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { PopupCrearDireccioComponent } from './dashboard/popup-crear-direccio/popup-crear-direccio.component';
 import { PopupCrearCamioComponent } from './dashboard/popup-crear-camio/popup-crear-camio.component';
 import { PopupCrearRemolcComponent } from './dashboard/popup-crear-remolc/popup-crear-remolc.component';
@@ -69,7 +70,8 @@ import { PopupModificarViatgeComponent } from './dashboard/popup-modificar-viatg
     ReactiveFormsModule,
     MatDialogModule,
     MatRadioModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCheckboxModule
   ],
   providers: [ authInterceptorProviders ],
   bootstrap: [AppComponent]

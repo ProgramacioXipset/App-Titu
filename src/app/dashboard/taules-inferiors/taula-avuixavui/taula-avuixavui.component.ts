@@ -37,7 +37,7 @@ export class TaulaAvuixavuiComponent {
     console.log(this.selectedAvuiXAvui.id);
 
     const dialogRef = this.dialog.open(PopupModificarViatgeComponent, {
-      data: { viatge: this.selectedAvuiXAvui },
+      data: { viatge: this.selectedAvuiXAvui, tipus: "avuiXAvui" },
       height: '500px',
       width: '700px',
     });

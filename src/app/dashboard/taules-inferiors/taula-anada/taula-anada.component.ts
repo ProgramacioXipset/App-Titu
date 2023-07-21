@@ -37,7 +37,7 @@ export class TaulaAnadaComponent {
     console.log(this.selectedAnada.id);
 
     const dialogRef = this.dialog.open(PopupModificarViatgeComponent, {
-      data: { viatge: this.selectedAnada },
+      data: { viatge: this.selectedAnada, tipus: "anada" },
       height: '500px',
       width: '700px',
     });

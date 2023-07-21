@@ -1,6 +1,6 @@
 import { Component, Inject, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { CamioService } from 'src/app/servicios/camio.service';
 import { RemolcService } from 'src/app/servicios/remolc.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -12,9 +12,8 @@ import { PopupModificarCamioComponent } from '../popup-modificar-camio/popup-mod
 import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatSelect } from '@angular/material/select';
 import { PopupModificarRemolcComponent } from '../popup-modificar-remolc/popup-modificar-remolc.component';
-
-const dniPattern = /^[0-9]{8}[A-Za-z]$/;
-const telPattern = /^[0-9]{9}$/
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-popup-modificar-viatge',
@@ -26,17 +25,13 @@ export class PopupModificarViatgeComponent {
   @Output() xoferModificado: EventEmitter<any> = new EventEmitter();
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
-  camioSeleccionat = new FormControl(this.data.xofer.id_camio?.id || 1);
-  remolcSeleccionat = new FormControl(this.data.xofer.id_remolc?.id || 1);
-  nomControl;
-  cognomControl;
-  telefonControl;
-  emailControl;
-  dniControl;
+  origenControl;
+  destiControl;
   options: FormGroup;
   camions: any = null;
   remolcs: any = null;
   enviado: boolean | null = null;
+  extern = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
@@ -47,18 +42,12 @@ export class PopupModificarViatgeComponent {
     private eventosService: EventosService) {
     // Accede a los datos del diálogo a través de la propiedad 'data'
     console.log(this.data.xofer);
-    this.nomControl = new FormControl(this.data.xofer.nom, Validators.required);
-    this.cognomControl = new FormControl(this.data.xofer.cognoms, Validators.required);
-    this.telefonControl = new FormControl(this.data.xofer.telefon, Validators.pattern(telPattern));
-    this.emailControl = new FormControl(this.data.xofer.email, Validators.email);
-    this.dniControl = new FormControl(this.data.xofer.dni, Validators.pattern(dniPattern));
+    this.origenControl = new FormControl(/*this.data.xofer.nom, Validators.required*/);
+    this.destiControl = new FormControl(/*this.data.xofer.telefon, Validators.pattern(telPattern)*/);
 
     this.options = this._formBuilder.group({
-      nomControl: this.nomControl,
-      cognomControl: this.cognomControl,
-      telefonControl: this.telefonControl,
-      emailControl: this.emailControl,
-      dniControl: this.dniControl
+      origenControl: this.origenControl,
+      telefonControl: this.destiControl
     });
   }
   ngOnInit(): void {
@@ -79,21 +68,13 @@ export class PopupModificarViatgeComponent {
       const formData = this.options.value;
       const endpoint = "https://app-titu.herokuapp.com/Xofer/" + this.data.xofer.id;
 
-      const nomValue = this.nomControl.value;
-      const cognomValue = this.cognomControl.value;
-      const telefonValue = this.telefonControl.value;
-      const emailValue = this.emailControl.value;
-      const dniValue = this.dniControl.value;
+      const origenValue = this.origenControl.value;
+      const destiValue = this.destiControl.value;
 
       const requestBody = {
         id: this.data.xofer.id,
-        nom: nomValue,
-        cognoms: cognomValue,
-        telefon: telefonValue,
-        email: emailValue,
-        dni: dniValue,
-        id_camio: { id: +this.camioSeleccionat.value },
-        id_remolc: { id: +this.remolcSeleccionat.value }
+        origen: origenValue,
+        telefon: destiValue,
       };
 
       console.log(requestBody);
@@ -188,58 +169,6 @@ export class PopupModificarViatgeComponent {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       this.recargar();
-    });
-  }
-
-  openModificarCamio(): void {
-    const valor = this.camions.findIndex((element: { id: any; }) => element.id === this.camioSeleccionat.value);
-    const camionEnviar = this.camions[valor];
-
-    console.log(camionEnviar);
-
-    const dialogRef = this.dialog.open(PopupModificarCamioComponent, {
-      data: {camio: camionEnviar, xofer: this.data.xofer },
-      height: '500px',
-      width: '700px',
-    });
-
-    dialogRef.componentInstance.camionModificado.subscribe((camionModificado) => {
-      // Actualizar el valor del select
-      this.camioSeleccionat.setValue(camionModificado.id);
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.recargar();
-      // Actualizar el valor seleccionado y la validez del select
-      // this.selectCamiones.writeValue(requestBody.id);
-      // this.selectCamiones.updateValueAndValidity();
-    });
-  }
-
-  openModificarRemolc(): void {
-    const valor = this.remolcs.findIndex((element: { id: any; }) => element.id === this.remolcSeleccionat.value);
-    const remolcEnviar = this.remolcs[valor];
-
-    console.log(remolcEnviar);
-
-    const dialogRef = this.dialog.open(PopupModificarRemolcComponent, {
-      data: {camio: remolcEnviar, xofer: this.data.xofer },
-      height: '500px',
-      width: '700px',
-    });
-
-    dialogRef.componentInstance.remolcModificado.subscribe((remolcModificado) => {
-      // Actualizar el valor del select
-      this.remolcSeleccionat.setValue(remolcModificado.id);
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.recargar();
-      // Actualizar el valor seleccionado y la validez del select
-      // this.selectCamiones.writeValue(requestBody.id);
-      // this.selectCamiones.updateValueAndValidity();
     });
   }
 

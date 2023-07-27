@@ -33,9 +33,6 @@ public class Ruta {
 	@Column(name = "data_final")//no hace falta si se llama igual
 	private String data_final;
 	
-	@Column(name = "externa")//no hace falta si se llama igual
-	private boolean externa;
-	
 	@OneToMany(mappedBy = "id_ruta", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("id_ruta")
 	private List<Anada> anada;
@@ -59,7 +56,6 @@ public class Ruta {
 		this.id_xofer = id_xofer;
 		this.data_inici = data_inici;
 		this.data_final = data_final;
-		this.externa = externa;
 		this.anada = anada;
 		this.avui_x_avui = avui_x_avui;
 		this.tornada = tornada;
@@ -96,15 +92,7 @@ public class Ruta {
 	public void setData_final(String data_final) {
 		this.data_final = data_final;
 	}
-
-	public boolean isExterna() {
-		return externa;
-	}
-
-	public void setExterna(boolean externa) {
-		this.externa = externa;
-	}
-
+	
 	public List<Anada> getAnada() {
 		return anada;
 	}
@@ -132,7 +120,7 @@ public class Ruta {
 	@Override
 	public String toString() {
 		return "Ruta [id=" + id + ", id_xofer=" + id_xofer + ", data_inici=" + data_inici + ", data_final=" + data_final
-				+ ", externa=" + externa + ", anada=" + anada + ", avui_x_avui=" + avui_x_avui + ", tornada=" + tornada
+				+ ", anada=" + anada + ", avui_x_avui=" + avui_x_avui + ", tornada=" + tornada
 				+ "]";
 	}
 	

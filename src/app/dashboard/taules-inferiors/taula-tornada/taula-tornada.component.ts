@@ -3,6 +3,7 @@ import { AnadaService } from 'src/app/servicios/anada.service';
 import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupModificarViatgeComponent } from '../../popup-modificar-viatge/popup-modificar-viatge.component';
+import { MarcadoService } from 'src/app/servicios/marcado.service';
 
 @Component({
   selector: 'app-taula-tornada',
@@ -14,7 +15,7 @@ export class TaulaTornadaComponent {
   dialogOpen = false;
   selectedTornada: any;
 
-  constructor(private anadaService:AnadaService, private eventosService: EventosService, public dialog: MatDialog){
+  constructor(public marcadoService: MarcadoService, private anadaService:AnadaService, private eventosService: EventosService, public dialog: MatDialog){
 
   }
 
@@ -37,7 +38,7 @@ export class TaulaTornadaComponent {
     console.log(this.selectedTornada.id);
 
     const dialogRef = this.dialog.open(PopupModificarViatgeComponent, {
-      data: { viatge: this.selectedTornada, tipus: "anada" },
+      data: { viatge: this.selectedTornada, tipus: "tornada" },
       height: '500px',
       width: '700px',
     });
@@ -47,5 +48,18 @@ export class TaulaTornadaComponent {
       this.dialogOpen = false;
       this.cargarTornada(); // Actualiza los xofers al cerrar el diálogo
     });
+  }
+
+  marcar(tornada: any) {
+    if(!tornada.externa) {
+      if (this.marcadoService.obtenerElementosMarcados().includes(tornada)) {
+        this.marcadoService.desmarcarElementos();
+        this.openDialog(tornada);
+      } else {
+        this.marcadoService.marcarElemento(tornada);
+      }
+    } else {
+      this.openDialog(tornada);
+    }
   }
 }

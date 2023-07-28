@@ -6,14 +6,8 @@ import { RemolcService } from 'src/app/servicios/remolc.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
-import { PopupCrearCamioComponent } from '../popup-crear-camio/popup-crear-camio.component';
-import { PopupCrearRemolcComponent } from '../popup-crear-remolc/popup-crear-remolc.component';
-import { PopupModificarCamioComponent } from '../popup-modificar-camio/popup-modificar-camio.component';
 import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatSelect } from '@angular/material/select';
-import { PopupModificarRemolcComponent } from '../popup-modificar-remolc/popup-modificar-remolc.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-popup-modificar-viatge',
@@ -25,13 +19,12 @@ export class PopupModificarViatgeComponent {
   @Output() xoferModificado: EventEmitter<any> = new EventEmitter();
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
-  origenControl;
-  destiControl;
+  comentariControl;
   options: FormGroup;
   camions: any = null;
   remolcs: any = null;
   enviado: boolean | null = null;
-  extern = false;
+  externControl;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
@@ -42,39 +35,65 @@ export class PopupModificarViatgeComponent {
     private eventosService: EventosService) {
     // Accede a los datos del diálogo a través de la propiedad 'data'
     console.log(this.data.xofer);
-    this.origenControl = new FormControl(/*this.data.xofer.nom, Validators.required*/);
-    this.destiControl = new FormControl(/*this.data.xofer.telefon, Validators.pattern(telPattern)*/);
+    this.comentariControl = new FormControl(this.data.viatge.comentari);
+    this.externControl = new FormControl(this.data.viatge.externa);
 
     this.options = this._formBuilder.group({
-      origenControl: this.origenControl,
-      telefonControl: this.destiControl
+      comentariControl: this.comentariControl,
+      externControl: this.externControl,
     });
   }
   ngOnInit(): void {
-    this.camioService.retornarCamio().subscribe((result: any) => {
-      this.camions = result;
-    });
-    this.remolcService.retornarRemolc().subscribe((result: any) => {
-      this.remolcs = result;
-    });
 
-    this.eventosService.camioCreated$.subscribe(() => {
-      this.recargar(); // Actualiza los xofers cuando se crea uno nuevo
-    });
+
+  }
+
+  obtenerEndpoint() {
+
+    var endpoint;
+
+    switch (this.data.tipus) {
+      case "anada":
+        endpoint = "https://app-titu.herokuapp.com/Anada/" + this.data.viatge.id;
+        break;
+      case "tornada":
+        endpoint = "https://app-titu.herokuapp.com/Tornada/" + this.data.viatge.id;
+        break;
+      case "avuiXAvui":
+        endpoint = "https://app-titu.herokuapp.com/AvuiXAvui/" + this.data.viatge.id;
+        break;
+      default:
+        console.log("No se ha encontrado el tipo de viaje");
+
+    }
+
+    return endpoint;
   }
 
   submitForm() {
+    console.log(this.data.viatge.comentari);
     if (this.options.valid) {
       const formData = this.options.value;
-      const endpoint = "https://app-titu.herokuapp.com/Xofer/" + this.data.xofer.id;
+      var endpoint = this.obtenerEndpoint();
 
-      const origenValue = this.origenControl.value;
-      const destiValue = this.destiControl.value;
+      const comentariValue = this.comentariControl.value;
+      var externValue
+
+      if (this.externControl.value){
+        externValue = 1;
+      } else {
+        externValue = 0
+      }
+
+      console.log(+this.data.viatge.id_direccio_origen.id + " " + endpoint + " " + comentariValue + " " + externValue);
+
 
       const requestBody = {
-        id: this.data.xofer.id,
-        origen: origenValue,
-        telefon: destiValue,
+        id: this.data.viatge.id,
+        id_direccio_origen: { id: +this.data.viatge.id_direccio_origen.id },
+        id_direccio_desti: { id: +this.data.viatge.id_direccio_desti.id },
+        comentari: comentariValue,
+        externa: externValue
       };
 
       console.log(requestBody);
@@ -113,13 +132,13 @@ export class PopupModificarViatgeComponent {
   }
 
   submitDelete() {
-    const endpoint = "https://app-titu.herokuapp.com/Xofer/" + this.data.xofer.id;
+    const endpoint = this.obtenerEndpoint();
 
-    const confirmed = confirm('Segur que vols eliminar aquest xofer?');
+    const confirmed = confirm('Segur que vols eliminar aquest viatge?');
 
     if (confirmed) {
       if (endpoint) {
-        this.eliminarXofer(endpoint).subscribe(
+        this.eliminarViatge(endpoint).subscribe(
           (response) => {
             console.log('Formulario enviado correctamente');
             this.enviado = true;
@@ -138,7 +157,7 @@ export class PopupModificarViatgeComponent {
     }
   }
 
-  eliminarXofer(endpoint: string) {
+  eliminarViatge(endpoint: string) {
     const token = window.sessionStorage.getItem("auth-token"); // Reemplaza con el valor real de tu token
     console.log(token);
 
@@ -146,41 +165,5 @@ export class PopupModificarViatgeComponent {
       'Authorization': `Bearer ${token}`
     });
     return this.http.delete(endpoint, { headers: headers });
-  }
-
-  openCamio(): void {
-    const dialogRef = this.dialog.open(PopupCrearCamioComponent, {
-      height: '500px',
-      width: '700px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.recargar();
-    });
-  }
-
-  openRemolc(): void {
-    const dialogRef = this.dialog.open(PopupCrearRemolcComponent, {
-      height: '500px',
-      width: '700px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.recargar();
-    });
-  }
-
-  recargar() {
-    this.camioService.retornarCamio()
-      .subscribe((result: any) => {
-        this.camions = result;
-      });
-
-    this.remolcService.retornarRemolc()
-      .subscribe((result: any) => {
-        this.remolcs = result;
-    });
   }
 }

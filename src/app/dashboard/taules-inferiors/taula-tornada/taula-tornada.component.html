@@ -3,7 +3,7 @@
         <tr>
             <th>Tornada</th>
         </tr>
-        <tr *ngFor="let tornada of tornades" (click)="openDialog(tornada)">
+        <tr *ngFor="let tornada of tornades | ordenarPorExterno" (click)="marcar(tornada)" [ngClass]="{ 'disabled': tornada.externa, 'enabled': !tornada.externa, 'marcado': marcadoService.obtenerElementosMarcados().includes(tornada), 'especial': tornada.comentari }">
             <td>{{ tornada.id_direccio_origen.poblacio + " - " + tornada.id_direccio_desti.poblacio }}</td>
         </tr>
     </table>

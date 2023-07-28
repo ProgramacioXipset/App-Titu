@@ -34,6 +34,7 @@ import { PopupModificarXoferComponent } from './dashboard/popup-modificar-xofer/
 import { PopupModificarCamioComponent } from './dashboard/popup-modificar-camio/popup-modificar-camio.component';
 import { PopupModificarRemolcComponent } from './dashboard/popup-modificar-remolc/popup-modificar-remolc.component';
 import { PopupModificarViatgeComponent } from './dashboard/popup-modificar-viatge/popup-modificar-viatge.component';
+import { OrdenarPorExternoPipe } from './pipes/ordenar-por-externo.pipe';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { PopupModificarViatgeComponent } from './dashboard/popup-modificar-viatg
     PopupModificarXoferComponent,
     PopupModificarCamioComponent,
     PopupModificarRemolcComponent,
-    PopupModificarViatgeComponent
+    PopupModificarViatgeComponent,
+    OrdenarPorExternoPipe
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,7 @@ import { AnadaService } from 'src/app/servicios/anada.service';
 import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupModificarViatgeComponent } from '../../popup-modificar-viatge/popup-modificar-viatge.component';
+import { MarcadoService } from 'src/app/servicios/marcado.service';
 
 @Component({
   selector: 'app-taula-avuixavui',
@@ -14,7 +15,7 @@ export class TaulaAvuixavuiComponent {
   dialogOpen = false;
   selectedAvuiXAvui: any;
 
-  constructor(private anadaService:AnadaService, private eventosService: EventosService, public dialog: MatDialog){
+  constructor(public marcadoService: MarcadoService, private anadaService:AnadaService, private eventosService: EventosService, public dialog: MatDialog){
 
   }
 
@@ -47,5 +48,18 @@ export class TaulaAvuixavuiComponent {
       this.dialogOpen = false;
       this.cargarAvuiXAvui(); // Actualiza los xofers al cerrar el diálogo
     });
+  }
+
+  marcar(avuiXAvui: any) {
+    if(!avuiXAvui.externa) {
+      if (this.marcadoService.obtenerElementosMarcados().includes(avuiXAvui)) {
+        this.marcadoService.desmarcarElementos();
+        this.openDialog(avuiXAvui);
+      } else {
+        this.marcadoService.marcarElemento(avuiXAvui);
+      }
+    } else {
+      this.openDialog(avuiXAvui);
+    }
   }
 }

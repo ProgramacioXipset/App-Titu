@@ -3,6 +3,7 @@ import { AnadaService } from 'src/app/servicios/anada.service';
 import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupModificarViatgeComponent } from '../../popup-modificar-viatge/popup-modificar-viatge.component';
+import { MarcadoService } from 'src/app/servicios/marcado.service';
 
 @Component({
   selector: 'app-taula-anada',
@@ -10,11 +11,11 @@ import { PopupModificarViatgeComponent } from '../../popup-modificar-viatge/popu
   styleUrls: ['./taula-anada.component.css']
 })
 export class TaulaAnadaComponent {
-  anades: any = null;
+  anades: any[] = [];
   dialogOpen = false;
   selectedAnada: any;
 
-  constructor(private anadaService:AnadaService, private eventosService: EventosService, public dialog: MatDialog){
+  constructor(public marcadoService: MarcadoService, private anadaService:AnadaService, private eventosService: EventosService, public dialog: MatDialog){
 
   }
 
@@ -47,5 +48,18 @@ export class TaulaAnadaComponent {
       this.dialogOpen = false;
       this.cargarAnada(); // Actualiza los xofers al cerrar el diálogo
     });
+  }
+
+  marcar(anada: any) {
+    if(!anada.externa) {
+      if (this.marcadoService.obtenerElementosMarcados().includes(anada)) {
+        this.marcadoService.desmarcarElementos();
+        this.openDialog(anada);
+      } else {
+        this.marcadoService.marcarElemento(anada);
+      }
+    } else {
+      this.openDialog(anada);
+    }
   }
 }

@@ -5,3 +5,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 svg {
     transition: color 0.2s ease;
 }
+
+.disabled {
+  background-color: rgb(226, 226, 226);
+  color: grey;
+}
+
+.especial {
+  color: rgb(170, 10, 10);
+}
+
+.especial td::after, .especial td::before {
+  content: "*";
+  color: red;
+}
+
+.marcado {
+  background-color: green;
+  color: white;
+}

@@ -3,7 +3,7 @@
         <tr>
             <th>Avui X Avui</th>
         </tr>
-        <tr *ngFor="let avuiXAvui of avuiXAvuis" (click)="openDialog(avuiXAvui)">
+        <tr *ngFor="let avuiXAvui of avuiXAvuis | ordenarPorExterno" (click)="marcar(avuiXAvui)" [ngClass]="{ 'disabled': avuiXAvui.externa, 'enabled': !avuiXAvui.externa, 'marcado': marcadoService.obtenerElementosMarcados().includes(avuiXAvui), 'especial': avuiXAvui.comentari }">
             <td>{{ avuiXAvui.id_direccio_origen.poblacio + " - " + avuiXAvui.id_direccio_desti.poblacio }}</td>
         </tr>
     </table>

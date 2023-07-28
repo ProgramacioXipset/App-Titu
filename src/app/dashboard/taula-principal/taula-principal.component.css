@@ -12,5 +12,9 @@ table, th, td {
 }
 
 .xofer {
-    width: 10%;
+    width: 10vw;
+}
+
+.rutas {
+  width: 40vw;
 }

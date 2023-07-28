@@ -15,14 +15,14 @@
 
     <div class="camps d-flex justify-content-around w-100">
       <section class="example-section d-flex justify-content-around w-75">
-        <mat-checkbox class="example-margin" [(ngModel)]="extern">Extern/Deshabilitar</mat-checkbox>
+        <mat-checkbox class="example-margin" [formControl]="externControl">Extern/Deshabilitar</mat-checkbox>
       </section>
     </div>
 
     <div class="camps d-flex justify-content-around w-100">
       <mat-form-field class="example-full-width w-75">
         <mat-label>Comentari</mat-label>
-        <textarea matInput></textarea>
+        <textarea matInput [formControl]="comentariControl"></textarea>
       </mat-form-field>
     </div>
 

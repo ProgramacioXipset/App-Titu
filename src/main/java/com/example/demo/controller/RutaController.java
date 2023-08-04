@@ -48,8 +48,6 @@ public class RutaController {
 
 		Ruta_seleccionado.setId(Ruta.getId());
 		Ruta_seleccionado.setId_xofer(Ruta.getId_xofer());
-		Ruta_seleccionado.setData_inici(Ruta.getData_inici());
-		Ruta_seleccionado.setData_final(Ruta.getData_final());
 
 		Ruta_actualizado = RutaServiceImpl.actualizarRuta(Ruta_seleccionado);
 

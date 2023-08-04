@@ -30,6 +30,9 @@ public class Tornada {
 	@Column(name = "comentari")//no hace falta si se llama igual
 	private String comentari;
 	
+	@Column(name = "dia")//no hace falta si se llama igual
+	private String dia;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_ruta")
     @JsonIgnoreProperties({ "anada", "tornada", "avui_x_avui" })
@@ -42,12 +45,13 @@ public class Tornada {
 		super();
 	}
 
-	public Tornada(int id, Direccio id_direccio_origen, Direccio id_direccio_desti, String comentari, Ruta id_ruta, Integer externa) {
+	public Tornada(int id, Direccio id_direccio_origen, Direccio id_direccio_desti, String comentari, String dia, Ruta id_ruta, Integer externa) {
 		super();
 		this.id = id;
 		this.id_direccio_origen = id_direccio_origen;
 		this.id_direccio_desti = id_direccio_desti;
 		this.comentari = comentari;
+		this.dia = dia;
 		this.id_ruta = id_ruta;
 		this.externa = externa;
 	}
@@ -84,6 +88,14 @@ public class Tornada {
 		this.comentari = comentari;
 	}
 
+	public String getDia() {
+		return dia;
+	}
+
+	public void setDia(String dia) {
+		this.dia = dia;
+	}
+
 	public Ruta getId_ruta() {
 		return id_ruta;
 	}
@@ -103,7 +115,7 @@ public class Tornada {
 	@Override
 	public String toString() {
 		return "Tornada [id=" + id + ", id_direccio_origen=" + id_direccio_origen + ", id_direccio_desti="
-				+ id_direccio_desti + ", comentari=" + comentari + ", id_ruta=" + id_ruta + ", externa=" + externa
-				+ "]";
+				+ id_direccio_desti + ", comentari=" + comentari + ", dia=" + dia + ", id_ruta=" + id_ruta
+				+ ", externa=" + externa + "]";
 	}
 }

@@ -56,6 +56,7 @@ public class TornadaController {
 		Tornada_seleccionado.setId_direccio_origen(Tornada.getId_direccio_origen());
 		Tornada_seleccionado.setId_direccio_desti(Tornada.getId_direccio_desti());
 		Tornada_seleccionado.setComentari(Tornada.getComentari());
+		Tornada_seleccionado.setDia(Tornada.getDia());
 		Tornada_seleccionado.setId_ruta(Tornada.getId_ruta());
 		Tornada_seleccionado.setExterna(Tornada.getExterna());
 

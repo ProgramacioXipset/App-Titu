@@ -11,17 +11,41 @@
             <td class="d-flex flex-row rutas flex-wrap">
               <div *ngFor="let ruta of xofer.ruta">
                 <span *ngFor="let avui_x_avui of ruta.avui_x_avui">
-                  | {{ avui_x_avui.id_direccio_origen.poblacio }} - {{ avui_x_avui.id_direccio_desti.poblacio }} |
+                  <ng-container *ngIf="avui_x_avui.dia === dataAvuiFormatejada">
+                    {{ avui_x_avui.id_direccio_origen.poblacio }} - {{ avui_x_avui.id_direccio_desti.poblacio }},
+                  </ng-container>
                 </span>
                 <span *ngFor="let anada of ruta.anada">
-                  | {{ anada.id_direccio_origen.poblacio }} - {{ anada.id_direccio_desti.poblacio }} |
+                  <ng-container *ngIf="anada.dia === dataAvuiFormatejada">
+                    {{ anada.id_direccio_origen.poblacio }} - {{ anada.id_direccio_desti.poblacio }},
+                  </ng-container>
                 </span>
                 <span *ngFor="let tornada of ruta.tornada">
-                  | {{ tornada.id_direccio_origen.poblacio }} - {{ tornada.id_direccio_desti.poblacio }} |
+                  <ng-container *ngIf="tornada.dia === dataAvuiFormatejada">
+                    {{ tornada.id_direccio_origen.poblacio }} - {{ tornada.id_direccio_desti.poblacio }},
+                  </ng-container>
                 </span>
               </div>
             </td>
-            <td class="rutas"></td>
+            <td class="d-flex flex-row rutas flex-wrap">
+              <div *ngFor="let ruta of xofer.ruta">
+                <span *ngFor="let avui_x_avui of ruta.avui_x_avui">
+                  <ng-container *ngIf="avui_x_avui.dia === dataDemaFormatejada">
+                    {{ avui_x_avui.id_direccio_origen.poblacio }} - {{ avui_x_avui.id_direccio_desti.poblacio }},
+                  </ng-container>
+                </span>
+                <span *ngFor="let anada of ruta.anada">
+                  <ng-container *ngIf="anada.dia === dataDemaFormatejada">
+                    {{ anada.id_direccio_origen.poblacio }} - {{ anada.id_direccio_desti.poblacio }},
+                  </ng-container>
+                </span>
+                <span *ngFor="let tornada of ruta.tornada">
+                  <ng-container *ngIf="tornada.dia === dataDemaFormatejada">
+                    {{ tornada.id_direccio_origen.poblacio }} - {{ tornada.id_direccio_desti.poblacio }},
+                  </ng-container>
+                </span>
+              </div>
+            </td>
             <td class="d-flex justify-content-around">
               <button type="button" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>

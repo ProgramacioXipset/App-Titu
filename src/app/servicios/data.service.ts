@@ -8,12 +8,15 @@ export class DateService {
   private currentDateSubject: Subject<Date> = new Subject<Date>();
   currentDate$ = this.currentDateSubject.asObservable();
 
+  dataAhir: Date;
   dataAvui: Date;
   dataDema: Date;
 
   constructor() {
+    this.dataAhir = new Date();
     this.dataAvui = new Date();
     this.dataDema = new Date();
+    this.dataAhir.setDate(this.dataAvui.getDate() - 1);
     this.dataDema.setDate(this.dataAvui.getDate() + 1);
     this.currentDateSubject.next(this.dataAvui);
   }
@@ -26,22 +29,30 @@ export class DateService {
     return this.dataDema;
   }
 
+  getDataAhir(): Date {
+    return this.dataAhir;
+  }
+
   setDataAvuiDema(date: Date) {
     this.dataAvui = date;
     this.dataDema = new Date(date);
+    this.dataAhir = new Date(date);
     this.dataDema.setDate(this.dataDema.getDate() + 1);
+    this.dataAhir.setDate(this.dataAhir.getDate() - 1);
     this.currentDateSubject.next(this.dataAvui);
   }
 
   diaSeguent() {
     this.dataAvui.setDate(this.dataAvui.getDate() + 1);
     this.dataDema.setDate(this.dataDema.getDate() + 1);
+    this.dataAhir.setDate(this.dataAhir.getDate() + 1);
     this.currentDateSubject.next(this.dataAvui);
   }
 
   diaAnterior() {
     this.dataAvui.setDate(this.dataAvui.getDate() - 1);
     this.dataDema.setDate(this.dataDema.getDate() - 1);
+    this.dataAhir.setDate(this.dataAhir.getDate() - 1);
     this.currentDateSubject.next(this.dataAvui);
   }
 }

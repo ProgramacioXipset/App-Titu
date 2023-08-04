@@ -18,10 +18,16 @@ export class TaulaPrincipalComponent {
   selectedXofer: any;
   dataAvuiFormatejada: string;
   dataDemaFormatejada: string;
+  dataAhirFormatejada: string;
+  pipeAvuiAnterior: boolean = true;
+  pipeAvuiPosterior: boolean = true;
+  pipeDemaAnterior: boolean = true;
+  pipeDemaPosterior: boolean = true;
 
   constructor(private dateService: DateService, private viatgeService: ViatgesService, private xoferService: XoferService, public dialog: MatDialog, private eventosService: EventosService) {
-    this.dataAvuiFormatejada = this.dateService.dataAvui.getFullYear() + "-" + (this.dateService.dataAvui.getMonth() + 1) + "-" + this.dateService.dataAvui.getDate();
-    this.dataDemaFormatejada = this.dateService.dataDema.getFullYear() + "-" + (this.dateService.dataDema.getMonth() + 1) + "-" + this.dateService.dataDema.getDate();
+    this.dataAvuiFormatejada = this.formatDate(this.dateService.dataAvui);
+    this.dataDemaFormatejada = this.formatDate(this.dateService.dataDema);
+    this.dataAhirFormatejada = this.formatDate(this.dateService.dataAhir);
   }
 
   ngOnInit(): void {
@@ -34,18 +40,19 @@ export class TaulaPrincipalComponent {
     this.dateService.currentDate$.subscribe(date => {
       this.dataAvuiFormatejada = this.formatDate(date);
       this.dataDemaFormatejada = this.formatDate(this.dateService.dataDema);
+      this.dataAhirFormatejada = this.formatDate(this.dateService.dataAhir);
     });
+
+    console.log(this.dataAvuiFormatejada);
+
   }
 
   private formatDate(date: Date): string {
-    return (
-      date.getFullYear() +
-      '-' +
-      (date.getMonth() + 1) +
-      '-' +
-      date.getDate()
+    const year = date.getFullYear().toString();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
 
-    );
+    return year + '-' + month + '-' + day;
   }
 
   cargarXofers() {
@@ -79,5 +86,11 @@ export class TaulaPrincipalComponent {
       this.dialogOpen = false;
       this.cargarXofers(); // Actualiza los xofers al cerrar el diálogo
     });
+  }
+
+  colocarPipes() {
+    for (const xofer in this.xofers) {
+
+    }
   }
 }

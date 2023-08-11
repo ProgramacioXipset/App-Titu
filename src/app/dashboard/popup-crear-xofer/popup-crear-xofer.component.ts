@@ -51,7 +51,7 @@ export class PopupCrearXoferComponent {
   submitForm() {
     if (this.options.valid) {
       const formData = this.options.value;
-      const endpoint = "https://app-titu.herokuapp.com/Xofer";
+      const endpoint = "http://localhost:8181/Xofer";
 
       const nomValue = this.nomControl.value;
       const cognomValue = this.cognomControl.value;

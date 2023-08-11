@@ -9,6 +9,6 @@ export class CamioService {
   constructor(private http: HttpClient) { }
 
   retornarCamio() {
-    return this.http.get("https://app-titu.herokuapp.com/Camio");
+    return this.http.get("http://localhost:8181/Camio");
   }
 }

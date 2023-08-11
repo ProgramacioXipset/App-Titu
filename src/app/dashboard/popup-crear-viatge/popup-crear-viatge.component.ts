@@ -102,11 +102,11 @@ export class PopupCrearViatgeComponent {
     let endpoint: string | null = null;
 
     if (radioValue === 'Anada') {
-      endpoint = 'https://app-titu.herokuapp.com/Anada';
+      endpoint = 'http://localhost:8181/Anada';
     } else if (radioValue === 'Tornada') {
-      endpoint = 'https://app-titu.herokuapp.com/Tornada';
+      endpoint = 'http://localhost:8181/Tornada';
     } else if (radioValue === 'Avui X Avui') {
-      endpoint = 'https://app-titu.herokuapp.com/AvuiXAvui';
+      endpoint = 'http://localhost:8181/AvuiXAvui';
     }
 
     return endpoint;

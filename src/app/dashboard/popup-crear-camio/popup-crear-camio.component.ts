@@ -48,7 +48,7 @@ export class PopupCrearCamioComponent {
   submitForm() {
     if (this.options.valid) {
       const formData = this.options.value;
-      const endpoint = "https://app-titu.herokuapp.com/Camio";
+      const endpoint = "http://localhost:8181/Camio";
 
       const matriculaValue = this.matriculaControl.value;
       const marcaModelValue = this.marcaModelControl.value;
@@ -56,7 +56,7 @@ export class PopupCrearCamioComponent {
 
       const requestBody = {
         matricula: matriculaValue,
-        marca_model: marcaModelValue 
+        marca_model: marcaModelValue
       };
 
       if (endpoint) {
@@ -65,7 +65,7 @@ export class PopupCrearCamioComponent {
             console.log('Formulario enviado correctamente');
             // Realizar acciones adicionales después de guardar los datos en la base de datos
             this.enviado = true;
-            this.camionCreado.emit();            
+            this.camionCreado.emit();
             this.options.reset();
           },
           (error) => {

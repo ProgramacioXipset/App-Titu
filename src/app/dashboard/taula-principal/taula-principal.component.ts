@@ -18,15 +18,13 @@ export class TaulaPrincipalComponent {
   selectedXofer: any;
   dataAvuiFormatejada: string;
   dataDemaFormatejada: string;
+  dataPassatDemaFormatejada: string;
   dataAhirFormatejada: string;
-  pipeAvuiAnterior: boolean = true;
-  pipeAvuiPosterior: boolean = true;
-  pipeDemaAnterior: boolean = true;
-  pipeDemaPosterior: boolean = true;
 
   constructor(private dateService: DateService, private viatgeService: ViatgesService, private xoferService: XoferService, public dialog: MatDialog, private eventosService: EventosService) {
     this.dataAvuiFormatejada = this.formatDate(this.dateService.dataAvui);
     this.dataDemaFormatejada = this.formatDate(this.dateService.dataDema);
+    this.dataPassatDemaFormatejada = this.formatDate(this.dateService.dataPassatDema);
     this.dataAhirFormatejada = this.formatDate(this.dateService.dataAhir);
   }
 
@@ -40,10 +38,11 @@ export class TaulaPrincipalComponent {
     this.dateService.currentDate$.subscribe(date => {
       this.dataAvuiFormatejada = this.formatDate(date);
       this.dataDemaFormatejada = this.formatDate(this.dateService.dataDema);
+      this.dataPassatDemaFormatejada = this.formatDate(this.dateService.dataPassatDema);
       this.dataAhirFormatejada = this.formatDate(this.dateService.dataAhir);
     });
 
-    console.log(this.dataAvuiFormatejada);
+    console.log(this.dataAhirFormatejada);
 
   }
 
@@ -88,9 +87,61 @@ export class TaulaPrincipalComponent {
     });
   }
 
-  colocarPipes() {
-    for (const xofer in this.xofers) {
-
+  colocarPipes(ruta: any, dia:string): boolean {
+    for (const avui_x_avui of ruta.avui_x_avui) {
+      if (avui_x_avui.dia === dia) {
+        return true;
+      }
     }
+    for (const anada of ruta.anada) {
+      if (anada.dia === dia) {
+        return true;
+      }
+    }
+    for (const tornada of ruta.tornada) {
+      if (tornada.dia === dia) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  pipeAzul(ruta: any, anterior: boolean): boolean {
+    if (anterior) {
+      for (const avui_x_avui of ruta.avui_x_avui) {
+        if (new Date(avui_x_avui.dia) <= this.dateService.dataAvui) {
+          return true;
+        }
+      }
+      for (const anada of ruta.anada) {
+        if (new Date(anada.dia) <= this.dateService.dataAvui) {
+          return true;
+        }
+      }
+      for (const tornada of ruta.tornada) {
+        if (new Date(tornada.dia) <= this.dateService.dataAvui) {
+          return true;
+        }
+      }
+    } else {
+      for (const avui_x_avui of ruta.avui_x_avui) {
+        if (new Date(avui_x_avui.dia) <= this.dateService.dataDema) {
+          return true;
+        }
+      }
+      for (const anada of ruta.anada) {
+        if (new Date(anada.dia) <= this.dateService.dataDema) {
+          return true;
+        }
+      }
+      for (const tornada of ruta.tornada) {
+        if (new Date(tornada.dia) <= this.dateService.dataDema) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 }

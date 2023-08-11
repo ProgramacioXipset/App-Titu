@@ -32,11 +32,11 @@ export class PopupModificarRemolcComponent {
   }
     ngOnInit(): void {
       console.log(this.data.remolc.matricula);
-      
+
   }
 
   submitForm() {
-    const endpoint = "https://app-titu.herokuapp.com/Remolc/" + this.data.remolc.id;
+    const endpoint = "http://localhost:8181/Remolc/" + this.data.remolc.id;
 
     const matriculaValue = this.matriculaControl.value;
 
@@ -62,7 +62,7 @@ export class PopupModificarRemolcComponent {
       console.error('Endpoint no válido');
     }
   }
-  
+
 
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -71,7 +71,7 @@ export class PopupModificarRemolcComponent {
   updateFormData(endpoint: string, formData: any) {
     const token = window.sessionStorage.getItem("auth-token"); // Reemplaza con el valor real de tu token
     console.log(token);
-    
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -79,14 +79,14 @@ export class PopupModificarRemolcComponent {
   }
 
   submitDelete() {
-    const endpoint = "https://app-titu.herokuapp.com/Remolc/" + this.data.remolc.id;
+    const endpoint = "http://localhost:8181/Remolc/" + this.data.remolc.id;
 
     const confirmed = confirm('Segur que vols eliminar aquest camió?');
 
     if (confirmed) {
       if (this.data.xofer.id_remolc.id === this.data.remolc.id) {
         const formData = this.options.value;
-      
+
         const nomValue = this.data.xofer.nom;
         const cognomValue = this.data.xofer.cognom;
         const telefonValue = this.data.xofer.telefon;
@@ -105,10 +105,10 @@ export class PopupModificarRemolcComponent {
         };
 
         console.log(requestBody);
-        
+
 
         if (endpoint) {
-          this.updateFormData("https://app-titu.herokuapp.com/Xofer/" + this.data.xofer.id, requestBody).subscribe(
+          this.updateFormData("http://localhost:8181/Xofer/" + this.data.xofer.id, requestBody).subscribe(
             (response) => {
               console.log('Formulario enviado correctamente');
               this.enviado = true;
@@ -129,7 +129,7 @@ export class PopupModificarRemolcComponent {
             console.log('Formulario enviado correctamente');
             this.enviado = true;
             this.options.reset();
-            this.remolcModificado.emit();            
+            this.remolcModificado.emit();
           },
           (error) => {
             console.error('Error al enviar el formulario:', error);
@@ -145,7 +145,7 @@ export class PopupModificarRemolcComponent {
   eliminarRemolc(endpoint: string) {
     const token = window.sessionStorage.getItem("auth-token"); // Reemplaza con el valor real de tu token
     console.log(token);
-    
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -153,14 +153,14 @@ export class PopupModificarRemolcComponent {
   }
 
   openCamio(): void {
-    
+
   }
 
   openRemolc(): void {
-    
+
   }
 
   openModificarRemolc(): void {
-    
+
   }
 }

@@ -34,11 +34,11 @@ export class PopupModificarCamioComponent {
   }
     ngOnInit(): void {
       console.log(this.data.camio.matricula);
-      
+
   }
 
   submitForm() {
-    const endpoint = "https://app-titu.herokuapp.com/Camio/" + this.data.camio.id;
+    const endpoint = "http://localhost:8181/Camio/" + this.data.camio.id;
 
     const matriculaValue = this.matriculaControl.value;
     const marcaModelvalue = this.marcaModelControl.value;
@@ -66,7 +66,7 @@ export class PopupModificarCamioComponent {
       console.error('Endpoint no válido');
     }
   }
-  
+
 
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -75,7 +75,7 @@ export class PopupModificarCamioComponent {
   updateFormData(endpoint: string, formData: any) {
     const token = window.sessionStorage.getItem("auth-token"); // Reemplaza con el valor real de tu token
     console.log(token);
-    
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -83,14 +83,14 @@ export class PopupModificarCamioComponent {
   }
 
   submitDelete() {
-    const endpoint = "https://app-titu.herokuapp.com/Camio/" + this.data.camio.id;
+    const endpoint = "http://localhost:8181/Camio/" + this.data.camio.id;
 
     const confirmed = confirm('Segur que vols eliminar aquest camió?');
 
     if (confirmed) {
       if (this.data.xofer.id_camio.id === this.data.camio.id) {
         const formData = this.options.value;
-      
+
         const nomValue = this.data.xofer.nom;
         const cognomValue = this.data.xofer.cognom;
         const telefonValue = this.data.xofer.telefon;
@@ -109,10 +109,10 @@ export class PopupModificarCamioComponent {
         };
 
         console.log(requestBody);
-        
+
 
         if (endpoint) {
-          this.updateFormData("https://app-titu.herokuapp.com/Xofer/" + this.data.xofer.id, requestBody).subscribe(
+          this.updateFormData("http://localhost:8181/Xofer/" + this.data.xofer.id, requestBody).subscribe(
             (response) => {
               console.log('Formulario enviado correctamente');
               this.enviado = true;
@@ -133,7 +133,7 @@ export class PopupModificarCamioComponent {
             console.log('Formulario enviado correctamente');
             this.enviado = true;
             this.options.reset();
-            this.camionModificado.emit();            
+            this.camionModificado.emit();
           },
           (error) => {
             console.error('Error al enviar el formulario:', error);
@@ -149,7 +149,7 @@ export class PopupModificarCamioComponent {
   eliminarCamio(endpoint: string) {
     const token = window.sessionStorage.getItem("auth-token"); // Reemplaza con el valor real de tu token
     console.log(token);
-    
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -157,14 +157,14 @@ export class PopupModificarCamioComponent {
   }
 
   openCamio(): void {
-    
+
   }
 
   openRemolc(): void {
-    
+
   }
 
   openModificarCamio(): void {
-    
+
   }
 }

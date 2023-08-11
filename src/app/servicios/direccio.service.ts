@@ -9,6 +9,6 @@ export class DireccioService {
   constructor(private http: HttpClient) { }
 
   retornarDireccio() {
-    return this.http.get("https://app-titu.herokuapp.com/Direccio");
+    return this.http.get("http://localhost:8181/Direccio");
   }
 }

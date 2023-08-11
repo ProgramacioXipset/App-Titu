@@ -10,6 +10,7 @@
             <td class="xofer" (click)="openDialog(xofer)">{{ xofer.nom }}</td>
             <td class="d-flex flex-row rutas flex-wrap">
               <div *ngFor="let ruta of xofer.ruta">
+                <ng-container *ngIf="colocarPipes(ruta, dataAvuiFormatejada)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, true)}"> | </span></ng-container>
                 <span *ngFor="let avui_x_avui of ruta.avui_x_avui">
                   <ng-container *ngIf="avui_x_avui.dia === dataAvuiFormatejada">
                     {{ avui_x_avui.id_direccio_origen.poblacio }} - {{ avui_x_avui.id_direccio_desti.poblacio }},
@@ -25,10 +26,12 @@
                     {{ tornada.id_direccio_origen.poblacio }} - {{ tornada.id_direccio_desti.poblacio }},
                   </ng-container>
                 </span>
+                <ng-container *ngIf="colocarPipes(ruta, dataAvuiFormatejada)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, true)}"> | </span></ng-container>
               </div>
             </td>
             <td class="d-flex flex-row rutas flex-wrap">
               <div *ngFor="let ruta of xofer.ruta">
+                <ng-container *ngIf="colocarPipes(ruta, dataDemaFormatejada)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, false)}"> | </span></ng-container>
                 <span *ngFor="let avui_x_avui of ruta.avui_x_avui">
                   <ng-container *ngIf="avui_x_avui.dia === dataDemaFormatejada">
                     {{ avui_x_avui.id_direccio_origen.poblacio }} - {{ avui_x_avui.id_direccio_desti.poblacio }},
@@ -44,6 +47,7 @@
                     {{ tornada.id_direccio_origen.poblacio }} - {{ tornada.id_direccio_desti.poblacio }},
                   </ng-container>
                 </span>
+                <ng-container *ngIf="colocarPipes(ruta, dataDemaFormatejada)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, false)}"> | </span></ng-container>
               </div>
             </td>
             <td class="d-flex justify-content-around">

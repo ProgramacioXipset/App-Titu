@@ -9,6 +9,6 @@ export class XoferService {
   constructor(private http: HttpClient) { }
 
   retornarXofer() {
-    return this.http.get("https://app-titu.herokuapp.com/Xofer");
+    return this.http.get("http://localhost:8181/Xofer");
   }
 }

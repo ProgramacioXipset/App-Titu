@@ -27,3 +27,11 @@ td, th {
 .rutas {
   width: 40vw;
 }
+
+.pipe {
+  font-weight: 800;
+}
+
+.azul {
+  color: rgb(40, 155, 231);
+}

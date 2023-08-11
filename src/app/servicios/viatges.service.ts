@@ -9,6 +9,6 @@ export class ViatgesService {
   constructor(private http: HttpClient) { }
 
   retornarViatge() {
-    return this.http.get("https://app-titu.herokuapp.com/Ruta");
+    return this.http.get("http://localhost:8181/Ruta");
   }
 }

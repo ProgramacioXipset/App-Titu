@@ -54,13 +54,13 @@ export class PopupModificarViatgeComponent {
 
     switch (this.data.tipus) {
       case "anada":
-        endpoint = "https://app-titu.herokuapp.com/Anada/" + this.data.viatge.id;
+        endpoint = "http://localhost:8181/Anada/" + this.data.viatge.id;
         break;
       case "tornada":
-        endpoint = "https://app-titu.herokuapp.com/Tornada/" + this.data.viatge.id;
+        endpoint = "http://localhost:8181/Tornada/" + this.data.viatge.id;
         break;
       case "avuiXAvui":
-        endpoint = "https://app-titu.herokuapp.com/AvuiXAvui/" + this.data.viatge.id;
+        endpoint = "http://localhost:8181/AvuiXAvui/" + this.data.viatge.id;
         break;
       default:
         console.log("No se ha encontrado el tipo de viaje");

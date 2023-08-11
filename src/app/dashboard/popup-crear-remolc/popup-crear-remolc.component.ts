@@ -45,7 +45,7 @@ export class PopupCrearRemolcComponent {
   submitForm() {
     if (this.options.valid) {
       const formData = this.options.value;
-      const endpoint = "https://app-titu.herokuapp.com/Remolc";
+      const endpoint = "http://localhost:8181/Remolc";
 
       const matriculaValue = this.matriculaControl.value;
       console.log(endpoint + " " + matriculaValue);

@@ -41,7 +41,7 @@ export class PopupCrearDireccioComponent {
   submitForm() {
     if (this.options.valid) {
       const formData = this.options.value;
-      const endpoint = "https://app-titu.herokuapp.com/Direccio";
+      const endpoint = "http://localhost:8181/Direccio";
 
       const adrecaValue = this.adrecaControl.value;
       const poblacioValue = this.poblacioControl.value;

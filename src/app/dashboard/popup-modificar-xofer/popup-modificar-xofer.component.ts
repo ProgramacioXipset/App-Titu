@@ -77,7 +77,7 @@ export class PopupModificarXoferComponent {
   submitForm() {
     if (this.options.valid) {
       const formData = this.options.value;
-      const endpoint = "https://app-titu.herokuapp.com/Xofer/" + this.data.xofer.id;
+      const endpoint = "http://localhost:8181/Xofer/" + this.data.xofer.id;
 
       const nomValue = this.nomControl.value;
       const cognomValue = this.cognomControl.value;
@@ -97,7 +97,7 @@ export class PopupModificarXoferComponent {
       };
 
       console.log(requestBody);
-      
+
 
       if (endpoint) {
         this.updateFormData(endpoint, requestBody).subscribe(
@@ -124,7 +124,7 @@ export class PopupModificarXoferComponent {
   updateFormData(endpoint: string, formData: any) {
     const token = window.sessionStorage.getItem("auth-token"); // Reemplaza con el valor real de tu token
     console.log(token);
-    
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -132,10 +132,10 @@ export class PopupModificarXoferComponent {
   }
 
   submitDelete() {
-    const endpoint = "https://app-titu.herokuapp.com/Xofer/" + this.data.xofer.id;
+    const endpoint = "http://localhost:8181/Xofer/" + this.data.xofer.id;
 
     const confirmed = confirm('Segur que vols eliminar aquest xofer?');
-  
+
     if (confirmed) {
       if (endpoint) {
         this.eliminarXofer(endpoint).subscribe(
@@ -160,7 +160,7 @@ export class PopupModificarXoferComponent {
   eliminarXofer(endpoint: string) {
     const token = window.sessionStorage.getItem("auth-token"); // Reemplaza con el valor real de tu token
     console.log(token);
-    
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -195,8 +195,8 @@ export class PopupModificarXoferComponent {
     const valor = this.camions.findIndex((element: { id: any; }) => element.id === this.camioSeleccionat.value);
     const camionEnviar = this.camions[valor];
 
-    console.log(camionEnviar);    
-    
+    console.log(camionEnviar);
+
     const dialogRef = this.dialog.open(PopupModificarCamioComponent, {
       data: {camio: camionEnviar, xofer: this.data.xofer },
       height: '500px',
@@ -221,8 +221,8 @@ export class PopupModificarXoferComponent {
     const valor = this.remolcs.findIndex((element: { id: any; }) => element.id === this.remolcSeleccionat.value);
     const remolcEnviar = this.remolcs[valor];
 
-    console.log(remolcEnviar);    
-    
+    console.log(remolcEnviar);
+
     const dialogRef = this.dialog.open(PopupModificarRemolcComponent, {
       data: {camio: remolcEnviar, xofer: this.data.xofer },
       height: '500px',

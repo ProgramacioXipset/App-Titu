@@ -9,6 +9,6 @@ export class RemolcService {
   constructor(private http: HttpClient) { }
 
   retornarRemolc() {
-    return this.http.get("https://app-titu.herokuapp.com/Remolc");
+    return this.http.get("http://localhost:8181/Remolc");
   }
 }

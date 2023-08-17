@@ -33,5 +33,13 @@ td, th {
 }
 
 .azul {
-  color: rgb(40, 155, 231);
+  color: rgb(0, 162, 255);
+}
+
+.primer-viaje .viaje:first-child {
+  color: rgb(0, 162, 255);
+}
+
+.ultimo-viaje .viaje:last-child {
+  color: rgb(0, 162, 255);
 }

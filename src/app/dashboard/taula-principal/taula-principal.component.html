@@ -9,45 +9,45 @@
         <tr *ngFor="let xofer of xofers">
             <td class="xofer" (click)="openDialog(xofer)">{{ xofer.nom }}</td>
             <td class="d-flex flex-row rutas flex-wrap">
-              <div *ngFor="let ruta of xofer.ruta">
-                <ng-container *ngIf="colocarPipes(ruta, dataAvuiFormatejada)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, true)}"> | </span></ng-container>
-                <span *ngFor="let avui_x_avui of ruta.avui_x_avui">
-                  <ng-container *ngIf="avui_x_avui.dia === dataAvuiFormatejada">
+              <div *ngFor="let ruta of xofer.ruta" [ngClass]="{'primer-viaje': pipeAzul(ruta, true, this.dateService.dataAvui), 'ultimo-viaje': pipeAzul(ruta, false, this.dateService.dataAvui)}">
+                <ng-container *ngIf="colocarPipes(ruta, dataAvuiFormatejada) && !pipeAzul(ruta, true, this.dateService.dataAvui)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, true, this.dateService.dataAvui)}"> | </span></ng-container>
+                <ng-container *ngFor="let avui_x_avui of ruta.avui_x_avui">
+                  <span *ngIf="avui_x_avui.dia === dataAvuiFormatejada" class="viaje">
                     {{ avui_x_avui.id_direccio_origen.poblacio }} - {{ avui_x_avui.id_direccio_desti.poblacio }},
-                  </ng-container>
-                </span>
-                <span *ngFor="let anada of ruta.anada">
-                  <ng-container *ngIf="anada.dia === dataAvuiFormatejada">
+                  </span>
+                </ng-container>
+                <ng-container *ngFor="let anada of ruta.anada">
+                  <span *ngIf="anada.dia === dataAvuiFormatejada" class="viaje">
                     {{ anada.id_direccio_origen.poblacio }} - {{ anada.id_direccio_desti.poblacio }},
-                  </ng-container>
-                </span>
-                <span *ngFor="let tornada of ruta.tornada">
-                  <ng-container *ngIf="tornada.dia === dataAvuiFormatejada">
+                  </span>
+                </ng-container>
+                <ng-container *ngFor="let tornada of ruta.tornada">
+                  <span *ngIf="tornada.dia === dataAvuiFormatejada" class="viaje">
                     {{ tornada.id_direccio_origen.poblacio }} - {{ tornada.id_direccio_desti.poblacio }},
-                  </ng-container>
-                </span>
-                <ng-container *ngIf="colocarPipes(ruta, dataAvuiFormatejada)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, true)}"> | </span></ng-container>
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="colocarPipes(ruta, dataAvuiFormatejada) && !pipeAzul(ruta, false, this.dateService.dataAvui)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, false, this.dateService.dataAvui)}"> | </span></ng-container>
               </div>
             </td>
             <td class="d-flex flex-row rutas flex-wrap">
-              <div *ngFor="let ruta of xofer.ruta">
-                <ng-container *ngIf="colocarPipes(ruta, dataDemaFormatejada)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, false)}"> | </span></ng-container>
-                <span *ngFor="let avui_x_avui of ruta.avui_x_avui">
-                  <ng-container *ngIf="avui_x_avui.dia === dataDemaFormatejada">
+              <div *ngFor="let ruta of xofer.ruta"  [ngClass]="{'primer-viaje': pipeAzul(ruta, true, this.dateService.dataDema), 'ultimo-viaje': pipeAzul(ruta, false, this.dateService.dataDema)}">
+                <ng-container *ngIf="colocarPipes(ruta, dataDemaFormatejada) && !pipeAzul(ruta, true, this.dateService.dataDema)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, true, this.dateService.dataDema)}"> | </span></ng-container>
+                <ng-container *ngFor="let avui_x_avui of ruta.avui_x_avui">
+                  <span *ngIf="avui_x_avui.dia === dataDemaFormatejada" class="viaje">
                     {{ avui_x_avui.id_direccio_origen.poblacio }} - {{ avui_x_avui.id_direccio_desti.poblacio }},
-                  </ng-container>
-                </span>
-                <span *ngFor="let anada of ruta.anada">
-                  <ng-container *ngIf="anada.dia === dataDemaFormatejada">
+                  </span>
+                </ng-container>
+                <ng-container *ngFor="let anada of ruta.anada">
+                  <span *ngIf="anada.dia === dataDemaFormatejada" class="viaje">
                     {{ anada.id_direccio_origen.poblacio }} - {{ anada.id_direccio_desti.poblacio }},
-                  </ng-container>
-                </span>
-                <span *ngFor="let tornada of ruta.tornada">
-                  <ng-container *ngIf="tornada.dia === dataDemaFormatejada">
+                  </span>
+                </ng-container>
+                <ng-container *ngFor="let tornada of ruta.tornada">
+                  <span *ngIf="tornada.dia === dataDemaFormatejada" class="viaje">
                     {{ tornada.id_direccio_origen.poblacio }} - {{ tornada.id_direccio_desti.poblacio }},
-                  </ng-container>
-                </span>
-                <ng-container *ngIf="colocarPipes(ruta, dataDemaFormatejada)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, false)}"> | </span></ng-container>
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="colocarPipes(ruta, dataDemaFormatejada) && !pipeAzul(ruta, false, this.dateService.dataDema)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, false, this.dateService.dataDema)}"> | </span></ng-container>
               </div>
             </td>
             <td class="d-flex justify-content-around">

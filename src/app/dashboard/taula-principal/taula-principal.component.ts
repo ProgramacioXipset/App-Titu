@@ -21,7 +21,7 @@ export class TaulaPrincipalComponent {
   dataPassatDemaFormatejada: string;
   dataAhirFormatejada: string;
 
-  constructor(private dateService: DateService, private viatgeService: ViatgesService, private xoferService: XoferService, public dialog: MatDialog, private eventosService: EventosService) {
+  constructor(public dateService: DateService, private viatgeService: ViatgesService, private xoferService: XoferService, public dialog: MatDialog, private eventosService: EventosService) {
     this.dataAvuiFormatejada = this.formatDate(this.dateService.dataAvui);
     this.dataDemaFormatejada = this.formatDate(this.dateService.dataDema);
     this.dataPassatDemaFormatejada = this.formatDate(this.dateService.dataPassatDema);
@@ -107,36 +107,53 @@ export class TaulaPrincipalComponent {
     return false;
   }
 
-  pipeAzul(ruta: any, anterior: boolean): boolean {
+  pipeAzul(ruta: any, anterior: boolean, dia: Date ): boolean {
+    dia.setHours(0,0,0,0);
+
     if (anterior) {
       for (const avui_x_avui of ruta.avui_x_avui) {
-        if (new Date(avui_x_avui.dia) <= this.dateService.dataAvui) {
+        var diaViatge = new Date(avui_x_avui.dia)
+        diaViatge.setHours(0,0,0,0);
+        if (diaViatge < dia) {
+          console.log(new Date(avui_x_avui.dia) + " y " + dia);
           return true;
         }
       }
       for (const anada of ruta.anada) {
-        if (new Date(anada.dia) <= this.dateService.dataAvui) {
+        var diaViatge = new Date(anada.dia)
+        diaViatge.setHours(0,0,0,0);
+        if (diaViatge < dia) {
+          console.log(new Date(anada.dia) + " y " + dia);
           return true;
         }
       }
       for (const tornada of ruta.tornada) {
-        if (new Date(tornada.dia) <= this.dateService.dataAvui) {
+        var diaViatge = new Date(tornada.dia)
+        diaViatge.setHours(0,0,0,0);
+        if (diaViatge < dia) {
+          console.log(new Date(tornada.dia) + " y " + dia);
           return true;
         }
       }
     } else {
       for (const avui_x_avui of ruta.avui_x_avui) {
-        if (new Date(avui_x_avui.dia) <= this.dateService.dataDema) {
+        var diaViatge = new Date(avui_x_avui.dia)
+        diaViatge.setHours(0,0,0,0);
+        if (diaViatge > dia) {
           return true;
         }
       }
       for (const anada of ruta.anada) {
-        if (new Date(anada.dia) <= this.dateService.dataDema) {
+        var diaViatge = new Date(anada.dia)
+        diaViatge.setHours(0,0,0,0);
+        if (diaViatge > dia) {
           return true;
         }
       }
       for (const tornada of ruta.tornada) {
-        if (new Date(tornada.dia) <= this.dateService.dataDema) {
+        var diaViatge = new Date(tornada.dia)
+        diaViatge.setHours(0,0,0,0);
+        if (diaViatge > dia) {
           return true;
         }
       }

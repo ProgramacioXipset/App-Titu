@@ -26,15 +26,15 @@ public class Ruta {
     @JsonIgnoreProperties("ruta")
 	Xofer id_xofer;
 	
-	@OneToMany(mappedBy = "id_ruta", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "id_ruta", orphanRemoval = false)
     @JsonIgnoreProperties("id_ruta")
 	private List<Anada> anada;
 	
-	@OneToMany(mappedBy = "id_ruta", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "id_ruta", orphanRemoval = false)
     @JsonIgnoreProperties("id_ruta")
 	private List<AvuiXAvui> avui_x_avui;
 	
-	@OneToMany(mappedBy = "id_ruta", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "id_ruta", orphanRemoval = false)
     @JsonIgnoreProperties("id_ruta")
 	private List<Tornada> tornada;
 

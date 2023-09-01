@@ -6,7 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.dto.Anada;
+import com.example.demo.dto.AvuiXAvui;
 import com.example.demo.dto.Ruta;
+import com.example.demo.dto.Tornada;
 import com.example.demo.service.RutaServiceIMPL;
 
 @RestController
@@ -56,6 +59,24 @@ public class RutaController {
 
 	@DeleteMapping("/Ruta/{id}")
 	public void eliminarRuta(@PathVariable(name = "id") int Codigo) {
+		Ruta ruta = RutaServiceImpl.RutaXID(Codigo);
+		
+		List<AvuiXAvui> avuiXAvuis = ruta.getAvui_x_avui();
+		List<Anada> anades = ruta.getAnada();
+		List<Tornada> tornades = ruta.getTornada();
+		
+		for (AvuiXAvui avuiXAvui : avuiXAvuis) {
+			avuiXAvui.setId_ruta(null);
+		}
+		
+		for (Anada anada : anades) {
+			anada.setId_ruta(null);
+		}
+		
+		for (Tornada tornada : tornades) {
+			tornada.setId_ruta(null);
+		}
+		
 		RutaServiceImpl.eliminarRuta(Codigo);
 	}
 }

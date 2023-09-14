@@ -43,3 +43,26 @@ td, th {
 .ultimo-viaje .viaje:last-child {
   color: rgb(0, 162, 255);
 }
+
+.marcado, .marcado span {
+  background-color: green;
+  color: white !important;
+}
+
+.rutas div {
+  transition: margin-top 2s ease;
+  transition: background 2s ease;
+  transition: text-decoration 2s ease;
+}
+
+.editando {
+  margin-top: 5px;
+  text-decoration: underline;
+  background-color: rgb(221, 221, 221);
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.sin_camion {
+  background-color: rgb(250, 250, 177);
+}

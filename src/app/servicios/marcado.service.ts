@@ -4,19 +4,51 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class MarcadoService {
-  private elementosMarcados: any[] = [];
+  private elementosInferioresMarcados: any[] = [];
+  private elementosSuperioresMarcados: any[] = [];
+  private rutasMarcadas: any[] = [];
 
   constructor() {}
 
-  marcarElemento(elemento: any) {
-    this.elementosMarcados = [elemento];
+  marcarElementoInferior(elemento: any) {
+    this.elementosInferioresMarcados = [elemento];
+    this.desmarcarRuta();
+    this.desmarcarElementosSuperior();
   }
 
-  desmarcarElementos() {
-    this.elementosMarcados = [];
+  desmarcarElementosInferior() {
+    this.elementosInferioresMarcados = [];
   }
 
-  obtenerElementosMarcados() {
-    return this.elementosMarcados;
+  obtenerElementosInferioresMarcados() {
+    return this.elementosInferioresMarcados;
+  }
+
+  marcarElementoSuperior(elemento: any) {
+    this.elementosSuperioresMarcados = [elemento];
+    this.desmarcarRuta();
+    this.desmarcarElementosInferior();
+  }
+
+  desmarcarElementosSuperior() {
+    this.elementosSuperioresMarcados = [];
+  }
+
+  obtenerElementosSuperioresMarcados() {
+    return this.elementosSuperioresMarcados;
+  }
+
+  marcarRuta(elemento: any) {
+    this.rutasMarcadas = [elemento];
+    this.desmarcarElementosSuperior();
+    this.desmarcarElementosInferior()
+  }
+
+  desmarcarRuta() {
+    this.rutasMarcadas = [];
+  }
+
+  obtenerRutasMarcadas() {
+    return this.rutasMarcadas;
   }
 }

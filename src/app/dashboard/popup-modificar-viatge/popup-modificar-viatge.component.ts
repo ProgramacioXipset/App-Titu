@@ -48,33 +48,33 @@ export class PopupModificarViatgeComponent {
 
   }
 
-  obtenerEndpoint() {
+  obtenerTipo() {
 
-    var endpoint;
+    var tipo;
 
     switch (this.data.tipus) {
       case "anada":
-        endpoint = "http://localhost:8181/Anada/" + this.data.viatge.id;
+        tipo = 2;
         break;
       case "tornada":
-        endpoint = "http://localhost:8181/Tornada/" + this.data.viatge.id;
+        tipo = 3;
         break;
       case "avuiXAvui":
-        endpoint = "http://localhost:8181/AvuiXAvui/" + this.data.viatge.id;
+        tipo = 1;
         break;
       default:
-        console.log("No se ha encontrado el tipo de viaje");
+        tipo = this.data.viatge.tipus;
 
     }
 
-    return endpoint;
+    return tipo;
   }
 
   submitForm() {
     console.log(this.data.viatge.comentari);
     if (this.options.valid) {
       const formData = this.options.value;
-      var endpoint = this.obtenerEndpoint();
+      var endpoint = "http://localhost:8181/Viatge/" + this.data.viatge.id;
 
       const comentariValue = this.comentariControl.value;
       var externValue
@@ -85,15 +85,13 @@ export class PopupModificarViatgeComponent {
         externValue = 0
       }
 
-      console.log(+this.data.viatge.id_direccio_origen.id + " " + endpoint + " " + comentariValue + " " + externValue);
-
-
       const requestBody = {
         id: this.data.viatge.id,
         id_direccio_origen: { id: +this.data.viatge.id_direccio_origen.id },
         id_direccio_desti: { id: +this.data.viatge.id_direccio_desti.id },
         comentari: comentariValue,
-        externa: externValue
+        externa: externValue,
+        tipus: this.obtenerTipo()
       };
 
       console.log(requestBody);
@@ -132,7 +130,7 @@ export class PopupModificarViatgeComponent {
   }
 
   submitDelete() {
-    const endpoint = this.obtenerEndpoint();
+    const endpoint = "http://localhost:8181/Viatge/" + this.data.viatge.id;
 
     const confirmed = confirm('Segur que vols eliminar aquest viatge?');
 

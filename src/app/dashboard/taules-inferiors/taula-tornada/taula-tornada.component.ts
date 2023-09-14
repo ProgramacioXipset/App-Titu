@@ -24,6 +24,9 @@ export class TaulaTornadaComponent {
     this.eventosService.viatgeCreated$.subscribe(() => {
       this.cargarTornada(); // Actualiza los xofers cuando se crea uno nuevo
     });
+    this.eventosService.viatgeDeleted$.subscribe(() => {
+      this.cargarTornada(); // Actualiza los xofers cuando se crea uno nuevo
+    });
   }
 
   cargarTornada() {
@@ -52,11 +55,11 @@ export class TaulaTornadaComponent {
 
   marcar(tornada: any) {
     if(!tornada.externa) {
-      if (this.marcadoService.obtenerElementosMarcados().includes(tornada)) {
-        this.marcadoService.desmarcarElementos();
+      if (this.marcadoService.obtenerElementosInferioresMarcados().includes(tornada)) {
+        this.marcadoService.desmarcarElementosInferior();
         this.openDialog(tornada);
       } else {
-        this.marcadoService.marcarElemento(tornada);
+        this.marcadoService.marcarElementoInferior(tornada);
       }
     } else {
       this.openDialog(tornada);

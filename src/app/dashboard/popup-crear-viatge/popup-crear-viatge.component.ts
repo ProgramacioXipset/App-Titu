@@ -63,7 +63,7 @@ export class PopupCrearViatgeComponent {
   submitForm() {
     if (this.options.valid) {
       const formData = this.options.value;
-      const endpoint = this.getEndpoint(formData.floatLabel);
+      const endpoint = "http://localhost:8181/Viatge";
 
       const origenValue = this.origenSeleccionat.value;
       const destiValue = this.destiSeleccionat.value;
@@ -73,7 +73,8 @@ export class PopupCrearViatgeComponent {
       const requestBody = {
         id_direccio_origen: { id: origenValue },
         id_direccio_desti: { id: destiValue },
-        comentari: comentariValue
+        comentari: comentariValue,
+        tipus: this.getTipus(formData.floatLabel)
       };
 
       if (endpoint) {
@@ -98,18 +99,18 @@ export class PopupCrearViatgeComponent {
     }
   }
 
-  getEndpoint(radioValue: string | undefined): string | null {
-    let endpoint: string | null = null;
+  getTipus(radioValue: string | undefined): number | null {
+    let tipus: number = 0;
 
     if (radioValue === 'Anada') {
-      endpoint = 'http://localhost:8181/Anada';
+      tipus = 2;
     } else if (radioValue === 'Tornada') {
-      endpoint = 'http://localhost:8181/Tornada';
+      tipus = 3;
     } else if (radioValue === 'Avui X Avui') {
-      endpoint = 'http://localhost:8181/AvuiXAvui';
+      tipus = 1;
     }
 
-    return endpoint;
+    return tipus;
   }
 
   saveFormData(endpoint: string, formData: any) {

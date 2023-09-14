@@ -3,8 +3,10 @@
         <tr>
             <th>Tornada</th>
         </tr>
-        <tr *ngFor="let tornada of tornades | ordenarPorExterno" (click)="marcar(tornada)" [ngClass]="{ 'disabled': tornada.externa, 'enabled': !tornada.externa, 'marcado': marcadoService.obtenerElementosMarcados().includes(tornada), 'especial': tornada.comentari }">
+        <tr *ngFor="let tornada of tornades | ordenarPorExterno" (click)="marcar(tornada)" [ngClass]="{ 'disabled': tornada.externa, 'enabled': !tornada.externa, 'marcado': marcadoService.obtenerElementosInferioresMarcados().includes(tornada), 'especial': tornada.comentari }">
+          <ng-container *ngIf="tornada.id_ruta === null">
             <td>{{ tornada.id_direccio_origen.poblacio + " - " + tornada.id_direccio_desti.poblacio }}</td>
+          </ng-container>
         </tr>
     </table>
 </div>

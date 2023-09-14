@@ -24,6 +24,9 @@ export class TaulaAnadaComponent {
     this.eventosService.viatgeCreated$.subscribe(() => {
       this.cargarAnada(); // Actualiza los xofers cuando se crea uno nuevo
     });
+    this.eventosService.viatgeDeleted$.subscribe(() => {
+      this.cargarAnada(); // Actualiza los xofers cuando se crea uno nuevo
+    });
   }
 
   cargarAnada() {
@@ -52,11 +55,11 @@ export class TaulaAnadaComponent {
 
   marcar(anada: any) {
     if(!anada.externa) {
-      if (this.marcadoService.obtenerElementosMarcados().includes(anada)) {
-        this.marcadoService.desmarcarElementos();
+      if (this.marcadoService.obtenerElementosInferioresMarcados().includes(anada)) {
+        this.marcadoService.desmarcarElementosInferior();
         this.openDialog(anada);
       } else {
-        this.marcadoService.marcarElemento(anada);
+        this.marcadoService.marcarElementoInferior(anada);
       }
     } else {
       this.openDialog(anada);

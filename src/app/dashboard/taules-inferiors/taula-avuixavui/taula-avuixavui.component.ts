@@ -24,6 +24,9 @@ export class TaulaAvuixavuiComponent {
     this.eventosService.viatgeCreated$.subscribe(() => {
       this.cargarAvuiXAvui(); // Actualiza los xofers cuando se crea uno nuevo
     });
+    this.eventosService.viatgeDeleted$.subscribe(() => {
+      this.cargarAvuiXAvui(); // Actualiza los xofers cuando se crea uno nuevo
+    });
   }
 
   cargarAvuiXAvui() {
@@ -52,11 +55,11 @@ export class TaulaAvuixavuiComponent {
 
   marcar(avuiXAvui: any) {
     if(!avuiXAvui.externa) {
-      if (this.marcadoService.obtenerElementosMarcados().includes(avuiXAvui)) {
-        this.marcadoService.desmarcarElementos();
+      if (this.marcadoService.obtenerElementosInferioresMarcados().includes(avuiXAvui)) {
+        this.marcadoService.desmarcarElementosInferior();
         this.openDialog(avuiXAvui);
       } else {
-        this.marcadoService.marcarElemento(avuiXAvui);
+        this.marcadoService.marcarElementoInferior(avuiXAvui);
       }
     } else {
       this.openDialog(avuiXAvui);

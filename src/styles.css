@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #ebebeb;}
+svg {
+    transition: color 0.2s ease;
+}
+
+.disabled {
+  background-color: rgb(226, 226, 226);
+  color: grey;
+}
+
+.especial {
+  color: rgb(170, 10, 10);
+}
+
+.especial td::after, .especial td::before {
+  content: "*";
+  color: red;
+}
+
+.marcado {
+  background-color: green;
+  color: white;
+}

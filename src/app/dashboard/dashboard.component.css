@@ -1,0 +1,6 @@
+app-taula-principal {
+    overflow-y: scroll;
+}
+app-taules-inferiors {
+    align-self: baseline;
+}

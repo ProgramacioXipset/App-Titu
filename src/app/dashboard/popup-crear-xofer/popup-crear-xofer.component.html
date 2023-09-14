@@ -1,0 +1,52 @@
+<div class="contenidor d-flex flex-column justify-content-around">
+    <div class="text-center">
+      <h1>Afegir xofer</h1>
+    </div>
+    <form [formGroup]="options" class="h-75 d-flex flex-column justify-content-around" (ngSubmit)="submitForm()">
+      <div class="camps d-flex justify-content-around">
+        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
+          <mat-label>Nom</mat-label>
+          <input required matInput [formControl]="nomControl">
+          <mat-error *ngIf="nomControl.hasError('required')">Es requereix el camp</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
+          <mat-label>Cognoms</mat-label>
+          <input required matInput [formControl]="cognomControl">
+          <mat-error *ngIf="cognomControl.hasError('required')">Es requereix el camp</mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="camps d-flex justify-content-around">
+        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
+          <mat-label>Telèfon</mat-label>
+          <input type="number" required matInput [formControl]="telefonControl">
+          <mat-error *ngIf="telefonControl.hasError('required')">Es requereix el camp</mat-error>
+          <mat-error *ngIf="telefonControl.hasError('pattern')">El telèfon ha de tenir 9 digits</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
+          <mat-label>Email</mat-label>
+          <input type="email" matInput [formControl]="emailControl">
+          <mat-error *ngIf="emailControl.hasError('email')">L'email no és valid</mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="camps d-flex justify-content-around">
+        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="w-75">
+          <mat-label>DNI</mat-label>
+          <input required matInput [formControl]="dniControl">
+          <mat-error *ngIf="dniControl.hasError('required')">Es requereix el camp</mat-error>
+          <mat-error *ngIf="dniControl.hasError('pattern')">El DNI ha de tenir 8 digits seguits d'una lletra</mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div *ngIf="enviado !== null" class="text-center" [ngClass]="{'text-success': enviado === true, 'text-danger': enviado === false}">
+        {{ enviado ? 'El formulario se ha enviado correctamente.' : 'Ha ocurrido un error al enviar el formulario. Por favor, inténtalo nuevamente.' }}
+      </div>
+  
+      <div class="text-center">
+        <button mat-raised-button color="primary" type="submit" class="btn btn-success w-50">Enviar</button>
+      </div>
+    </form>
+  </div>

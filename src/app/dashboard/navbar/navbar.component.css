@@ -1,0 +1,19 @@
+header {
+    border-bottom: 1px solid rgb(187, 187, 187);
+}
+
+svg:hover {
+    color: green;
+}
+
+h1 {
+    font-size: 30px;
+}
+
+div, header{
+    align-items: center;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+  }

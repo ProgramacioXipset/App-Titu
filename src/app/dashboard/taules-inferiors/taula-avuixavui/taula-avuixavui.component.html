@@ -1,0 +1,12 @@
+<div class="contenidor">
+    <table>
+        <tr>
+            <th>Avui X Avui</th>
+        </tr>
+        <tr *ngFor="let avuiXAvui of avuiXAvuis | ordenarPorExterno" (click)="marcar(avuiXAvui)" [ngClass]="{ 'disabled': avuiXAvui.externa, 'enabled': !avuiXAvui.externa, 'marcado': marcadoService.obtenerElementosInferioresMarcados().includes(avuiXAvui), 'especial': avuiXAvui.comentari }">
+          <ng-container *ngIf="avuiXAvui.id_ruta === null">
+            <td>{{ avuiXAvui.id_direccio_origen.poblacio + " - " + avuiXAvui.id_direccio_desti.poblacio }}</td>
+          </ng-container>
+        </tr>
+    </table>
+</div>

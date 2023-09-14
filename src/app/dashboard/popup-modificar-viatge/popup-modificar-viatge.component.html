@@ -1,0 +1,38 @@
+<div class="contenidor d-flex flex-column justify-content-around">
+  <div class="text-center">
+      <h1>{{ data.viatge.id_direccio_origen.poblacio }} - {{ data.viatge.id_direccio_desti.poblacio }}</h1>
+  </div>
+  <form [formGroup]="options" class="h-75 d-flex flex-column justify-content-around" (ngSubmit)="submitForm()">
+    <div class="camps d-flex justify-content-evenly w-100 text-center">
+      <h2>Origen:</h2>
+      <h3>{{ data.viatge.id_direccio_origen.adreca }}, {{ data.viatge.id_direccio_origen.poblacio }}, {{ data.viatge.id_direccio_origen.codi_postal }}</h3>
+    </div>
+
+    <div class="camps d-flex justify-content-evenly w-100 text-center">
+      <h2>Destí:</h2>
+      <h3>{{ data.viatge.id_direccio_desti.adreca }}, {{ data.viatge.id_direccio_desti.poblacio }}, {{ data.viatge.id_direccio_desti.codi_postal }}</h3>
+    </div>
+
+    <div class="camps d-flex justify-content-around w-100">
+      <section class="example-section d-flex justify-content-around w-75">
+        <mat-checkbox class="example-margin" [formControl]="externControl">Extern/Deshabilitar</mat-checkbox>
+      </section>
+    </div>
+
+    <div class="camps d-flex justify-content-around w-100">
+      <mat-form-field class="example-full-width w-75">
+        <mat-label>Comentari</mat-label>
+        <textarea matInput [formControl]="comentariControl"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="enviado !== null" class="text-center" [ngClass]="{'text-success': enviado === true, 'text-danger': enviado === false}">
+      {{ enviado ? 'El formulario se ha enviado correctamente.' : 'Ha ocurrido un error al enviar el formulario. Por favor, inténtalo nuevamente.' }}
+    </div>
+
+    <div class="text-center d-flex flex-row justify-content-around">
+      <button mat-raised-button color="primary" type="submit" class="btn btn-success w-50">Enviar</button>
+      <button mat-raised-button class="btn btn-danger w-25" (click)="submitDelete()">Eliminar</button>
+    </div>
+  </form>
+</div>

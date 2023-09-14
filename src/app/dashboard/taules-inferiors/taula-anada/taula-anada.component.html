@@ -1,0 +1,12 @@
+<div class="contenidor">
+    <table>
+        <tr>
+            <th>Anada</th>
+        </tr>
+        <tr *ngFor="let anada of anades | ordenarPorExterno" (click)="marcar(anada)" [ngClass]="{ 'disabled': anada.externa, 'enabled': !anada.externa, 'marcado': marcadoService.obtenerElementosInferioresMarcados().includes(anada), 'especial': anada.comentari }">
+          <ng-container *ngIf="anada.id_ruta === null">
+            <td>{{ anada.id_direccio_origen.poblacio + " - " + anada.id_direccio_desti.poblacio }}</td>
+          </ng-container>
+        </tr>
+    </table>
+</div>

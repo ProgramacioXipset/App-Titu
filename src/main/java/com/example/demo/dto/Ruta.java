@@ -2,7 +2,6 @@ package com.example.demo.dto;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,30 +25,19 @@ public class Ruta {
     @JsonIgnoreProperties("ruta")
 	Xofer id_xofer;
 	
-	@OneToMany(mappedBy = "id_ruta", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "id_ruta", orphanRemoval = false)
     @JsonIgnoreProperties("id_ruta")
-	private List<Anada> anada;
-	
-	@OneToMany(mappedBy = "id_ruta", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("id_ruta")
-	private List<AvuiXAvui> avui_x_avui;
-	
-	@OneToMany(mappedBy = "id_ruta", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("id_ruta")
-	private List<Tornada> tornada;
+	private List<Viatge> viatge;
 
 	public Ruta() {
 		super();
 	}
 
-	public Ruta(int id, Xofer id_xofer, boolean externa, List<Anada> anada,
-			List<AvuiXAvui> avui_x_avui, List<Tornada> tornada) {
+	public Ruta(int id, Xofer id_xofer, boolean externa, List<Viatge> viatge) {
 		super();
 		this.id = id;
 		this.id_xofer = id_xofer;
-		this.anada = anada;
-		this.avui_x_avui = avui_x_avui;
-		this.tornada = tornada;
+		this.viatge = viatge;
 	}
 
 	public int getId() {
@@ -68,34 +56,18 @@ public class Ruta {
 		this.id_xofer = id_xofer;
 	}
 	
-	public List<Anada> getAnada() {
-		return anada;
+	public List<Viatge> getViatge() {
+		return viatge;
 	}
 
-	public void setAnada(List<Anada> anada) {
-		this.anada = anada;
-	}
-
-	public List<AvuiXAvui> getAvui_x_avui() {
-		return avui_x_avui;
-	}
-
-	public void setAvui_x_avui(List<AvuiXAvui> avui_x_avui) {
-		this.avui_x_avui = avui_x_avui;
-	}
-
-	public List<Tornada> getTornada() {
-		return tornada;
-	}
-
-	public void setTornada(List<Tornada> tornada) {
-		this.tornada = tornada;
+	public void setViatge(List<Viatge> viatge) {
+		this.viatge = viatge;
 	}
 
 	@Override
 	public String toString() {
 		return "Ruta [id=" + id + ", id_xofer=" + id_xofer
-				+ ", anada=" + anada + ", avui_x_avui=" + avui_x_avui + ", tornada=" + tornada
+				+ ", anada=" + viatge
 				+ "]";
 	}
 	

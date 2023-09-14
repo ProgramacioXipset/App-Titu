@@ -8,11 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="avui_x_avui")
-public class AvuiXAvui {
+@Table(name="viatge")
+public class Viatge {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)//Anada ultimo valor e incrementa desde id final de db
@@ -36,17 +37,21 @@ public class AvuiXAvui {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_ruta")
-    @JsonIgnoreProperties({ "anada", "tornada", "avui_x_avui" })
+    @JsonIgnoreProperties({ "viatge" })
 	Ruta id_ruta;
 	
 	@Column(name = "externa")//no hace falta si se llama igual
 	private Integer externa;
+	
+	@Column(name = "tipus")//no hace falta si se llama igual
+	private Integer tipus;
 
-	public AvuiXAvui() {
+	public Viatge() {
 		super();
 	}
 
-	public AvuiXAvui(int id, Direccio id_direccio_origen, Direccio id_direccio_desti, String comentari, String dia, Ruta id_ruta, Integer externa) {
+	public Viatge(int id, Direccio id_direccio_origen, Direccio id_direccio_desti, String comentari, String dia,
+			Ruta id_ruta, Integer externa, Integer tipus) {
 		super();
 		this.id = id;
 		this.id_direccio_origen = id_direccio_origen;
@@ -55,6 +60,7 @@ public class AvuiXAvui {
 		this.dia = dia;
 		this.id_ruta = id_ruta;
 		this.externa = externa;
+		this.tipus = tipus;
 	}
 
 	public int getId() {
@@ -112,11 +118,19 @@ public class AvuiXAvui {
 	public void setExterna(Integer externa) {
 		this.externa = externa;
 	}
+	
+	public Integer getTipus() {
+		return tipus;
+	}
+
+	public void setTipus(Integer tipus) {
+		this.tipus = tipus;
+	}
 
 	@Override
 	public String toString() {
-		return "AvuiXAvui [id=" + id + ", id_direccio_origen=" + id_direccio_origen + ", id_direccio_desti="
+		return "Viatge [id=" + id + ", id_direccio_origen=" + id_direccio_origen + ", id_direccio_desti="
 				+ id_direccio_desti + ", comentari=" + comentari + ", dia=" + dia + ", id_ruta=" + id_ruta
-				+ ", externa=" + externa + "]";
+				+ ", externa=" + externa + ", tipus=" + tipus + "]";
 	}
 }

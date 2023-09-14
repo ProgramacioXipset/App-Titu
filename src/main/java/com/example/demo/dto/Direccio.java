@@ -32,30 +32,19 @@ public class Direccio {
 	
 	@OneToMany(mappedBy = "id_direccio_origen", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({ "id_direccio_origen", "id_direccio_desti" })
-	private List<Anada> anada;
-	
-	@OneToMany(mappedBy = "id_direccio_origen", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties({ "id_direccio_origen", "id_direccio_desti" })
-	private List<Tornada> tornada;
-	
-	@OneToMany(mappedBy = "id_direccio_origen", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties({ "id_direccio_origen", "id_direccio_desti" })
-	private List<AvuiXAvui> avui_x_avui;
+	private List<Viatge> viatge;
 
 	public Direccio() {
 		super();
 	}
 
-	public Direccio(int id, String adreca, String poblacio, int codi_postal, List<Anada> anada, List<Tornada> tornada,
-			List<AvuiXAvui> avui_x_avui) {
+	public Direccio(int id, String adreca, String poblacio, int codi_postal, List<Viatge> viatge) {
 		super();
 		this.id = id;
 		this.adreca = adreca;
 		this.poblacio = poblacio;
 		this.codi_postal = codi_postal;
-		this.anada = anada;
-		this.tornada = tornada;
-		this.avui_x_avui = avui_x_avui;
+		this.viatge = viatge;
 	}
 
 	public int getId() {
@@ -90,34 +79,18 @@ public class Direccio {
 		this.codi_postal = codi_postal;
 	}
 
-	public List<Anada> getAnada() {
-		return anada;
+	public List<Viatge> getViatge() {
+		return viatge;
 	}
 
-	public void setAnada(List<Anada> anada) {
-		this.anada = anada;
-	}
-
-	public List<Tornada> getTornada() {
-		return tornada;
-	}
-
-	public void setTornada(List<Tornada> tornada) {
-		this.tornada = tornada;
-	}
-
-	public List<AvuiXAvui> getAvui_x_avui() {
-		return avui_x_avui;
-	}
-
-	public void setAvui_x_avui(List<AvuiXAvui> avui_x_avui) {
-		this.avui_x_avui = avui_x_avui;
+	public void setViatge(List<Viatge> viatge) {
+		this.viatge = viatge;
 	}
 
 	@Override
 	public String toString() {
 		return "Direccio [id=" + id + ", adreca=" + adreca + ", poblacio=" + poblacio + ", codi_postal=" + codi_postal
-				+ ", anada=" + anada + ", tornada=" + tornada + ", avui_x_avui=" + avui_x_avui + "]";
+				+ ", viatge=" + viatge + "]";
 	}
 	
 }

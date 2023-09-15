@@ -1,4 +1,4 @@
-<div class="contenidor">
+<div class="contenidor" >
     <table>
         <tr>
             <th>Xofer</th>
@@ -6,7 +6,8 @@
             <th class="rutas">Viatges</th>
             <th>Accions</th>
         </tr>
-        <tr *ngFor="let xofer of xofers" [ngClass]="{'sin_camion': xofer.id_camio === 1}">
+        <tr *ngFor="let xofer of xofers" [ngClass]="{'sin_camion': xofer.id_camio===1}">
+          
             <td class="xofer" (click)="openDialog(xofer)">{{ xofer.nom }}</td>
             <td class="d-flex flex-row rutas flex-wrap" (click)="afegir(xofer, dataAvuiFormatejada)">
               <div *ngFor="let ruta of xofer.ruta" [ngClass]="{'primer-viaje': pipeAzul(ruta, true, this.dateService.dataAvui), 'ultimo-viaje': pipeAzul(ruta, false, this.dateService.dataAvui), 'marcado': marcadoService.obtenerRutasMarcadas().includes(ruta), 'editando': this.editando === ruta}">

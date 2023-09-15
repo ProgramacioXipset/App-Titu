@@ -90,7 +90,7 @@ export class TaulaPrincipalComponent {
       this.cargarXofers(); // Actualiza los xofers al cerrar el diálogo
     });
   }
-
+  
   colocarPipes(ruta: any, dia:string): boolean {
     for (const viatge of ruta.viatge) {
       if (viatge.dia === dia && viatge.tipus === 1) {
@@ -202,7 +202,6 @@ export class TaulaPrincipalComponent {
         id_xofer: {id: +xofer.id}
       };
 
-
       if (endpoint) {
         this.saveFormData(endpoint, requestBody).subscribe(
           (response: any) => {
@@ -257,7 +256,6 @@ export class TaulaPrincipalComponent {
     }
 
     console.log(requestBody);
-
 
     if (endpoint) {
       this.updateFormData(endpoint, requestBody).subscribe(
@@ -316,3 +314,4 @@ export class TaulaPrincipalComponent {
     this.editando = null;
   }
 }
+

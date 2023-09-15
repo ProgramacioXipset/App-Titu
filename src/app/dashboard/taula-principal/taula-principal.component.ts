@@ -8,6 +8,7 @@ import { ViatgesService } from 'src/app/servicios/viatges.service';
 import { DateService } from 'src/app/servicios/data.service';
 import { MarcadoService } from 'src/app/servicios/marcado.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-taula-principal',
@@ -252,8 +253,10 @@ export class TaulaPrincipalComponent {
         dia: dia,
         tipus: viaje.tipus,
         id_ruta: {id: +ruta}
+        
       };
     }
+    
 
     console.log(requestBody);
 

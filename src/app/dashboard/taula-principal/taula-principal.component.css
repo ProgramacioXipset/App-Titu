@@ -65,4 +65,18 @@ td, th {
 
 .sin_camion {
   background-color: rgb(250, 250, 177);
+  pointer-events: none;
+}
+
+.sin_camion .xofer {
+  pointer-events: auto;
+}
+
+.viaje {
+  animation: entrar 0.5s ease;
+}
+
+@keyframes entrar {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }

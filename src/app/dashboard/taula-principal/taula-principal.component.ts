@@ -26,6 +26,7 @@ export class TaulaPrincipalComponent {
   dataAhirFormatejada: string;
   enviado: boolean | null = null;
   editando: any = null;
+  rutes: any = null;
 
   constructor(public marcadoService: MarcadoService, private http: HttpClient, public dateService: DateService, private viatgeService: ViatgesService, private xoferService: XoferService, public dialog: MatDialog, private eventosService: EventosService) {
     this.dataAvuiFormatejada = this.formatDate(this.dateService.dataAvui);
@@ -69,6 +70,10 @@ export class TaulaPrincipalComponent {
     this.viatgeService.retornarViatge()
       .subscribe((result: any) => {
         this.viatges = result;
+      });
+    this.viatgeService.retornarRuta()
+      .subscribe((result: any) => {
+        this.rutes = result;
       });
   }
 
@@ -178,7 +183,35 @@ export class TaulaPrincipalComponent {
       const confirmed = confirm('Segur que vols retirar aquest viatge de la ruta?');
 
       if (confirmed) {
-        this.modificarViaje(this.marcadoService.obtenerElementosSuperioresMarcados()[0], null, null)
+        this.modificarViaje(this.marcadoService.obtenerElementosSuperioresMarcados()[0], null, null);
+        this.eliminarRutasVacias();
+      }
+    }
+  }
+
+  eliminarRutasVacias() {
+    this.cargarViatges();
+    for (const ruta of this.rutes) {
+      if (ruta.viatge && ruta.viatge.length === 0) {
+        console.log("Dentro del if");
+
+        const endpoint = "http://localhost:8181/Ruta/" + ruta.id;
+
+        if (endpoint) {
+          this.eliminarRuta(endpoint).subscribe(
+            (response) => {
+              console.log('Formulario enviado correctamente');
+              this.enviado = true;
+
+            },
+            (error) => {
+              console.error('Error al enviar el formulario:', error);
+              this.enviado = false;
+            }
+          );
+        } else {
+          console.error('Endpoint no válido');
+        }
       }
     }
   }
@@ -224,6 +257,10 @@ export class TaulaPrincipalComponent {
       }
     } else if (this.editando != null) {
       this.modificarViaje(this.marcadoService.obtenerElementosInferioresMarcados()[0], this.editando.id, dia);
+      //this.editando.viatge = this.editando.push(this.marcadoService.obtenerElementosInferioresMarcados()[0]);
+      console.log(typeof this.editando.viatge)
+      console.log(this.editando.viatge);
+
     }
   }
 
@@ -306,6 +343,8 @@ export class TaulaPrincipalComponent {
       });
     } else if (this.marcadoService.obtenerRutasMarcadas().length != 0) {
       this.editando = this.marcadoService.obtenerRutasMarcadas()[0];
+      console.log(this.editando.id);
+
       this.marcadoService.desmarcarRuta();
     } else {
       this.editando = null;

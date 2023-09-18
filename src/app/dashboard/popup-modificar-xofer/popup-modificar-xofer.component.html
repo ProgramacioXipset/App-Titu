@@ -9,14 +9,14 @@
           <input required matInput value="{{data.xofer.nom}}" [formControl]="nomControl">
           <mat-error *ngIf="nomControl.hasError('required')">Es requereix el camp</mat-error>
         </mat-form-field>
-  
+
         <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
           <mat-label>Cognoms</mat-label>
           <input required matInput [formControl]="cognomControl" value="{{data.xofer.cognoms}}">
           <mat-error *ngIf="cognomControl.hasError('required')">Es requereix el camp</mat-error>
         </mat-form-field>
       </div>
-  
+
       <div class="camps d-flex justify-content-around">
         <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
           <mat-label>Telèfon</mat-label>
@@ -24,14 +24,14 @@
           <mat-error *ngIf="telefonControl.hasError('required')">Es requereix el camp</mat-error>
           <mat-error *ngIf="telefonControl.hasError('pattern')">El telèfon ha de tenir 9 digits</mat-error>
         </mat-form-field>
-  
+
         <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
           <mat-label>Email</mat-label>
           <input type="email" matInput [formControl]="emailControl" value="{{data.xofer.email}}">
           <mat-error *ngIf="emailControl.hasError('email')">L'email no és valid</mat-error>
         </mat-form-field>
       </div>
-  
+
       <div class="camps d-flex justify-content-around">
         <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" [floatLabel]="getFloatLabelValue()" class="camp">
             <mat-label>Camió</mat-label>
@@ -39,7 +39,7 @@
               <mat-option *ngFor="let camio of camions" [value]="camio.id">{{ camio.matricula + "(" + camio.marca_model + ")" }}</mat-option>
             </mat-select>
         </mat-form-field>
-       
+
         <div class="d-flex flex-column align-items-center">
           <svg (click)="openCamio()" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -76,11 +76,11 @@
           </svg>
         </div>
       </div>
-  
+
       <div *ngIf="enviado !== null" class="text-center" [ngClass]="{'text-success': enviado === true, 'text-danger': enviado === false}">
         {{ enviado ? 'El formulario se ha enviado correctamente.' : 'Ha ocurrido un error al enviar el formulario. Por favor, inténtalo nuevamente.' }}
       </div>
-  
+
       <div class="text-center d-flex flex-row justify-content-around">
         <button mat-raised-button color="primary" type="submit" class="btn btn-success w-50">Enviar</button>
         <button mat-raised-button class="btn btn-danger w-25" (click)="submitDelete()">Eliminar</button>

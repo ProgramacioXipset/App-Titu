@@ -9,3 +9,8 @@ table {
 table, th, td {
     border: 1px solid gainsboro;
 }
+
+.verde {
+  color: green;
+  background-color: rgb(155, 228, 155);
+}

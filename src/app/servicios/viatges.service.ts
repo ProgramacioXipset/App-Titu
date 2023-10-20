@@ -15,4 +15,8 @@ export class ViatgesService {
   retornarRuta() {
     return this.http.get("http://localhost:8181/Ruta");
   }
+
+  retornarViatgeUnic(id: number) {
+    return this.http.get("http://localhost:8181/Viatge/" + id);
+  }
 }

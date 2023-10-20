@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { DateService } from 'src/app/servicios/data.service';
 import { LoginService } from 'src/app/servicios/login.service';
 import { Router } from '@angular/router';
@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
   fechaControl = new FormControl();
   selectedDate: FormControl = new FormControl();
 
-  constructor(public dialog: MatDialog, private dateService: DateService, private loginService: LoginService, private router: Router) { 
+  constructor(public dialog: MatDialog, private dateService: DateService, private loginService: LoginService, private router: Router) {
     this.dataAvuiFormatejada = this.dateService.dataAvui.getDate() + "/" + (this.dateService.dataAvui.getMonth() + 1) + "/" + this.dateService.dataAvui.getFullYear();
     this.dataDemaFormatejada = this.dateService.dataDema.getDate() + "/" + (this.dateService.dataDema.getMonth() + 1) + "/" + this.dateService.dataDema.getFullYear();
     this.isAuthenticated = false;
@@ -59,7 +59,7 @@ export class NavbarComponent implements OnInit {
     this.selectedDate.setValue(selectedDate);
     this.dateService.setDataAvuiDema(selectedDate);
   }
-  
+
   sortir() {
     this.loginService.logout();
     this.router.navigate(['/login']);
@@ -73,5 +73,15 @@ export class NavbarComponent implements OnInit {
       '/' +
       date.getFullYear()
     );
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'ArrowRight') { // Cambia 'Enter' a la tecla que desees usar
+      // Llama al método que corresponde al evento (click)
+      this.diaSeguent();
+    } else if (event.key === 'ArrowLeft') {
+      this.diaAnterior();
+    }
   }
 }

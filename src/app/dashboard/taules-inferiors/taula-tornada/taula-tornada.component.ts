@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AnadaService } from 'src/app/servicios/anada.service';
 import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import { MarcadoService } from 'src/app/servicios/marcado.service';
   styleUrls: ['./taula-tornada.component.css']
 })
 export class TaulaTornadaComponent {
+  @Input() fecha: string = "";
   tornades: any = null;
   dialogOpen = false;
   selectedTornada: any;
@@ -42,7 +43,7 @@ export class TaulaTornadaComponent {
 
     const dialogRef = this.dialog.open(PopupModificarViatgeComponent, {
       data: { viatge: this.selectedTornada, tipus: "tornada" },
-      height: '500px',
+      height: '600px',
       width: '700px',
     });
 

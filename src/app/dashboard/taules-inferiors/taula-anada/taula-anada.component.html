@@ -3,9 +3,9 @@
         <tr>
             <th>Anada</th>
         </tr>
-        <tr *ngFor="let anada of anades | ordenarPorExterno" (click)="marcar(anada)" [ngClass]="{ 'disabled': anada.externa, 'enabled': !anada.externa, 'marcado': marcadoService.obtenerElementosInferioresMarcados().includes(anada), 'especial': anada.comentari }">
-          <ng-container *ngIf="anada.id_ruta === null">
-            <td>{{ anada.id_direccio_origen.poblacio + " - " + anada.id_direccio_desti.poblacio }}</td>
+        <tr *ngFor="let anada of anades | ordenarPorExterno" (click)="marcar(anada)" [ngClass]="{ 'verde': anada.id_ruta != null, 'disabled': anada.externa, 'enabled': !anada.externa, 'marcado': marcadoService.obtenerElementosInferioresMarcados().includes(anada), 'especial': anada.comentari }">
+          <ng-container *ngIf="this.fecha == anada.data_inicial && anada.amagat != 1">
+            <td>{{anada.n_comanda + "    |    " + anada.id_direccio_origen.poblacio + " - " + anada.id_direccio_desti.poblacio }}<ng-container *ngIf="anada.externa != null">&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;{{anada.externa}}</ng-container></td>
           </ng-container>
         </tr>
     </table>

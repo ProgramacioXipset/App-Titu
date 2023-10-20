@@ -35,6 +35,13 @@ import { PopupModificarCamioComponent } from './dashboard/popup-modificar-camio/
 import { PopupModificarRemolcComponent } from './dashboard/popup-modificar-remolc/popup-modificar-remolc.component';
 import { PopupModificarViatgeComponent } from './dashboard/popup-modificar-viatge/popup-modificar-viatge.component';
 import { OrdenarPorExternoPipe } from './pipes/ordenar-por-externo.pipe';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import { NgxMultipleDatesModule } from 'ngx-multiple-dates';
+import { PopupLlistaViatgesAmagatsComponent } from './dashboard/popup-llista-viatges-amagats/popup-llista-viatges-amagats.component'; // module import
+
+
 
 @NgModule({
   declarations: [
@@ -58,7 +65,8 @@ import { OrdenarPorExternoPipe } from './pipes/ordenar-por-externo.pipe';
     PopupModificarCamioComponent,
     PopupModificarRemolcComponent,
     PopupModificarViatgeComponent,
-    OrdenarPorExternoPipe
+    OrdenarPorExternoPipe,
+    PopupLlistaViatgesAmagatsComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +81,11 @@ import { OrdenarPorExternoPipe } from './pipes/ordenar-por-externo.pipe';
     MatDialogModule,
     MatRadioModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatChipsModule,
+    MatIconModule,
+    MatMenuModule,
+    NgxMultipleDatesModule
   ],
   providers: [ authInterceptorProviders ],
   bootstrap: [AppComponent]

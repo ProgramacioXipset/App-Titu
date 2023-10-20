@@ -12,7 +12,7 @@ table, th, td {
 }
 
 .xofer {
-    width: 10vw;
+    width: 8vw;
 }
 
 tr {
@@ -21,11 +21,11 @@ tr {
 }
 
 td, th {
-  width: 10vw;
+  width: 8vw;
 }
 
 .rutas {
-  width: 40vw;
+  width: 35vw;
 }
 
 .pipe {
@@ -45,7 +45,7 @@ td, th {
 }
 
 .marcado, .marcado span {
-  background-color: green;
+  background-color: green !important;
   color: white !important;
 }
 
@@ -79,4 +79,13 @@ td, th {
 @keyframes entrar {
   from {opacity: 0;}
   to {opacity: 1;}
+}
+
+.icones {
+  width: 3vw;
+  font-weight: bold;
+  font-size: large;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

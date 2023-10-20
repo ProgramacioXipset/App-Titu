@@ -1,6 +1,6 @@
-import { Component, Inject, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, Inject, EventEmitter, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { CamioService } from 'src/app/servicios/camio.service';
 import { RemolcService } from 'src/app/servicios/remolc.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -12,6 +12,7 @@ import { PopupModificarCamioComponent } from '../popup-modificar-camio/popup-mod
 import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatSelect } from '@angular/material/select';
 import { PopupModificarRemolcComponent } from '../popup-modificar-remolc/popup-modificar-remolc.component';
+import { DateService } from 'src/app/servicios/data.service';
 
 const dniPattern = /^[0-9]{8}[A-Za-z]$/;
 const telPattern = /^[0-9]{9}$/
@@ -19,7 +20,8 @@ const telPattern = /^[0-9]{9}$/
 @Component({
   selector: 'app-popup-modificar-xofer',
   templateUrl: './popup-modificar-xofer.component.html',
-  styleUrls: ['./popup-modificar-xofer.component.css']
+  styleUrls: ['./popup-modificar-xofer.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PopupModificarXoferComponent {
   @ViewChild('selectCamiones') selectCamiones!: MatSelect;
@@ -38,13 +40,23 @@ export class PopupModificarXoferComponent {
   remolcs: any = null;
   enviado: boolean | null = null;
 
+  // modelPredefined: String[] = [
+  //   "7-15-1966"
+  // ];
+
+  // public dynamicName = 'reactiveFormControl';
+  // public reactiveForm = new UntypedFormGroup({
+  //   [this.dynamicName]: new UntypedFormControl(this.modelPredefined)
+  // });
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
     private camioService: CamioService,
     private remolcService: RemolcService,
     private http: HttpClient,
     public dialog: MatDialog,
-    private eventosService: EventosService) {
+    private eventosService: EventosService,
+    public dataService: DateService) {
     // Accede a los datos del diálogo a través de la propiedad 'data'
     console.log(this.data.xofer);
     this.nomControl = new FormControl(this.data.xofer.nom, Validators.required);
@@ -58,7 +70,8 @@ export class PopupModificarXoferComponent {
       cognomControl: this.cognomControl,
       telefonControl: this.telefonControl,
       emailControl: this.emailControl,
-      dniControl: this.dniControl
+      dniControl: this.dniControl,
+      //modelPredefined: this.modelPredefined
     });
   }
   ngOnInit(): void {

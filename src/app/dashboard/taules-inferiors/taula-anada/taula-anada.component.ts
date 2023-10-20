@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AnadaService } from 'src/app/servicios/anada.service';
 import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import { MarcadoService } from 'src/app/servicios/marcado.service';
   styleUrls: ['./taula-anada.component.css']
 })
 export class TaulaAnadaComponent {
+  @Input() fecha: string = "";
   anades: any[] = [];
   dialogOpen = false;
   selectedAnada: any;
@@ -27,6 +28,8 @@ export class TaulaAnadaComponent {
     this.eventosService.viatgeDeleted$.subscribe(() => {
       this.cargarAnada(); // Actualiza los xofers cuando se crea uno nuevo
     });
+    console.log("Fecha: " + this.fecha);
+
   }
 
   cargarAnada() {
@@ -42,7 +45,7 @@ export class TaulaAnadaComponent {
 
     const dialogRef = this.dialog.open(PopupModificarViatgeComponent, {
       data: { viatge: this.selectedAnada, tipus: "anada" },
-      height: '500px',
+      height: '600px',
       width: '700px',
     });
 

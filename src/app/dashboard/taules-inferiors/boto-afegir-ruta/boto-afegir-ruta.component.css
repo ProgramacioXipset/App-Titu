@@ -10,6 +10,10 @@ table, th, td {
     border: 1px solid gainsboro;
 }
 
-div:hover table tr td svg {
+div table tr td svg {
+  margin: 0 20px;
+}
+
+div table tr td svg:hover {
     color: green;
 }

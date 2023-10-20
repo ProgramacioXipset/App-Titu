@@ -1,9 +1,9 @@
 .contenidor {
-    width: 100vw;
+    width: 50vw;
 }
 
 .contenidor > * {
-    width: 50vw;
+    width: 25vw;
 }
 
 app-taula-anada, app-taula-tornada, app-taula-avuixavui {

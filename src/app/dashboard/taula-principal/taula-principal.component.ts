@@ -1,4 +1,5 @@
-import { Component, Output,EventEmitter } from '@angular/core';
+import { IconesService } from './../../servicios/icones.service';
+import { Component, Output,EventEmitter, HostListener } from '@angular/core';
 import { XoferService } from 'src/app/servicios/xofer.service';
 import { PopupModificarXoferComponent } from '../popup-modificar-xofer/popup-modificar-xofer.component';
 import { PopupModificarViatgeComponent } from '../popup-modificar-viatge/popup-modificar-viatge.component';
@@ -8,6 +9,7 @@ import { ViatgesService } from 'src/app/servicios/viatges.service';
 import { DateService } from 'src/app/servicios/data.service';
 import { MarcadoService } from 'src/app/servicios/marcado.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-taula-principal',
@@ -17,6 +19,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class TaulaPrincipalComponent {
   @Output() rutaModificada: EventEmitter<any> = new EventEmitter();
   xofers: any = null;
+  icones: any = null;
   viatges: any = null;
   dialogOpen = false;
   selectedXofer: any;
@@ -28,7 +31,7 @@ export class TaulaPrincipalComponent {
   editando: any = null;
   rutes: any = null;
 
-  constructor(public marcadoService: MarcadoService, private http: HttpClient, public dateService: DateService, private viatgeService: ViatgesService, private xoferService: XoferService, public dialog: MatDialog, private eventosService: EventosService) {
+  constructor(private iconesService: IconesService, public marcadoService: MarcadoService, private http: HttpClient, public dateService: DateService, private viatgeService: ViatgesService, private xoferService: XoferService, public dialog: MatDialog, private eventosService: EventosService) {
     this.dataAvuiFormatejada = this.formatDate(this.dateService.dataAvui);
     this.dataDemaFormatejada = this.formatDate(this.dateService.dataDema);
     this.dataPassatDemaFormatejada = this.formatDate(this.dateService.dataPassatDema);
@@ -40,7 +43,9 @@ export class TaulaPrincipalComponent {
     this.cargarViatges();
     this.eventosService.xoferCreated$.subscribe(() => {
       this.cargarXofers(); // Actualiza los xofers cuando se crea uno nuevo
+      this.cargarIcones();
     });
+    this.cargarIcones();
 
     this.dateService.currentDate$.subscribe(date => {
       this.dataAvuiFormatejada = this.formatDate(date);
@@ -66,6 +71,15 @@ export class TaulaPrincipalComponent {
       });
   }
 
+  cargarIcones() {
+    this.iconesService.retornarIcones()
+    .subscribe((result: any) => {
+      this.icones = result;
+    });
+    console.log(this.icones);
+
+  }
+
   cargarViatges() {
     this.viatgeService.retornarViatge()
       .subscribe((result: any) => {
@@ -75,6 +89,7 @@ export class TaulaPrincipalComponent {
       .subscribe((result: any) => {
         this.rutes = result;
       });
+    this.cargarIcones();
   }
 
   openDialog(xofer: any) {
@@ -85,8 +100,8 @@ export class TaulaPrincipalComponent {
 
     const dialogRef = this.dialog.open(PopupModificarXoferComponent, {
       data: { xofer: this.selectedXofer },
-      height: '500px',
-      width: '700px',
+      height: '700px',
+      width: '1000px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -279,7 +294,10 @@ export class TaulaPrincipalComponent {
         id_direccio_desti: {id: +viaje.id_direccio_desti.id},
         comentari: viaje.comentari,
         dia: viaje.dia,
-        tipus: viaje.tipus
+        tipus: viaje.tipus,
+        data_inicial: viaje.data_inicial,
+        n_comanda: viaje.n_comanda,
+        dividit: viaje.dividit
       };
     } else {
       requestBody = {
@@ -289,7 +307,10 @@ export class TaulaPrincipalComponent {
         comentari: viaje.comentari,
         dia: dia,
         tipus: viaje.tipus,
-        id_ruta: {id: +ruta}
+        id_ruta: {id: +ruta},
+        data_inicial: viaje.data_inicial,
+        n_comanda: viaje.n_comanda,
+        dividit: viaje.dividit
       };
     }
 
@@ -353,5 +374,159 @@ export class TaulaPrincipalComponent {
 
   dejarEditar() {
     this.editando = null;
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    // Verifica si la tecla deseada está presionada
+    console.log(event.key);
+
+    if (event.key === 'Backspace' || event.key === 'Delete') { // Cambia 'Enter' a la tecla que desees usar
+      // Llama al método que corresponde al evento (click)
+      this.eliminar();
+    } else if (event.key === 'Enter' && this.editando === null) {
+      this.editar();
+    } else if (event.key === 'Enter' && this.editando != null) {
+      this.dejarEditar();
+    }
+  }
+
+  eliminarIcona(endpoint: string) {
+    const token = window.sessionStorage.getItem("auth-token"); // Reemplaza con el valor real de tu token
+    console.log(token);
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.delete(endpoint, { headers: headers });
+  }
+
+  saveIcona(endpoint: string, formData: any) {
+    return this.http.post(endpoint, formData);
+  }
+
+  canviarIcona(iconaPar: string, data: string, xofer: any) {
+    var trobat: boolean = false;
+    var icona: any = null;
+    var endpoint:string = "";
+
+    for (let iconaPassar of this.icones) {
+
+      console.log(iconaPassar.icona + " " + iconaPar + "\n" + iconaPassar.data + " " + data + "\n" + iconaPassar.id_xofer.id + " " + xofer.id);
+
+
+        if (iconaPassar.data === data && iconaPassar.id_xofer.id === xofer.id) {
+            // Hacer algo con el objeto 'icona' que coincida
+            trobat = true;
+            icona = iconaPassar;
+        }
+    }
+
+    console.log(trobat);
+
+
+    if (trobat) {
+      endpoint = "http://localhost:8181/Icones/" + icona.id;
+
+      if (endpoint) {
+        this.eliminarIcona(endpoint).subscribe(
+          (response) => {
+            console.log('Formulario enviado correctamente');
+            this.enviado = true;
+          },
+          (error) => {
+            console.error('Error al enviar el formulario:', error);
+            this.enviado = false;
+          }
+        );
+      } else {
+        console.error('Endpoint no válido');
+      }
+    }
+
+    const requestBody = {
+      icona: iconaPar,
+      data: data,
+      id_xofer: {id: +xofer.id}
+    };
+
+    console.log("Request body: " + requestBody);
+
+    endpoint = "http://localhost:8181/Icones";
+
+    if (endpoint) {
+      this.saveIcona(endpoint, requestBody).subscribe(
+        (response) => {
+          console.log('Formulario enviado correctamente');
+          this.enviado = true;
+          this.eventosService.emitXoferCreated();
+          this.cargarIcones();
+        },
+        (error) => {
+          console.error('Error al enviar el formulario:', error);
+          this.enviado = false;
+        }
+      );
+    } else {
+      console.error('Endpoint no válido');
+    }
+  }
+
+  dividir() {
+    this.viatgeService.retornarViatgeUnic(this.marcadoService.obtenerElementosSuperioresMarcados()[0].id)
+    .subscribe((viatge: any) => {
+      const endpoint = "http://localhost:8181/Viatge/" + viatge.id;
+      let requestBody;
+
+      console.log(viatge);
+
+      if (viatge.dividit === 1) {
+        requestBody = {
+          id: viatge.id,
+          id_direccio_origen: { id: +viatge.id_direccio_origen.id },
+          id_direccio_desti: { id: +viatge.id_direccio_desti.id },
+          comentari: viatge.comentari,
+          id_ruta: { id: +viatge.id_ruta.id },
+          dia: viatge.dia,
+          tipus: viatge.tipus,
+          data_inicial: viatge.data_inicial,
+          n_comanda: viatge.n_comanda,
+          dividit: 0
+        };
+      } else {
+        requestBody = {
+          id: viatge.id,
+          id_direccio_origen: { id: +viatge.id_direccio_origen.id },
+          id_direccio_desti: { id: +viatge.id_direccio_desti.id },
+          comentari: viatge.comentari,
+          id_ruta: { id: +viatge.id_ruta.id },
+          dia: viatge.dia,
+          tipus: viatge.tipus,
+          data_inicial: viatge.data_inicial,
+          n_comanda: viatge.n_comanda,
+          dividit: 1
+        };
+      }
+
+      console.log(requestBody);
+
+      if (endpoint) {
+        this.updateFormData(endpoint, requestBody).subscribe(
+          (response) => {
+            console.log('Formulario enviado correctamente');
+            this.enviado = true;
+            this.cargarXofers(); // Llama al método para cargar los xofers al iniciar el componente
+            this.cargarViatges();
+            this.eventosService.emitViatgeDeleted();
+          },
+          (error) => {
+            console.error('Error al enviar el formulario:', error);
+            this.enviado = false;
+          }
+        );
+      } else {
+        console.error('Endpoint no válido');
+      }
+    });
   }
 }

@@ -19,12 +19,16 @@ export class PopupModificarViatgeComponent {
   @Output() xoferModificado: EventEmitter<any> = new EventEmitter();
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   hideRequiredControl = new FormControl(false);
+  amagarControl;
+  selectedDate;
   comentariControl;
+  comandaControl;
   options: FormGroup;
   camions: any = null;
   remolcs: any = null;
   enviado: boolean | null = null;
   externControl;
+  data_inicial: string = this.data.viatge.data_inicial;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
@@ -37,6 +41,9 @@ export class PopupModificarViatgeComponent {
     console.log(this.data.xofer);
     this.comentariControl = new FormControl(this.data.viatge.comentari);
     this.externControl = new FormControl(this.data.viatge.externa);
+    this.comandaControl = new FormControl(this.data.viatge.n_comanda);
+    this.selectedDate = new FormControl(this.data.viatge.data_inicial);
+    this.amagarControl = new FormControl(this.data.viatge.amagat);
 
     this.options = this._formBuilder.group({
       comentariControl: this.comentariControl,
@@ -77,12 +84,19 @@ export class PopupModificarViatgeComponent {
       var endpoint = "http://localhost:8181/Viatge/" + this.data.viatge.id;
 
       const comentariValue = this.comentariControl.value;
-      var externValue
+      var varExtern;
+      var varAmagat;
 
-      if (this.externControl.value){
-        externValue = 1;
+      if (this.externControl.value === "") {
+        varExtern = null;
       } else {
-        externValue = 0
+        varExtern = this.externControl.value;
+      }
+
+      if (this.amagarControl.value) {
+        varAmagat = 1;
+      } else {
+        varAmagat = 0;
       }
 
       const requestBody = {
@@ -90,8 +104,11 @@ export class PopupModificarViatgeComponent {
         id_direccio_origen: { id: +this.data.viatge.id_direccio_origen.id },
         id_direccio_desti: { id: +this.data.viatge.id_direccio_desti.id },
         comentari: comentariValue,
-        externa: externValue,
-        tipus: this.obtenerTipo()
+        externa: varExtern,
+        tipus: this.obtenerTipo(),
+        data_inicial: this.data_inicial,
+        n_comanda: this.comandaControl.value,
+        amagat: varAmagat
       };
 
       console.log(requestBody);
@@ -103,6 +120,8 @@ export class PopupModificarViatgeComponent {
             console.log('Formulario enviado correctamente');
             this.enviado = true;
             this.xoferModificado.emit();
+            this.eventosService.emitViatgeCreated();
+            this.options.reset();
           },
           (error) => {
             console.error('Error al enviar el formulario:', error);
@@ -163,5 +182,13 @@ export class PopupModificarViatgeComponent {
       'Authorization': `Bearer ${token}`
     });
     return this.http.delete(endpoint, { headers: headers });
+  }
+
+  setDate(selectedDate: Date) {
+    const year = selectedDate.getFullYear();
+    const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0'); // Añade 0 si es necesario
+    const day = selectedDate.getDate().toString().padStart(2, '0'); // Añade 0 si es necesario
+
+    this.data_inicial = `${year}-${month}-${day}`;
   }
 }

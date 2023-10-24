@@ -16,5 +16,7 @@ public interface IXoferNoDisponibleService {
 	
 	public void eliminarXoferNoDisponible(int id);
 	
+	public List<XoferNoDisponible> findByXofer(int id_xofer);
 	
+	public void deleteByXofer(int id_xofer);
 }

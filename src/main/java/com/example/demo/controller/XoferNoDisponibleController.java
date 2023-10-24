@@ -22,6 +22,16 @@ public class XoferNoDisponibleController {
 	@Autowired
 	XoferNoDisponibleServiceIMPL XoferNoDisponibleServiceImpl;
 
+	@GetMapping("/XoferNoDisponible/Xofer/{id}")
+	public List<XoferNoDisponible> listarXoferNoDisponiblesPerXofer(@PathVariable(name = "id") int Codigo) {
+		return XoferNoDisponibleServiceImpl.findByXofer(Codigo);
+	}
+	
+	@DeleteMapping("/XoferNoDisponible/Xofer/{id}")
+	public void eliminarXoferNoDisponiblesPerXofer(@PathVariable(name = "id") int Codigo) {
+		XoferNoDisponibleServiceImpl.deleteByXofer(Codigo);
+	}
+	
 	@GetMapping("/XoferNoDisponible")
 	public List<XoferNoDisponible> listarXoferNoDisponibles() {
 		return XoferNoDisponibleServiceImpl.listarXoferNoDisponible();

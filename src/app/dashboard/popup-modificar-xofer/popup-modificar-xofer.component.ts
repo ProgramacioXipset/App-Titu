@@ -1,3 +1,4 @@
+import { NoDisponibleService } from './../../servicios/no-disponible.service';
 import { Component, Inject, EventEmitter, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
@@ -13,6 +14,7 @@ import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatSelect } from '@angular/material/select';
 import { PopupModificarRemolcComponent } from '../popup-modificar-remolc/popup-modificar-remolc.component';
 import { DateService } from 'src/app/servicios/data.service';
+import * as moment from 'moment';
 
 const dniPattern = /^[0-9]{8}[A-Za-z]$/;
 const telPattern = /^[0-9]{9}$/
@@ -39,15 +41,15 @@ export class PopupModificarXoferComponent {
   camions: any = null;
   remolcs: any = null;
   enviado: boolean | null = null;
+  xofersNoDisponibles:any = null;
 
-  // modelPredefined: String[] = [
-  //   "7-15-1966"
-  // ];
+  public reactiveControl;
+  modelPredefined: Date[] = [];
 
-  // public dynamicName = 'reactiveFormControl';
-  // public reactiveForm = new UntypedFormGroup({
-  //   [this.dynamicName]: new UntypedFormControl(this.modelPredefined)
-  // });
+  public dynamicName = 'reactiveFormControl';
+  public reactiveForm = new UntypedFormGroup({
+    [this.dynamicName]: new UntypedFormControl(this.modelPredefined)
+  });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
@@ -64,14 +66,17 @@ export class PopupModificarXoferComponent {
     this.telefonControl = new FormControl(this.data.xofer.telefon, Validators.pattern(telPattern));
     this.emailControl = new FormControl(this.data.xofer.email, Validators.email);
     this.dniControl = new FormControl(this.data.xofer.dni, Validators.pattern(dniPattern));
+    this.xofersNoDisponibles = this.data.xofer.xofer_no_disponible;
+
+    this.pasarADateYAssignar();
+    this.reactiveControl = new UntypedFormControl(this.modelPredefined);
 
     this.options = this._formBuilder.group({
       nomControl: this.nomControl,
       cognomControl: this.cognomControl,
       telefonControl: this.telefonControl,
       emailControl: this.emailControl,
-      dniControl: this.dniControl,
-      //modelPredefined: this.modelPredefined
+      dniControl: this.dniControl
     });
   }
   ngOnInit(): void {
@@ -266,5 +271,85 @@ export class PopupModificarXoferComponent {
       .subscribe((result: any) => {
         this.remolcs = result;
     });
+  }
+
+  pasarADateYAssignar() {
+    console.log(this.xofersNoDisponibles);
+
+    for (const xoferNoDisponible of this.xofersNoDisponibles) {
+      const [year, month, day] = xoferNoDisponible.dia.split("-");
+      const fecha = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+
+      this.modelPredefined.push(fecha)
+    }
+  }
+
+  actualizarNoDisponible() {
+    console.log(this.reactiveControl.value);
+
+    var endpoint = "http://localhost:8181/XoferNoDisponible/Xofer/" + this.data.xofer.id;
+
+    if (endpoint) {
+      this.eliminarXofer(endpoint).subscribe(
+        (response) => {
+          console.log('Formulario enviado correctamente');
+          this.enviado = true;
+          this.options.reset();
+          this.xoferModificado.emit();
+          this.dialog.closeAll();
+        },
+        (error) => {
+          console.error('Error al enviar el formulario:', error);
+          this.enviado = false;
+        }
+      );
+    } else {
+      console.error('Endpoint no válido');
+    }
+
+    endpoint = "http://localhost:8181/XoferNoDisponible";
+
+    for (const fecha of this.reactiveControl.value) {
+
+      const requestBody = {
+        id_xofer: { id: +this.data.xofer.id },
+        dia: this.formatDate(fecha)
+      };
+
+      console.log(requestBody);
+
+
+      if (endpoint) {
+        this.saveFormData(endpoint, requestBody).subscribe(
+          (response) => {
+            console.log('Formulario enviado correctamente');
+            this.enviado = true;
+            this.options.reset();
+          },
+          (error) => {
+            console.error('Error al enviar el formulario:', error);
+            this.enviado = false;
+          }
+        );
+      } else {
+        console.error('Endpoint no válido');
+      }
+    }
+  }
+
+  private formatDate(date: Date): string {
+    console.log(date);
+
+    return (
+      date.getFullYear() +
+      '-' +
+      (date.getMonth() + 1) +
+      '-' +
+      date.getDate()
+    );
+  }
+
+  saveFormData(endpoint: string, formData: any) {
+    return this.http.post(endpoint, formData);
   }
 }

@@ -43,5 +43,17 @@ public class RemolcNoDisponibleServiceIMPL implements IRemolcNoDisponibleService
 		// TODO Auto-generated method stub
 		iRemolcNoDisponibleDAO.deleteById(id);
 	}
+
+	@Override
+	public List<RemolcNoDisponible> findByRemolc(int id_remolc) {
+		// TODO Auto-generated method stub
+		return iRemolcNoDisponibleDAO.findByRemolc(id_remolc);
+	}
+
+	@Override
+	public void deleteByRemolc(int id_remolc) {
+		// TODO Auto-generated method stub
+		iRemolcNoDisponibleDAO.deleteByRemolc(id_remolc);
+	}
 	
 }

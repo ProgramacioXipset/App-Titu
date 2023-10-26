@@ -23,6 +23,16 @@ public class CamioNoDisponibleController {
 	@Autowired
 	CamioNoDisponibleServiceIMPL CamioNoDisponibleServiceImpl;
 
+	@GetMapping("/CamioNoDisponible/Camio/{id}")
+	public List<CamioNoDisponible> listarCamioNoDisponiblesPerCamio(@PathVariable(name = "id") int Codigo) {
+		return CamioNoDisponibleServiceImpl.findByCamio(Codigo);
+	}
+	
+	@DeleteMapping("/CamioNoDisponible/Camio/{id}")
+	public void eliminarCamioNoDisponiblesPerCamio(@PathVariable(name = "id") int Codigo) {
+		CamioNoDisponibleServiceImpl.deleteByCamio(Codigo);
+	}
+	
 	@GetMapping("/CamioNoDisponible")
 	public List<CamioNoDisponible> listarCamioNoDisponibles() {
 		return CamioNoDisponibleServiceImpl.listarCamioNoDisponible();

@@ -16,4 +16,8 @@ public interface ICamioNoDisponibleService {
 	
 	public void eliminarCamioNoDisponible(int id);
 	
+	public List<CamioNoDisponible> findByCamio(int id_camio);
+	
+	public void deleteByCamio(int id_camio);
+	
 }

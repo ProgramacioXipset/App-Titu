@@ -39,6 +39,18 @@ public class CamioNoDisponibleServiceIMPL implements ICamioNoDisponibleService {
 		iCamioNoDisponibleDAO.deleteById(id);
 	}
 
+	@Override
+	public List<CamioNoDisponible> findByCamio(int id_camio) {
+		// TODO Auto-generated method stub
+		return iCamioNoDisponibleDAO.findByCamio(id_camio);
+	}
+
+	@Override
+	public void deleteByCamio(int id_camio) {
+		// TODO Auto-generated method stub
+		iCamioNoDisponibleDAO.deleteByCamio(id_camio);
+	}
+
 	
 	
 }

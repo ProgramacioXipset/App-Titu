@@ -30,7 +30,7 @@ public class Camio {
     @JsonIgnoreProperties("id_camio")
 	private List<Xofer> xofer;
 	
-	@OneToMany(mappedBy = "camio", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "id_camio", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("camio")
 	private List<CamioNoDisponible> camio_no_disponible;
 

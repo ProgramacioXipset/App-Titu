@@ -10,8 +10,8 @@
             <th>Accions</th>
         </tr>
         <tr *ngFor="let xofer of xofers" [ngClass]="{'sin_camion': xofer.id_camio.id === 1 || xofer.id_remolc.id === 1}">
-            <td class="xofer" (click)="openDialog(xofer)">{{ xofer.nom }}</td>
-            <td class="icones" [matMenuTriggerFor]="menu1">
+            <td class="xofer" (click)="openDialog(xofer)" [ngClass]="{'no_disponible_xofer': noDisponible(xofer, dataAvuiFormatejada), 'sin_camion_xofer': noDisponibleCamio(xofer, dataAvuiFormatejada)}">{{ xofer.nom }}</td>
+            <td class="icones" [matMenuTriggerFor]="menu1" [ngClass]="{'no_disponible': noDisponible(xofer, dataAvuiFormatejada), 'sin_camion': noDisponibleCamio(xofer, dataAvuiFormatejada)}">
               <div *ngFor="let icona of icones" style="width: 100%;">
                 <button *ngIf="icona.data === dataAvuiFormatejada && icona.id_xofer.id === xofer.id;" style="border: none; height: 100%; width: 100%;">
                   {{ icona.icona }}
@@ -25,7 +25,7 @@
                 <button mat-menu-item (click)="canviarIcona('', dataAvuiFormatejada, xofer)">Eliminar</button>
               </mat-menu>
             </td>
-            <td class="d-flex flex-row rutas flex-wrap" (click)="afegir(xofer, dataAvuiFormatejada)">
+            <td class="d-flex flex-row rutas flex-wrap" (click)="afegir(xofer, dataAvuiFormatejada)" [ngClass]="{'no_disponible': noDisponible(xofer, dataAvuiFormatejada), 'sin_camion': noDisponibleCamio(xofer, dataAvuiFormatejada)}">
               <div *ngFor="let ruta of xofer.ruta" [ngClass]="{'primer-viaje': pipeAzul(ruta, true, this.dateService.dataAvui), 'ultimo-viaje': pipeAzul(ruta, false, this.dateService.dataAvui), 'marcado': marcadoService.obtenerRutasMarcadas().includes(ruta), 'editando': this.editando === ruta}">
                 <ng-container *ngIf="colocarPipes(ruta, dataAvuiFormatejada) && !pipeAzul(ruta, true, this.dateService.dataAvui)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, true, this.dateService.dataAvui)}"> | </span></ng-container>
                 <ng-container *ngFor="let dividits of ruta.viatge">
@@ -66,8 +66,8 @@
                 <ng-container *ngIf="colocarPipes(ruta, dataAvuiFormatejada) && !pipeAzul(ruta, false, this.dateService.dataAvui)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, false, this.dateService.dataAvui)}"> | </span></ng-container>
               </div>
             </td>
-            <td class="xofer" (click)="openDialog(xofer)">{{ xofer.nom }}</td>
-            <td class="icones" [matMenuTriggerFor]="menu2">
+            <td class="xofer" (click)="openDialog(xofer)" [ngClass]="{'no_disponible_xofer': noDisponible(xofer, dataDemaFormatejada), 'sin_camion_xofer': noDisponibleCamio(xofer, dataDemaFormatejada)}">{{ xofer.nom }}</td>
+            <td class="icones" [matMenuTriggerFor]="menu2" [ngClass]="{'no_disponible': noDisponible(xofer, dataDemaFormatejada), 'sin_camion': noDisponibleCamio(xofer, dataDemaFormatejada)}">
               <div *ngFor="let icona of icones" style="width: 100%;">
                 <button *ngIf="icona.data === dataDemaFormatejada && icona.id_xofer.id === xofer.id;" style="border: none; height: 100%; width: 100%;">
                   {{ icona.icona }}
@@ -81,7 +81,7 @@
                 <button mat-menu-item (click)="canviarIcona('', dataDemaFormatejada, xofer)">Eliminar</button>
               </mat-menu>
             </td>
-            <td class="d-flex flex-row rutas flex-wrap" (click)="afegir(xofer, dataDemaFormatejada)">
+            <td class="d-flex flex-row rutas flex-wrap" (click)="afegir(xofer, dataDemaFormatejada)" [ngClass]="{'no_disponible': noDisponible(xofer, dataDemaFormatejada), 'sin_camion': noDisponibleCamio(xofer, dataDemaFormatejada)}">
               <div *ngFor="let ruta of xofer.ruta"  [ngClass]="{'primer-viaje': pipeAzul(ruta, true, this.dateService.dataDema), 'ultimo-viaje': pipeAzul(ruta, false, this.dateService.dataDema), 'marcado': marcadoService.obtenerRutasMarcadas().includes(ruta), 'editando': this.editando === ruta}">
                 <ng-container *ngIf="colocarPipes(ruta, dataDemaFormatejada) && !pipeAzul(ruta, true, this.dateService.dataDema)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, true, this.dateService.dataDema)}"> | </span></ng-container>
                 <ng-container *ngFor="let dividits of ruta.viatge">

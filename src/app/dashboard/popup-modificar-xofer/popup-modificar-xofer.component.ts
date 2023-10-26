@@ -1,4 +1,3 @@
-import { NoDisponibleService } from './../../servicios/no-disponible.service';
 import { Component, Inject, EventEmitter, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
@@ -14,7 +13,6 @@ import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatSelect } from '@angular/material/select';
 import { PopupModificarRemolcComponent } from '../popup-modificar-remolc/popup-modificar-remolc.component';
 import { DateService } from 'src/app/servicios/data.service';
-import * as moment from 'moment';
 
 const dniPattern = /^[0-9]{8}[A-Za-z]$/;
 const telPattern = /^[0-9]{9}$/
@@ -242,7 +240,7 @@ export class PopupModificarXoferComponent {
     console.log(remolcEnviar);
 
     const dialogRef = this.dialog.open(PopupModificarRemolcComponent, {
-      data: {camio: remolcEnviar, xofer: this.data.xofer },
+      data: {remolc: remolcEnviar, xofer: this.data.xofer },
       height: '500px',
       width: '700px',
     });
@@ -338,15 +336,11 @@ export class PopupModificarXoferComponent {
   }
 
   private formatDate(date: Date): string {
-    console.log(date);
+    const year = date.getFullYear().toString();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
 
-    return (
-      date.getFullYear() +
-      '-' +
-      (date.getMonth() + 1) +
-      '-' +
-      date.getDate()
-    );
+    return `${year}-${month}-${day}`;
   }
 
   saveFormData(endpoint: string, formData: any) {

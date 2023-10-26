@@ -529,4 +529,31 @@ export class TaulaPrincipalComponent {
       }
     });
   }
+
+
+  noDisponible(xofer:any, dia:string) {
+    for (const noDisponible of xofer.xofer_no_disponible) {
+      if (noDisponible.dia === dia) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  noDisponibleCamio(xofer:any, dia:string) {
+    for (const noDisponible of xofer.id_camio.camio_no_disponible) {
+      if (noDisponible.dia === dia) {
+        return true;
+      }
+    }
+
+    for (const noDisponible of xofer.id_remolc.poden_estar_remolc) {
+      if (noDisponible.dia === dia) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

@@ -68,7 +68,20 @@ td, th {
   pointer-events: none;
 }
 
-.sin_camion .xofer {
+.sin_camion_xofer {
+  background-color: rgb(250, 250, 177);
+}
+
+.no_disponible {
+  background-color: rgba(218, 218, 218, 0.616);
+  pointer-events: none;
+}
+
+.no_disponible_xofer {
+  background-color: rgba(218, 218, 218, 0.616);
+}
+
+.sin_camion .xofer, .no_disponible .xofer {
   pointer-events: auto;
 }
 

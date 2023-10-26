@@ -1,9 +1,10 @@
 import { Component, Inject, EventEmitter, Output, Input } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
+import { DateService } from 'src/app/servicios/data.service';
 
 const matriculaPattern = /^[0-9]{4}[A-Za-z]{3}$/;
 
@@ -20,10 +21,25 @@ export class PopupModificarRemolcComponent {
   options: FormGroup;
   matriculaControl = new FormControl(this.data.remolc.matricula, Validators.pattern(matriculaPattern));
 
+  remolcsNoDisponibles:any = null;
+  public reactiveControl;
+  modelPredefined: Date[] = [];
+
+  public dynamicName = 'reactiveFormControl';
+  public reactiveForm = new UntypedFormGroup({
+    [this.dynamicName]: new UntypedFormControl(this.modelPredefined)
+  });
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
     private http: HttpClient,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    public dataService: DateService) {
+
+    this.remolcsNoDisponibles = this.data.remolc.poden_estar_remolc;
+
+    this.pasarADateYAssignar();
+    this.reactiveControl = new UntypedFormControl(this.modelPredefined);
 
     this.options = this._formBuilder.group({
       floatLabel: this.floatLabelControl,
@@ -150,6 +166,78 @@ export class PopupModificarRemolcComponent {
       'Authorization': `Bearer ${token}`
     });
     return this.http.delete(endpoint, { headers: headers });
+  }
+
+  pasarADateYAssignar() {
+    console.log(this.remolcsNoDisponibles);
+
+    for (const xoferNoDisponible of this.remolcsNoDisponibles) {
+      const [year, month, day] = xoferNoDisponible.dia.split("-");
+      const fecha = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+
+      this.modelPredefined.push(fecha)
+    }
+  }
+
+  actualizarNoDisponible() {
+    console.log(this.reactiveControl.value);
+
+    var endpoint = "http://localhost:8181/RemolcNoDisponible/Remolc/" + this.data.remolc.id;
+
+    if (endpoint) {
+      this.eliminarRemolc(endpoint).subscribe(
+        (response) => {
+          console.log('Formulario enviado correctamente');
+          this.enviado = true;
+        },
+        (error) => {
+          console.error('Error al enviar el formulario:', error);
+          this.enviado = false;
+        }
+      );
+    } else {
+      console.error('Endpoint no válido');
+    }
+
+    endpoint = "http://localhost:8181/RemolcNoDisponible";
+
+    for (const fecha of this.reactiveControl.value) {
+
+      const requestBody = {
+        id_remolc: { id: +this.data.remolc.id },
+        dia: this.formatDate(fecha)
+      };
+
+      console.log(requestBody);
+
+
+      if (endpoint) {
+        this.saveFormData(endpoint, requestBody).subscribe(
+          (response) => {
+            console.log('Formulario enviado correctamente');
+            this.enviado = true;
+          },
+          (error) => {
+            console.error('Error al enviar el formulario:', error);
+            this.enviado = false;
+          }
+        );
+      } else {
+        console.error('Endpoint no válido');
+      }
+    }
+  }
+
+  private formatDate(date: Date): string {
+    const year = date.getFullYear().toString();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  }
+
+  saveFormData(endpoint: string, formData: any) {
+    return this.http.post(endpoint, formData);
   }
 
   openCamio(): void {

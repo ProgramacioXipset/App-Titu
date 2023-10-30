@@ -74,6 +74,10 @@ public class ViatgeController {
 		Viatge_seleccionado.setId_ruta(Viatge.getId_ruta());
 		Viatge_seleccionado.setExterna(Viatge.getExterna());
 		Viatge_seleccionado.setTipus(Viatge.getTipus());
+		Viatge_seleccionado.setData_inicial(Viatge.getData_inicial());
+		Viatge_seleccionado.setN_comanda(Viatge.getN_comanda());
+		Viatge_seleccionado.setAmagat(Viatge.getAmagat());
+		Viatge_seleccionado.setDividit(Viatge.getDividit());
 
 		Viatge_actualizado = ViatgeServiceImpl.actualizarViatge(Viatge_seleccionado);
 

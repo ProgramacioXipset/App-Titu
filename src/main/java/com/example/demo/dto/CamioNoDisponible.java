@@ -18,7 +18,7 @@ public class CamioNoDisponible {
     @ManyToOne
     @JoinColumn(name = "id_camio")
     @JsonIgnoreProperties("camio_no_disponible")
-	Camio camio;
+	Camio id_camio;
 	
 	@Column(name = "dia")//no hace falta si se llama igual
 	private Date dia;
@@ -27,10 +27,10 @@ public class CamioNoDisponible {
 		super();
 	}
 
-	public CamioNoDisponible(int id, Camio camio, Date dia) {
+	public CamioNoDisponible(int id, Camio id_camio, Date dia) {
 		super();
 		this.id = id;
-		this.camio = camio;
+		this.id_camio = id_camio;
 		this.dia = dia;
 	}
 
@@ -43,11 +43,11 @@ public class CamioNoDisponible {
 	}
 
 	public Camio getCamio() {
-		return camio;
+		return id_camio;
 	}
 
-	public void setCamio(Camio camio) {
-		this.camio = camio;
+	public void setCamio(Camio id_camio) {
+		this.id_camio = id_camio;
 	}
 
 	public Date getDia() {
@@ -60,7 +60,7 @@ public class CamioNoDisponible {
 
 	@Override
 	public String toString() {
-		return "CamioNoDisponible [id=" + id + ", camio=" + camio + ", dia=" + dia + "]";
+		return "CamioNoDisponible [id=" + id + ", id_camio=" + id_camio + ", dia=" + dia + "]";
 	}
 	
 }

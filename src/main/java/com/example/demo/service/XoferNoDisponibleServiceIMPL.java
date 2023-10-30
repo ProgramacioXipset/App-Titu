@@ -43,5 +43,17 @@ public class XoferNoDisponibleServiceIMPL implements IXoferNoDisponibleService {
 		// TODO Auto-generated method stub
 		iXoferNoDisponibleDAO.deleteById(id);
 	}
+
+	@Override
+	public List<XoferNoDisponible> findByXofer(int id_xofer) {
+		// TODO Auto-generated method stub
+		return iXoferNoDisponibleDAO.findByXofer(id_xofer);
+	}
+
+	@Override
+	public void deleteByXofer(int id_xofer) {
+		// TODO Auto-generated method stub
+		iXoferNoDisponibleDAO.deleteByXofer(id_xofer);
+	}
 	
 }

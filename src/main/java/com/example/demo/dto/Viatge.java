@@ -41,17 +41,30 @@ public class Viatge {
 	Ruta id_ruta;
 	
 	@Column(name = "externa")//no hace falta si se llama igual
-	private Integer externa;
+	private String externa;
 	
 	@Column(name = "tipus")//no hace falta si se llama igual
 	private Integer tipus;
+	
+	@Column(name = "data_inicial")//no hace falta si se llama igual
+	private String data_inicial;
+	
+	@Column(name = "n_comanda")//no hace falta si se llama igual
+	private String n_comanda;
+	
+	@Column(name = "amagat")//no hace falta si se llama igual
+	private Integer amagat;
+	
+	@Column(name = "dividit")//no hace falta si se llama igual
+	private Integer dividit;
 
 	public Viatge() {
 		super();
 	}
 
 	public Viatge(int id, Direccio id_direccio_origen, Direccio id_direccio_desti, String comentari, String dia,
-			Ruta id_ruta, Integer externa, Integer tipus) {
+			Ruta id_ruta, String externa, Integer tipus, String data_inicial, String n_comanda, Integer amagat,
+			Integer dividit) {
 		super();
 		this.id = id;
 		this.id_direccio_origen = id_direccio_origen;
@@ -61,6 +74,34 @@ public class Viatge {
 		this.id_ruta = id_ruta;
 		this.externa = externa;
 		this.tipus = tipus;
+		this.data_inicial = data_inicial;
+		this.n_comanda = n_comanda;
+		this.amagat = amagat;
+		this.dividit = dividit;
+	}
+
+	public Integer getAmagat() {
+		return amagat;
+	}
+
+	public void setAmagat(Integer amagat) {
+		this.amagat = amagat;
+	}
+
+	public String getN_comanda() {
+		return n_comanda;
+	}
+
+	public void setN_comanda(String n_comanda) {
+		this.n_comanda = n_comanda;
+	}
+
+	public String getData_inicial() {
+		return data_inicial;
+	}
+
+	public void setData_inicial(String data_inicial) {
+		this.data_inicial = data_inicial;
 	}
 
 	public int getId() {
@@ -111,11 +152,11 @@ public class Viatge {
 		this.id_ruta = id_ruta;
 	}
 	
-	public Integer getExterna() {
+	public String getExterna() {
 		return externa;
 	}
 
-	public void setExterna(Integer externa) {
+	public void setExterna(String externa) {
 		this.externa = externa;
 	}
 	
@@ -127,10 +168,20 @@ public class Viatge {
 		this.tipus = tipus;
 	}
 
+	public Integer getDividit() {
+		return dividit;
+	}
+
+	public void setDividit(Integer dividit) {
+		this.dividit = dividit;
+	}
+
 	@Override
 	public String toString() {
 		return "Viatge [id=" + id + ", id_direccio_origen=" + id_direccio_origen + ", id_direccio_desti="
 				+ id_direccio_desti + ", comentari=" + comentari + ", dia=" + dia + ", id_ruta=" + id_ruta
-				+ ", externa=" + externa + ", tipus=" + tipus + "]";
+				+ ", externa=" + externa + ", tipus=" + tipus + ", data_inicial=" + data_inicial + ", n_comanda="
+				+ n_comanda + ", amagat=" + amagat + ", dividit=" + dividit + "]";
 	}
+
 }

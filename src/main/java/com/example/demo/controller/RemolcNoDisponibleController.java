@@ -21,7 +21,17 @@ import com.example.demo.service.RemolcNoDisponibleServiceIMPL;
 public class RemolcNoDisponibleController {
 	@Autowired
 	RemolcNoDisponibleServiceIMPL RemolcNoDisponibleServiceImpl;
-
+	
+	@GetMapping("/RemolcNoDisponible/Remolc/{id}")
+	public List<RemolcNoDisponible> listarRemolcNoDisponibleRemolc(@PathVariable(name = "id") int Codigo) {
+		return RemolcNoDisponibleServiceImpl.findByRemolc(Codigo);
+	}
+	
+	@DeleteMapping("/RemolcNoDisponible/Remolc/{id}")
+	public void eliminarCamioNoDisponiblesPerCamio(@PathVariable(name = "id") int Codigo) {
+		RemolcNoDisponibleServiceImpl.deleteByRemolc(Codigo);
+	}
+	
 	@GetMapping("/RemolcNoDisponible")
 	public List<RemolcNoDisponible> listarRemolcNoDisponibles() {
 		return RemolcNoDisponibleServiceImpl.listarRemolcNoDisponible();

@@ -16,5 +16,7 @@ public interface IRemolcNoDisponibleService {
 	
 	public void eliminarRemolcNoDisponible(int id);
 	
+	public List<RemolcNoDisponible> findByRemolc(int id_remolc);
 	
+	public void deleteByRemolc(int id_remolc);
 }

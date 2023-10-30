@@ -108,7 +108,7 @@ export class PopupModificarCamioComponent {
         const formData = this.options.value;
 
         const nomValue = this.data.xofer.nom;
-        const cognomValue = this.data.xofer.cognom;
+        const cognomValue = this.data.xofer.cognoms;
         const telefonValue = this.data.xofer.telefon;
         const emailValue = this.data.xofer.email;
         const dniValue = this.data.xofer.dni;
@@ -132,6 +132,8 @@ export class PopupModificarCamioComponent {
             (response) => {
               console.log('Formulario enviado correctamente');
               this.enviado = true;
+              this.camionModificado.emit();
+              this.xoferJaModificat(endpoint);
             },
             (error) => {
               console.error('Error al enviar el formulario:', error);
@@ -142,23 +144,25 @@ export class PopupModificarCamioComponent {
           console.error('Endpoint no válido');
         }
       }
+    }
+  }
 
-      if (endpoint) {
-        this.eliminarCamio(endpoint).subscribe(
-          (response) => {
-            console.log('Formulario enviado correctamente');
-            this.enviado = true;
-            this.options.reset();
-            this.camionModificado.emit();
-          },
-          (error) => {
-            console.error('Error al enviar el formulario:', error);
-            this.enviado = false;
-          }
-        );
-      } else {
-        console.error('Endpoint no válido');
-      }
+  xoferJaModificat(endpoint: string) {
+    if (endpoint) {
+      this.eliminarCamio(endpoint).subscribe(
+        (response) => {
+          console.log('Formulario enviado correctamente');
+          this.enviado = true;
+          this.options.reset();
+          this.camionModificado.emit();
+        },
+        (error) => {
+          console.error('Error al enviar el formulario:', error);
+          this.enviado = false;
+        }
+      );
+    } else {
+      console.error('Endpoint no válido');
     }
   }
 

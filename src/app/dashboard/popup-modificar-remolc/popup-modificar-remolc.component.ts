@@ -101,10 +101,12 @@ export class PopupModificarRemolcComponent {
 
     if (confirmed) {
       if (this.data.xofer.id_remolc.id === this.data.remolc.id) {
+
+
         const formData = this.options.value;
 
         const nomValue = this.data.xofer.nom;
-        const cognomValue = this.data.xofer.cognom;
+        const cognomValue = this.data.xofer.cognoms;
         const telefonValue = this.data.xofer.telefon;
         const emailValue = this.data.xofer.email;
         const dniValue = this.data.xofer.dni;
@@ -116,8 +118,8 @@ export class PopupModificarRemolcComponent {
           telefon: telefonValue,
           email: emailValue,
           dni: dniValue,
-          id_camio: { id: 1 },
-          id_remolc: { id: +this.data.xofer.id_remolc.id }
+          id_camio: { id: +this.data.xofer.id_camio.id },
+          id_remolc: { id: 1 }
         };
 
         console.log(requestBody);
@@ -128,6 +130,9 @@ export class PopupModificarRemolcComponent {
             (response) => {
               console.log('Formulario enviado correctamente');
               this.enviado = true;
+              this.remolcModificado.emit();
+              this.xoferJaModificat(endpoint);
+              console.log("Xofer modificado");
             },
             (error) => {
               console.error('Error al enviar el formulario:', error);
@@ -138,23 +143,26 @@ export class PopupModificarRemolcComponent {
           console.error('Endpoint no válido');
         }
       }
+    }
+  }
 
-      if (endpoint) {
-        this.eliminarRemolc(endpoint).subscribe(
-          (response) => {
-            console.log('Formulario enviado correctamente');
-            this.enviado = true;
-            this.options.reset();
-            this.remolcModificado.emit();
-          },
-          (error) => {
-            console.error('Error al enviar el formulario:', error);
-            this.enviado = false;
-          }
-        );
-      } else {
-        console.error('Endpoint no válido');
-      }
+  xoferJaModificat(endpoint: string){
+    if (endpoint) {
+      this.eliminarRemolc(endpoint).subscribe(
+        (response) => {
+          console.log('Formulario enviado correctamente');
+          this.enviado = true;
+          this.options.reset();
+          this.remolcModificado.emit();
+          console.log("remolque eliminado");
+        },
+        (error) => {
+          console.error('Error al enviar el formulario:', error);
+          this.enviado = false;
+        }
+      );
+    } else {
+      console.error('Endpoint no válido');
     }
   }
 

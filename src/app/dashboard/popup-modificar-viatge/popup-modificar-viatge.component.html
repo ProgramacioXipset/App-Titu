@@ -3,6 +3,13 @@
       <h1>{{ data.viatge.id_direccio_origen.poblacio }} - {{ data.viatge.id_direccio_desti.poblacio }}</h1>
   </div>
   <form [formGroup]="options" class="h-75 d-flex flex-column justify-content-around" (ngSubmit)="submitForm()">
+
+    <div class="camps d-flex justify-content-around w-100">
+      <section class="example-section d-flex justify-content-around w-75">
+        <mat-checkbox class="example-margin" [formControl]="amagarControl">Amagar viatge</mat-checkbox>
+      </section>
+    </div>
+
     <div class="camps d-flex justify-content-evenly w-100 text-center">
       <h2>Origen:</h2>
       <h3>{{ data.viatge.id_direccio_origen.adreca }}, {{ data.viatge.id_direccio_origen.poblacio }}, {{ data.viatge.id_direccio_origen.codi_postal }}</h3>
@@ -13,9 +20,24 @@
       <h3>{{ data.viatge.id_direccio_desti.adreca }}, {{ data.viatge.id_direccio_desti.poblacio }}, {{ data.viatge.id_direccio_desti.codi_postal }}</h3>
     </div>
 
+    <div class="d-flex justify-content-around">
+      <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp w-75">
+        <mat-label>Número de comanda</mat-label>
+        <input matInput [formControl]="comandaControl">
+      </mat-form-field>
+    </div>
+
     <div class="camps d-flex justify-content-around w-100">
-      <section class="example-section d-flex justify-content-around w-75">
-        <mat-checkbox class="example-margin" [formControl]="externControl">Extern/Deshabilitar</mat-checkbox>
+      <section class="example-section d-flex justify-content-around w-100">
+        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
+          <mat-label>Empresa externa</mat-label>
+          <input matInput [formControl]="externControl">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" [formControl]="selectedDate" (dateChange)="setDate($event.value)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
       </section>
     </div>
 

@@ -1,0 +1,17 @@
+<h1 class="text-center w-100">Viatges amagats</h1>
+<table class="table table-striped w-100">
+  <tr>
+    <th>Nº Comanda</th>
+    <th>Origen</th>
+    <th>Destí</th>
+    <th>Data</th>
+  </tr>
+  <tr *ngFor="let viatge of viatges" (click)="openDialog(viatge)">
+    <ng-container *ngIf="viatge.amagat === 1">
+      <td>{{ viatge.n_comanda }}</td>
+      <td>{{ viatge.id_direccio_origen.poblacio }}</td>
+      <td>{{ viatge.id_direccio_desti.poblacio }}</td>
+      <td>{{ viatge.data_inicial }}</td>
+    </ng-container>
+  </tr>
+</table>

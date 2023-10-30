@@ -1,10 +1,7 @@
 <div class="contenidor d-flex">
-    <app-taula-anada></app-taula-anada>
+    <app-taula-anada [fecha]="this.fecha"></app-taula-anada>
     <div>
-        <app-taula-tornada></app-taula-tornada>
-        <app-taula-avuixavui></app-taula-avuixavui>
+        <app-taula-tornada [fecha]="this.fecha"></app-taula-tornada>
+        <app-taula-avuixavui [fecha]="this.fecha"></app-taula-avuixavui>
     </div>
-</div>
-<div class="contenidor">
-    <app-boto-afegir-ruta></app-boto-afegir-ruta>
 </div>

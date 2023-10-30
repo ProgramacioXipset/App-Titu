@@ -1,6 +1,6 @@
-import { Component, Inject, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, Inject, EventEmitter, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { CamioService } from 'src/app/servicios/camio.service';
 import { RemolcService } from 'src/app/servicios/remolc.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -12,6 +12,7 @@ import { PopupModificarCamioComponent } from '../popup-modificar-camio/popup-mod
 import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatSelect } from '@angular/material/select';
 import { PopupModificarRemolcComponent } from '../popup-modificar-remolc/popup-modificar-remolc.component';
+import { DateService } from 'src/app/servicios/data.service';
 
 const dniPattern = /^[0-9]{8}[A-Za-z]$/;
 const telPattern = /^[0-9]{9}$/
@@ -19,7 +20,8 @@ const telPattern = /^[0-9]{9}$/
 @Component({
   selector: 'app-popup-modificar-xofer',
   templateUrl: './popup-modificar-xofer.component.html',
-  styleUrls: ['./popup-modificar-xofer.component.css']
+  styleUrls: ['./popup-modificar-xofer.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PopupModificarXoferComponent {
   @ViewChild('selectCamiones') selectCamiones!: MatSelect;
@@ -37,6 +39,15 @@ export class PopupModificarXoferComponent {
   camions: any = null;
   remolcs: any = null;
   enviado: boolean | null = null;
+  xofersNoDisponibles:any = null;
+
+  public reactiveControl;
+  modelPredefined: Date[] = [];
+
+  public dynamicName = 'reactiveFormControl';
+  public reactiveForm = new UntypedFormGroup({
+    [this.dynamicName]: new UntypedFormControl(this.modelPredefined)
+  });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
@@ -44,7 +55,8 @@ export class PopupModificarXoferComponent {
     private remolcService: RemolcService,
     private http: HttpClient,
     public dialog: MatDialog,
-    private eventosService: EventosService) {
+    private eventosService: EventosService,
+    public dataService: DateService) {
     // Accede a los datos del diálogo a través de la propiedad 'data'
     console.log(this.data.xofer);
     this.nomControl = new FormControl(this.data.xofer.nom, Validators.required);
@@ -52,6 +64,10 @@ export class PopupModificarXoferComponent {
     this.telefonControl = new FormControl(this.data.xofer.telefon, Validators.pattern(telPattern));
     this.emailControl = new FormControl(this.data.xofer.email, Validators.email);
     this.dniControl = new FormControl(this.data.xofer.dni, Validators.pattern(dniPattern));
+    this.xofersNoDisponibles = this.data.xofer.xofer_no_disponible;
+
+    this.pasarADateYAssignar();
+    this.reactiveControl = new UntypedFormControl(this.modelPredefined);
 
     this.options = this._formBuilder.group({
       nomControl: this.nomControl,
@@ -224,7 +240,7 @@ export class PopupModificarXoferComponent {
     console.log(remolcEnviar);
 
     const dialogRef = this.dialog.open(PopupModificarRemolcComponent, {
-      data: {camio: remolcEnviar, xofer: this.data.xofer },
+      data: {remolc: remolcEnviar, xofer: this.data.xofer },
       height: '500px',
       width: '700px',
     });
@@ -253,5 +269,81 @@ export class PopupModificarXoferComponent {
       .subscribe((result: any) => {
         this.remolcs = result;
     });
+  }
+
+  pasarADateYAssignar() {
+    console.log(this.xofersNoDisponibles);
+
+    for (const xoferNoDisponible of this.xofersNoDisponibles) {
+      const [year, month, day] = xoferNoDisponible.dia.split("-");
+      const fecha = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+
+      this.modelPredefined.push(fecha)
+    }
+  }
+
+  actualizarNoDisponible() {
+    console.log(this.reactiveControl.value);
+
+    var endpoint = "http://localhost:8181/XoferNoDisponible/Xofer/" + this.data.xofer.id;
+
+    if (endpoint) {
+      this.eliminarXofer(endpoint).subscribe(
+        (response) => {
+          console.log('Formulario enviado correctamente');
+          this.enviado = true;
+          this.options.reset();
+          this.xoferModificado.emit();
+          this.dialog.closeAll();
+        },
+        (error) => {
+          console.error('Error al enviar el formulario:', error);
+          this.enviado = false;
+        }
+      );
+    } else {
+      console.error('Endpoint no válido');
+    }
+
+    endpoint = "http://localhost:8181/XoferNoDisponible";
+
+    for (const fecha of this.reactiveControl.value) {
+
+      const requestBody = {
+        id_xofer: { id: +this.data.xofer.id },
+        dia: this.formatDate(fecha)
+      };
+
+      console.log(requestBody);
+
+
+      if (endpoint) {
+        this.saveFormData(endpoint, requestBody).subscribe(
+          (response) => {
+            console.log('Formulario enviado correctamente');
+            this.enviado = true;
+            this.options.reset();
+          },
+          (error) => {
+            console.error('Error al enviar el formulario:', error);
+            this.enviado = false;
+          }
+        );
+      } else {
+        console.error('Endpoint no válido');
+      }
+    }
+  }
+
+  private formatDate(date: Date): string {
+    const year = date.getFullYear().toString();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  }
+
+  saveFormData(endpoint: string, formData: any) {
+    return this.http.post(endpoint, formData);
   }
 }

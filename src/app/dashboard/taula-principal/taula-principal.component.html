@@ -2,44 +2,95 @@
     <table>
         <tr>
             <th>Xofer</th>
+            <th style="width: 3vw;"></th>
             <th class="rutas">Viatges</th>
+            <th>Xofer</th>
+            <th style="width: 3vw;"></th>
             <th class="rutas">Viatges</th>
             <th>Accions</th>
         </tr>
-          
-        <tr *ngFor="let xofer of xofers" [ngClass]="{'sin_camion': xofer.id_camio.id===1}">
-          
-            <td class="xofer" (click)="openDialog(xofer)">{{ xofer.nom }}</td>
-            <td class="d-flex flex-row rutas flex-wrap" (click)="afegir(xofer, dataAvuiFormatejada)">
+        <tr *ngFor="let xofer of xofers" [ngClass]="{'sin_camion': xofer.id_camio.id === 1 || xofer.id_remolc.id === 1}">
+            <td class="xofer" (click)="openDialog(xofer)" [ngClass]="{'no_disponible_xofer': noDisponible(xofer, dataAvuiFormatejada), 'sin_camion_xofer': noDisponibleCamio(xofer, dataAvuiFormatejada)}">{{ xofer.nom }}</td>
+            <td class="icones" [matMenuTriggerFor]="menu1" [ngClass]="{'no_disponible': noDisponible(xofer, dataAvuiFormatejada), 'sin_camion': noDisponibleCamio(xofer, dataAvuiFormatejada)}">
+              <div *ngFor="let icona of icones" style="width: 100%;">
+                <button *ngIf="icona.data === dataAvuiFormatejada && icona.id_xofer.id === xofer.id;" style="border: none; height: 100%; width: 100%;">
+                  {{ icona.icona }}
+                </button>
+              </div>
+              <mat-menu #menu1="matMenu">
+                <button mat-menu-item (click)="canviarIcona('X', dataAvuiFormatejada, xofer)">X</button>
+                <button mat-menu-item (click)="canviarIcona('·', dataAvuiFormatejada, xofer)">·</button>
+                <button mat-menu-item (click)="canviarIcona('A', dataAvuiFormatejada, xofer)">A</button>
+                <button mat-menu-item (click)="canviarIcona('O', dataAvuiFormatejada, xofer)">O</button>
+                <button mat-menu-item (click)="canviarIcona('', dataAvuiFormatejada, xofer)">Eliminar</button>
+              </mat-menu>
+            </td>
+            <td class="d-flex flex-row rutas flex-wrap" (click)="afegir(xofer, dataAvuiFormatejada)" [ngClass]="{'no_disponible': noDisponible(xofer, dataAvuiFormatejada), 'sin_camion': noDisponibleCamio(xofer, dataAvuiFormatejada)}">
               <div *ngFor="let ruta of xofer.ruta" [ngClass]="{'primer-viaje': pipeAzul(ruta, true, this.dateService.dataAvui), 'ultimo-viaje': pipeAzul(ruta, false, this.dateService.dataAvui), 'marcado': marcadoService.obtenerRutasMarcadas().includes(ruta), 'editando': this.editando === ruta}">
                 <ng-container *ngIf="colocarPipes(ruta, dataAvuiFormatejada) && !pipeAzul(ruta, true, this.dateService.dataAvui)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, true, this.dateService.dataAvui)}"> | </span></ng-container>
+                <ng-container *ngFor="let dividits of ruta.viatge">
+                  <ng-container *ngIf="dividits.dividit === 1">
+                    <span *ngIf="dividits.dia === dataAhirFormatejada" class="viaje azul" (click)="marcar(dividits, ruta)" [ngClass]="{'marcado': marcadoService.obtenerElementosSuperioresMarcados().includes(dividits)}">
+                      {{ dividits.id_direccio_desti.poblacio }}
+                    </span>
+                  </ng-container>
+                </ng-container>
                 <ng-container *ngFor="let avui_x_avui of ruta.viatge">
-                  <ng-container *ngIf="avui_x_avui.tipus === 1">
+                  <ng-container *ngIf="avui_x_avui.tipus === 1 && (avui_x_avui.dividit === 0 || avui_x_avui.dividit === null)">
                     <span *ngIf="avui_x_avui.dia === dataAvuiFormatejada" class="viaje" (click)="marcar(avui_x_avui, ruta)" [ngClass]="{'marcado': marcadoService.obtenerElementosSuperioresMarcados().includes(avui_x_avui)}">
                       {{ avui_x_avui.id_direccio_origen.poblacio }} - {{ avui_x_avui.id_direccio_desti.poblacio }},
                     </span>
                   </ng-container>
                 </ng-container>
                 <ng-container *ngFor="let anada of ruta.viatge">
-                  <ng-container *ngIf="anada.tipus === 2">
+                  <ng-container *ngIf="anada.tipus === 2 && (anada.dividit === 0 || anada.dividit === null)">
                     <span *ngIf="anada.dia === dataAvuiFormatejada" class="viaje"(click)="marcar(anada, ruta)" [ngClass]="{'marcado': marcadoService.obtenerElementosSuperioresMarcados().includes(anada)}">
                       {{ anada.id_direccio_origen.poblacio }} - {{ anada.id_direccio_desti.poblacio }},
                     </span>
                   </ng-container>
                 </ng-container>
                 <ng-container *ngFor="let tornada of ruta.viatge">
-                  <ng-container *ngIf="tornada.tipus === 3">
+                  <ng-container *ngIf="tornada.tipus === 3 && (tornada.dividit === 0 || tornada.dividit === null)">
                     <span *ngIf="tornada.dia === dataAvuiFormatejada" class="viaje" (click)="marcar(tornada, ruta)" [ngClass]="{'marcado': marcadoService.obtenerElementosSuperioresMarcados().includes(tornada)}">
                       {{ tornada.id_direccio_origen.poblacio }} - {{ tornada.id_direccio_desti.poblacio }},
+                    </span>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngFor="let dividits of ruta.viatge">
+                  <ng-container *ngIf="dividits.dividit === 1">
+                    <span *ngIf="dividits.dia === dataAvuiFormatejada" class="viaje azul" (click)="marcar(dividits, ruta)" [ngClass]="{'marcado': marcadoService.obtenerElementosSuperioresMarcados().includes(dividits)}">
+                      {{ dividits.id_direccio_origen.poblacio }}
                     </span>
                   </ng-container>
                 </ng-container>
                 <ng-container *ngIf="colocarPipes(ruta, dataAvuiFormatejada) && !pipeAzul(ruta, false, this.dateService.dataAvui)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, false, this.dateService.dataAvui)}"> | </span></ng-container>
               </div>
             </td>
-            <td class="d-flex flex-row rutas flex-wrap" (click)="afegir(xofer, dataDemaFormatejada)">
+            <td class="xofer" (click)="openDialog(xofer)" [ngClass]="{'no_disponible_xofer': noDisponible(xofer, dataDemaFormatejada), 'sin_camion_xofer': noDisponibleCamio(xofer, dataDemaFormatejada)}">{{ xofer.nom }}</td>
+            <td class="icones" [matMenuTriggerFor]="menu2" [ngClass]="{'no_disponible': noDisponible(xofer, dataDemaFormatejada), 'sin_camion': noDisponibleCamio(xofer, dataDemaFormatejada)}">
+              <div *ngFor="let icona of icones" style="width: 100%;">
+                <button *ngIf="icona.data === dataDemaFormatejada && icona.id_xofer.id === xofer.id;" style="border: none; height: 100%; width: 100%;">
+                  {{ icona.icona }}
+                </button>
+              </div>
+              <mat-menu #menu2="matMenu">
+                <button mat-menu-item (click)="canviarIcona('X', dataDemaFormatejada, xofer)">X</button>
+                <button mat-menu-item (click)="canviarIcona('·', dataDemaFormatejada, xofer)">·</button>
+                <button mat-menu-item (click)="canviarIcona('A', dataDemaFormatejada, xofer)">A</button>
+                <button mat-menu-item (click)="canviarIcona('O', dataDemaFormatejada, xofer)">O</button>
+                <button mat-menu-item (click)="canviarIcona('', dataDemaFormatejada, xofer)">Eliminar</button>
+              </mat-menu>
+            </td>
+            <td class="d-flex flex-row rutas flex-wrap" (click)="afegir(xofer, dataDemaFormatejada)" [ngClass]="{'no_disponible': noDisponible(xofer, dataDemaFormatejada), 'sin_camion': noDisponibleCamio(xofer, dataDemaFormatejada)}">
               <div *ngFor="let ruta of xofer.ruta"  [ngClass]="{'primer-viaje': pipeAzul(ruta, true, this.dateService.dataDema), 'ultimo-viaje': pipeAzul(ruta, false, this.dateService.dataDema), 'marcado': marcadoService.obtenerRutasMarcadas().includes(ruta), 'editando': this.editando === ruta}">
                 <ng-container *ngIf="colocarPipes(ruta, dataDemaFormatejada) && !pipeAzul(ruta, true, this.dateService.dataDema)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, true, this.dateService.dataDema)}"> | </span></ng-container>
+                <ng-container *ngFor="let dividits of ruta.viatge">
+                  <ng-container *ngIf="dividits.dividit === 1">
+                    <span *ngIf="dividits.dia === dataAvuiFormatejada" class="viaje azul" (click)="marcar(dividits, ruta)" [ngClass]="{'marcado': marcadoService.obtenerElementosSuperioresMarcados().includes(dividits)}">
+                      {{ dividits.id_direccio_desti.poblacio }}
+                    </span>
+                  </ng-container>
+                </ng-container>
                 <ng-container *ngFor="let avui_x_avui of ruta.viatge">
                   <ng-container *ngIf="avui_x_avui.tipus === 1">
                     <span *ngIf="avui_x_avui.dia === dataDemaFormatejada" class="viaje" (click)="marcar(avui_x_avui, ruta)" [ngClass]="{'marcado': marcadoService.obtenerElementosSuperioresMarcados().includes(avui_x_avui)}">
@@ -61,21 +112,33 @@
                     </span>
                   </ng-container>
                 </ng-container>
+                <ng-container *ngFor="let dividits of ruta.viatge">
+                  <ng-container *ngIf="dividits.dividit === 1">
+                    <span *ngIf="dividits.dia === dataPassatDemaFormatejada" class="viaje azul" (click)="marcar(dividits, ruta)" [ngClass]="{'marcado': marcadoService.obtenerElementosSuperioresMarcados().includes(dividits)}">
+                      {{ dividits.id_direccio_origen.poblacio }}
+                    </span>
+                  </ng-container>
+                </ng-container>
                 <ng-container *ngIf="colocarPipes(ruta, dataDemaFormatejada) && !pipeAzul(ruta, false, this.dateService.dataDema)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, false, this.dateService.dataDema)}"> | </span></ng-container>
               </div>
             </td>
             <td class="d-flex justify-content-around">
+              <ng-container *ngIf="marcadoService.obtenerElementosSuperioresMarcados().length != 0">
+                <button type="button" class="btn btn-info" (click)="dividir()"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg></button>
+              </ng-container>
               <ng-container *ngIf="editando != null; else noEditando">
-                <button type="button" class="btn btn-success" (click)="dejarEditar()"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                <button type="button" class="btn btn-success" (click)="dejarEditar()"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
                   <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
                 </svg></button>
               </ng-container>
               <ng-template #noEditando>
-                <button type="button" class="btn btn-primary" (click)="editar()"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                <button type="button" class="btn btn-primary" (click)="editar()"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                   <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
                 </svg></button>
               </ng-template>
-              <button type="button" class="btn btn-danger" (click)="eliminar()"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+              <button type="button" class="btn btn-danger" (click)="eliminar()"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                 <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
               </svg></button>
             </td>

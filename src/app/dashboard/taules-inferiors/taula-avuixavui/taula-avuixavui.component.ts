@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AnadaService } from 'src/app/servicios/anada.service';
 import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import { MarcadoService } from 'src/app/servicios/marcado.service';
   styleUrls: ['./taula-avuixavui.component.css']
 })
 export class TaulaAvuixavuiComponent {
+  @Input() fecha: string = "";
   avuiXAvuis: any = null;
   dialogOpen = false;
   selectedAvuiXAvui: any;
@@ -42,7 +43,7 @@ export class TaulaAvuixavuiComponent {
 
     const dialogRef = this.dialog.open(PopupModificarViatgeComponent, {
       data: { viatge: this.selectedAvuiXAvui, tipus: "avuiXAvui" },
-      height: '500px',
+      height: '600px',
       width: '700px',
     });
 

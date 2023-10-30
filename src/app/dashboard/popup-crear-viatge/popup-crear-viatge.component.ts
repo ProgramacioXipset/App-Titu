@@ -18,9 +18,12 @@ export class PopupCrearViatgeComponent {
   origenSeleccionat = new FormControl();
   destiSeleccionat = new FormControl();
   comentariControl = new FormControl();
+  comandaControl = new FormControl();
+  selectedDate = new FormControl();
   options: FormGroup;
   direccions: any = null;
   enviado: boolean | null = null;
+  data_inicial: string = "";
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -74,7 +77,9 @@ export class PopupCrearViatgeComponent {
         id_direccio_origen: { id: origenValue },
         id_direccio_desti: { id: destiValue },
         comentari: comentariValue,
-        tipus: this.getTipus(formData.floatLabel)
+        tipus: this.getTipus(formData.floatLabel),
+        data_inicial: this.data_inicial,
+        n_comanda: this.comandaControl.value
       };
 
       if (endpoint) {
@@ -115,5 +120,13 @@ export class PopupCrearViatgeComponent {
 
   saveFormData(endpoint: string, formData: any) {
     return this.http.post(endpoint, formData);
+  }
+
+  setDate(selectedDate: Date) {
+    const year = selectedDate.getFullYear();
+    const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0'); // Añade 0 si es necesario
+    const day = selectedDate.getDate().toString().padStart(2, '0'); // Añade 0 si es necesario
+
+    this.data_inicial = `${year}-${month}-${day}`;
   }
 }

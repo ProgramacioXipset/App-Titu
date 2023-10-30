@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 
-const baseUrl = 'https://app-titu.herokuapp.com';
+const baseUrl = 'http://localhost:8181';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,7 @@ export class LoginService {
     this.isAuthenticated = false;
     this.user = null; // Restablecer la información del usuario
     this.user$.next(this.user); // Notificar a los componentes suscritos sobre el cambio de estado de autenticación
-  
+
     // Realizar cualquier otra acción necesaria para cerrar la sesión del usuario
     sessionStorage.removeItem('auth-token');
     sessionStorage.removeItem('auth-username');
@@ -63,7 +63,7 @@ export class LoginService {
 
   getIsAuthenticated(): boolean {
     console.log(this.isAuthenticated);
-    
+
     return this.isAuthenticated;
   }
 
@@ -72,7 +72,7 @@ export class LoginService {
     const authUsernameSession = sessionStorage.getItem('auth-username');
     const authTokenLocal = localStorage.getItem('auth-token');
     const authUsernameLocal = localStorage.getItem('auth-username');
-  
+
     if ((authTokenSession && authUsernameSession) || (authTokenLocal && authUsernameLocal)) {
       this.isAuthenticated = true;
     } else {

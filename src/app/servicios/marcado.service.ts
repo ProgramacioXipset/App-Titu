@@ -34,8 +34,7 @@ export class MarcadoService {
     this.elementosSuperioresMarcados = [];
   }
 
-  obtenerElementosSuperioresMarcados() {
-    return this.elementosSuperioresMarcados;
+  obtenerElementosSuperioresMarcados() {return this.elementosSuperioresMarcados;
   }
 
   marcarRuta(elemento: any) {

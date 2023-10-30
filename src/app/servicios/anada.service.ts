@@ -8,6 +8,10 @@ export class AnadaService {
 
   constructor(private http: HttpClient) { }
 
+  retornarViatge() {
+    return this.http.get("http://localhost:8181/Viatge");
+  }
+
   retornarAnada() {
     return this.http.get("http://localhost:8181/Anada");
   }

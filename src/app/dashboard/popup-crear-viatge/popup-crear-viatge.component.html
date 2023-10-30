@@ -3,6 +3,14 @@
         <h1>Afegir viatge</h1>
     </div>
     <form [formGroup]="options" class="h-75 d-flex flex-column justify-content-around" (ngSubmit)="submitForm()">
+
+      <div class="d-flex justify-content-around">
+        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp w-75">
+          <mat-label>Número de comanda</mat-label>
+          <input matInput [formControl]="comandaControl">
+        </mat-form-field>
+      </div>
+
         <div>
           <mat-radio-group [formControl]="floatLabelControl" class="d-flex justify-content-around" required>
             <mat-radio-button value="Anada">Anada</mat-radio-button>
@@ -10,11 +18,11 @@
             <mat-radio-button value="Avui X Avui">Avui X Avui</mat-radio-button>
           </mat-radio-group>
         </div>
-    
-        <div class="camps d-flex justify-content-around">   
+
+        <div class="camps d-flex justify-content-around">
             <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" [floatLabel]="getFloatLabelValue()">
                 <mat-select required [formControl]="origenSeleccionat">
-                    <mat-option>Seleccionar</mat-option>    
+                    <mat-option>Seleccionar</mat-option>
                     <mat-option *ngFor="let direccio of direccions" [value]="direccio.id">{{direccio.adreca + ", " + direccio.poblacio}}</mat-option>
                 </mat-select>
                 <mat-label>Origen</mat-label>
@@ -37,10 +45,15 @@
         </div>
 
         <div class="d-flex justify-content-around">
-            <mat-form-field class="w-75">
+            <mat-form-field class="w-50">
                 <mat-label>Comentari</mat-label>
                 <textarea matInput [formControl]="comentariControl"></textarea>
             </mat-form-field>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" [formControl]="selectedDate" (dateChange)="setDate($event.value)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
         </div>
 
         <!-- Mostrar mensaje de éxito -->

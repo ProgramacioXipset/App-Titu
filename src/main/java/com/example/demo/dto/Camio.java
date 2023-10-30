@@ -26,7 +26,7 @@ public class Camio {
 	@Column(name = "marca_model")//no hace falta si se llama igual
 	private String marca_model;
 	
-	@OneToMany(mappedBy = "id_camio", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "id_camio", orphanRemoval = false)
     @JsonIgnoreProperties("id_camio")
 	private List<Xofer> xofer;
 	

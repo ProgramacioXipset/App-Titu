@@ -24,7 +24,7 @@ public class Remolc {
 	@Column(name = "matricula")//no hace falta si se llama igual
 	private String matricula;
 	
-	@OneToMany(mappedBy = "id_remolc", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "id_remolc", orphanRemoval = false)
     @JsonIgnoreProperties("id_remolc")
 	private List<Xofer> xofer;
 	

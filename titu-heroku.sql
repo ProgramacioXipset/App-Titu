@@ -180,7 +180,7 @@ INSERT INTO `rol` (`id`, `nom_rol`) VALUES
 
 
 INSERT INTO `usuari` (`id`, `username`, `cognoms`, `telefon`, `email`, `password`, `id_rol`) VALUES
-(1, 'jordi', 'Marimon', 977605152, 'titu@transportstitu.com', '$2a$12$h4Vy5nAJ/TVU/wxyjSw5k.jOHcfTjS65cj1PSEEjIVfCdMbl5FUIu', 1);
+(1, 'jordi', 'Marimon', 977605152, 'titu@transportstitu.com', '$2a$12$KjWLbupY5k.r4O8Sc/b2pujzrItSXGq52PZH/cNW8TUf0a0C0e2bG', 1);
 
 
 

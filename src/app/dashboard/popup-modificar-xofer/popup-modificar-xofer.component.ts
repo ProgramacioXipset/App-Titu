@@ -14,7 +14,6 @@ import { MatSelect } from '@angular/material/select';
 import { PopupModificarRemolcComponent } from '../popup-modificar-remolc/popup-modificar-remolc.component';
 import { DateService } from 'src/app/servicios/data.service';
 
-const dniPattern = /^[0-9]{8}[A-Za-z]$/;
 const telPattern = /^[0-9]{9}$/
 
 @Component({
@@ -63,7 +62,7 @@ export class PopupModificarXoferComponent {
     this.cognomControl = new FormControl(this.data.xofer.cognoms, Validators.required);
     this.telefonControl = new FormControl(this.data.xofer.telefon, Validators.pattern(telPattern));
     this.emailControl = new FormControl(this.data.xofer.email, Validators.email);
-    this.dniControl = new FormControl(this.data.xofer.dni, Validators.pattern(dniPattern));
+    this.dniControl = new FormControl(this.data.xofer.dni, Validators.required);
     this.xofersNoDisponibles = this.data.xofer.xofer_no_disponible;
 
     this.pasarADateYAssignar();

@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { XoferService } from 'src/app/servicios/xofer.service';
 import { EventosService } from 'src/app/servicios/eventos.service';
 
-const dniPattern = /^[0-9]{8}[A-Za-z]$/;
 const telPattern = /^[0-9]{9}$/
 
 @Component({
@@ -20,7 +19,7 @@ export class PopupCrearXoferComponent {
   cognomControl = new FormControl('', Validators.required);
   telefonControl = new FormControl('', Validators.pattern(telPattern));
   emailControl = new FormControl('',  Validators.email);
-  dniControl = new FormControl('', Validators.pattern(dniPattern));
+  dniControl = new FormControl('', Validators.required);
   options: FormGroup;
   direccions: any = null;
   enviado: boolean | null = null;

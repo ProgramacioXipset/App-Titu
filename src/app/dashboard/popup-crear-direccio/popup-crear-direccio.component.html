@@ -2,7 +2,7 @@
     <div class="text-center">
         <h1>Afegir direcció</h1>
     </div>
-    <form [formGroup]="options" class="h-75 d-flex flex-column justify-content-around" (ngSubmit)="submitForm()"> 
+    <form [formGroup]="options" class="h-75 d-flex flex-column justify-content-around" (ngSubmit)="submitForm()">
         <div class="d-flex justify-content-around">
             <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="w-75">
                 <mat-label>Adreça</mat-label>
@@ -20,7 +20,7 @@
         <div class="d-flex justify-content-around">
             <mat-form-field class="w-75">
                 <mat-label>Codi postal</mat-label>
-                <input required matInput type="number" [formControl]="cpostalControl">
+                <input matInput type="number" [formControl]="cpostalControl">
             </mat-form-field>
         </div>
 

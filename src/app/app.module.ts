@@ -40,8 +40,14 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import { NgxMultipleDatesModule } from 'ngx-multiple-dates';
 import { PopupLlistaViatgesAmagatsComponent } from './dashboard/popup-llista-viatges-amagats/popup-llista-viatges-amagats.component'; // module import
+import { ClipboardModule } from 'ngx-clipboard';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { DatePipe } from '@angular/common';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 
-
+registerLocaleData(localeEs);
 
 @NgModule({
   declarations: [
@@ -85,9 +91,15 @@ import { PopupLlistaViatgesAmagatsComponent } from './dashboard/popup-llista-via
     MatChipsModule,
     MatIconModule,
     MatMenuModule,
-    NgxMultipleDatesModule
+    NgxMultipleDatesModule,
+    ClipboardModule,
+    MatAutocompleteModule
   ],
-  providers: [ authInterceptorProviders ],
+  providers: [
+    authInterceptorProviders,
+    DatePipe,
+    { provide: LOCALE_ID, useValue: 'es' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

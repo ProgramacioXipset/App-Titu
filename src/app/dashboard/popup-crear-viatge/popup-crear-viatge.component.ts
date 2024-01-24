@@ -6,6 +6,14 @@ import { HttpClient } from '@angular/common/http';
 import {MatDialog} from '@angular/material/dialog';
 import { PopupCrearDireccioComponent } from '../popup-crear-direccio/popup-crear-direccio.component';
 import { EventosService } from 'src/app/servicios/eventos.service';
+import { Observable, map, startWith } from 'rxjs';
+
+interface DireccioResponse {
+  id: number;
+  adreca: string;
+  poblacio: string;
+  codi_postal: number;
+}
 
 @Component({
   selector: 'app-popup-crear-viatge',
@@ -21,9 +29,13 @@ export class PopupCrearViatgeComponent {
   comandaControl = new FormControl();
   selectedDate = new FormControl();
   options: FormGroup;
-  direccions: any = null;
+  direccions: any;
   enviado: boolean | null = null;
+  enviado2: number = 0;
   data_inicial: string = "";
+  adreces: string[] = [];
+  filteredOrigen: Observable<string[]> = new Observable<string[]>();
+  filteredDesti: Observable<string[]> = new Observable<string[]>();
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -38,6 +50,9 @@ export class PopupCrearViatgeComponent {
       destiSeleccionat: this.destiSeleccionat,
       comentariControl: this.comentariControl
     });
+
+    this.filteredOrigen = new Observable<string[]>();
+    this.filteredDesti = new Observable<string[]>();
   }
 
   openDialog(): void {
@@ -54,22 +69,92 @@ export class PopupCrearViatgeComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+    this.cargarDireccions();
+  }
+
+  cargarDireccions() {
     this.direccioService.retornarDireccio().subscribe((result: any) => {
       this.direccions = result;
+      this.cargarAdreces();
+
+      this.filteredOrigen = this.origenSeleccionat.valueChanges.pipe(
+        startWith(''),
+
+        map(value => this._filter(value || '')),
+      );
+
+      this.filteredDesti = this.destiSeleccionat.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value || '')),
+      );
     });
+  }
+
+  cargarAdreces() {
+    this.adreces = this.direccions.map((direccion: any) => direccion.adreca);;
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.adreces.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  obtindreId(origen: string) {
+    const direccioTrobada = this.direccions.find((direccio: { adreca: string; }) => direccio.adreca === origen);
+
+    if (direccioTrobada) {
+      return direccioTrobada.id;
+    } else {
+      const endpoint = "http://localhost:8181/Direccio";
+
+      const adrecaValue = origen;
+
+      const requestBody = {
+        adreca: adrecaValue
+      };
+
+      if (endpoint) {
+        this.saveFormData(endpoint, requestBody).subscribe(
+          (response: Object) => {
+            console.log('Formulario enviado correctamente');
+            if (this.enviado2 === 0) {
+              this.enviado2 = 1
+            } else if (this.enviado2 === 1) {
+              this.enviado2 = 2
+            }
+            this.direccioService.retornarDireccio().subscribe((result: any) => {
+              this.direccions = result;
+              this.cargarAdreces();
+              this.cargarDireccions();
+            });
+          },
+          (error) => {
+            console.error('Error al enviar el formulario:', error);
+            this.enviado2 = 3;
+          }
+        );
+      } else {
+        console.error('Endpoint no válido');
+        // Manejar el caso cuando no se encuentra un endpoint válido
+      }
+
+      const direccioTrobada2 = this.direccions.find((direccio: { adreca: string; }) => direccio.adreca === origen);
+      return direccioTrobada2.id;
+    }
   }
 
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
   }
 
-  submitForm() {
+  async submitForm() {
     if (this.options.valid) {
       const formData = this.options.value;
       const endpoint = "http://localhost:8181/Viatge";
 
-      const origenValue = this.origenSeleccionat.value;
-      const destiValue = this.destiSeleccionat.value;
+      const origenValue = await this.obtindreId(this.origenSeleccionat.value);
+      const destiValue = await this.obtindreId(this.destiSeleccionat.value);
       const comentariValue = this.comentariControl.value;
       console.log(endpoint + " " + origenValue + " " + destiValue + " " + comentariValue);
 

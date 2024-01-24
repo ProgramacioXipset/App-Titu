@@ -5,7 +5,7 @@
         </tr>
         <tr *ngFor="let tornada of tornades | ordenarPorExterno" (click)="marcar(tornada)" [ngClass]="{ 'verde': tornada.id_ruta != null, 'disabled': tornada.externa, 'enabled': !tornada.externa, 'marcado': marcadoService.obtenerElementosInferioresMarcados().includes(tornada), 'especial': tornada.comentari }">
           <ng-container *ngIf="this.fecha == tornada.data_inicial && tornada.amagat != 1">
-            <td>{{tornada.n_comanda + "    |    " + tornada.id_direccio_origen.poblacio + " - " + tornada.id_direccio_desti.poblacio }}<ng-container *ngIf="tornada.externa != null">&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;{{tornada.externa}}</ng-container></td>
+            <td>{{tornada.n_comanda + "    |    " + tornada.id_direccio_origen.adreca + " - " + tornada.id_direccio_desti.adreca }}<ng-container *ngIf="tornada.externa != null">&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;{{tornada.externa}}</ng-container></td>
           </ng-container>
         </tr>
     </table>

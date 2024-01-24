@@ -8,7 +8,6 @@
               <mat-label>Matricula</mat-label>
               <input required matInput [formControl]="matriculaControl">
               <mat-error *ngIf="matriculaControl.hasError('required')">Es requereix el camp</mat-error>
-              <mat-error *ngIf="matriculaControl.hasError('pattern')">La matricula ha de tenir 4 números seguits de 3 lletres</mat-error>
           </mat-form-field>
       </div>
 

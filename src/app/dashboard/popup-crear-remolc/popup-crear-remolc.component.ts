@@ -4,8 +4,6 @@ import { FloatLabelType } from '@angular/material/form-field';
 import { DireccioService } from 'src/app/servicios/direccio.service';
 import { HttpClient } from '@angular/common/http';
 
-const matriculaPattern = /^[0-9]{4}[A-Za-z]{3}$/;
-
 @Component({
   selector: 'app-popup-crear-remolc',
   templateUrl: './popup-crear-remolc.component.html',
@@ -14,7 +12,7 @@ const matriculaPattern = /^[0-9]{4}[A-Za-z]{3}$/;
 export class PopupCrearRemolcComponent {
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto' as FloatLabelType);
-  matriculaControl = new FormControl('', Validators.pattern(matriculaPattern));
+  matriculaControl = new FormControl('');
   options: FormGroup;
   direccions: any = null;
   enviado: boolean | null = null;

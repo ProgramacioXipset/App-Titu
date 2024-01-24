@@ -5,7 +5,7 @@
         </tr>
         <tr *ngFor="let avuiXAvui of avuiXAvuis | ordenarPorExterno" (click)="marcar(avuiXAvui)" [ngClass]="{ 'verde': avuiXAvui.id_ruta != null, 'disabled': avuiXAvui.externa, 'enabled': !avuiXAvui.externa, 'marcado': marcadoService.obtenerElementosInferioresMarcados().includes(avuiXAvui), 'especial': avuiXAvui.comentari }">
           <ng-container *ngIf="this.fecha == avuiXAvui.data_inicial && avuiXAvui.amagat != 1">
-            <td>{{avuiXAvui.n_comanda + "    |    " + avuiXAvui.id_direccio_origen.poblacio + " - " + avuiXAvui.id_direccio_desti.poblacio }}<ng-container *ngIf="avuiXAvui.externa != null">&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;{{avuiXAvui.externa}}</ng-container></td>
+            <td>{{avuiXAvui.n_comanda + "    |    " + avuiXAvui.id_direccio_origen.adreca + " - " + avuiXAvui.id_direccio_desti.adreca }}<ng-container *ngIf="avuiXAvui.externa != null">&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;{{avuiXAvui.externa}}</ng-container></td>
           </ng-container>
         </tr>
     </table>

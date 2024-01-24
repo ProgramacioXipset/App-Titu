@@ -2,6 +2,7 @@
 <table class="table table-striped w-100">
   <tr>
     <th>Nº Comanda</th>
+    <th>Empresa externa</th>
     <th>Origen</th>
     <th>Destí</th>
     <th>Data</th>
@@ -9,6 +10,7 @@
   <tr *ngFor="let viatge of viatges" (click)="openDialog(viatge)">
     <ng-container *ngIf="viatge.amagat === 1">
       <td>{{ viatge.n_comanda }}</td>
+      <td>{{ viatge.externa }}</td>
       <td>{{ viatge.id_direccio_origen.poblacio }}</td>
       <td>{{ viatge.id_direccio_desti.poblacio }}</td>
       <td>{{ viatge.data_inicial }}</td>

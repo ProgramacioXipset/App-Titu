@@ -6,8 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { DateService } from 'src/app/servicios/data.service';
 
-const matriculaPattern = /^[0-9]{4}[A-Za-z]{3}$/;
-
 @Component({
   selector: 'app-popup-modificar-remolc',
   templateUrl: './popup-modificar-remolc.component.html',
@@ -19,7 +17,7 @@ export class PopupModificarRemolcComponent {
   hideRequiredControl = new FormControl(false);
   enviado: boolean | null = null;
   options: FormGroup;
-  matriculaControl = new FormControl(this.data.remolc.matricula, Validators.pattern(matriculaPattern));
+  matriculaControl = new FormControl(this.data.remolc.matricula);
 
   remolcsNoDisponibles:any = null;
   public reactiveControl;

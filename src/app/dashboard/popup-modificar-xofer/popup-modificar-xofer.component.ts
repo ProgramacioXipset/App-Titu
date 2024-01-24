@@ -13,6 +13,7 @@ import { EventosService } from 'src/app/servicios/eventos.service';
 import { MatSelect } from '@angular/material/select';
 import { PopupModificarRemolcComponent } from '../popup-modificar-remolc/popup-modificar-remolc.component';
 import { DateService } from 'src/app/servicios/data.service';
+import { ClipboardService } from 'ngx-clipboard';
 
 const telPattern = /^[0-9]{9}$/
 
@@ -55,11 +56,12 @@ export class PopupModificarXoferComponent {
     private http: HttpClient,
     public dialog: MatDialog,
     private eventosService: EventosService,
-    public dataService: DateService) {
+    public dataService: DateService,
+    private clipboardService: ClipboardService) {
     // Accede a los datos del diálogo a través de la propiedad 'data'
     console.log(this.data.xofer);
     this.nomControl = new FormControl(this.data.xofer.nom, Validators.required);
-    this.cognomControl = new FormControl(this.data.xofer.cognoms, Validators.required);
+    this.cognomControl = new FormControl(this.data.xofer.cognoms);
     this.telefonControl = new FormControl(this.data.xofer.telefon, Validators.pattern(telPattern));
     this.emailControl = new FormControl(this.data.xofer.email, Validators.email);
     this.dniControl = new FormControl(this.data.xofer.dni, Validators.required);
@@ -344,5 +346,16 @@ export class PopupModificarXoferComponent {
 
   saveFormData(endpoint: string, formData: any) {
     return this.http.post(endpoint, formData);
+  }
+
+  copiarInfo() {
+    this.clipboardService.copyFromContent(
+      "Nom: " + this.nomControl.value + "\n" +
+      "Cognom: " + this.cognomControl.value + "\n" +
+      "Telèfon: " + this.telefonControl.value + "\n" +
+      "DNI: " + this.dniControl.value + "\n" +
+      "Tractora: " + this.data.xofer.id_camio.matricula + "\n" +
+      "Remolc: " + this.data.xofer.id_remolc.matricula
+    );
   }
 }

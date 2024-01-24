@@ -16,7 +16,7 @@ const telPattern = /^[0-9]{9}$/
 export class PopupCrearXoferComponent {
   hideRequiredControl = new FormControl(false);
   nomControl = new FormControl('', Validators.required);
-  cognomControl = new FormControl('', Validators.required);
+  cognomControl = new FormControl('');
   telefonControl = new FormControl('', Validators.pattern(telPattern));
   emailControl = new FormControl('',  Validators.email);
   dniControl = new FormControl('', Validators.required);

@@ -22,4 +22,11 @@ svg:hover {
 .calendari {
   max-height: 300px;
   overflow-y: auto;
+  width: 90%;
+}
+
+.titulo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }

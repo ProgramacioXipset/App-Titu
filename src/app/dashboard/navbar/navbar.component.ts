@@ -6,6 +6,10 @@ import { FormControl } from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import { PopupCrearComponent } from '../popup-crear/popup-crear.component';
 import { DatePipe } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
+import localeCa from '@angular/common/locales/ca';
+
+registerLocaleData(localeCa);
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +17,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./navbar.component.css'],
   providers: [
     DatePipe,
-    { provide: LOCALE_ID, useValue: 'es' }
+    { provide: LOCALE_ID, useValue: 'ca' }
   ]
 })
 export class NavbarComponent implements OnInit {

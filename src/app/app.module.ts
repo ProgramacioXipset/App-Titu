@@ -98,7 +98,7 @@ registerLocaleData(localeEs);
   providers: [
     authInterceptorProviders,
     DatePipe,
-    { provide: LOCALE_ID, useValue: 'es' }
+    { provide: LOCALE_ID, useValue: 'ca' }
   ],
   bootstrap: [AppComponent]
 })

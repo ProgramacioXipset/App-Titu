@@ -9,8 +9,16 @@
             <th class="rutas">Viatges</th>
             <!-- <th>Accions</th> -->
         </tr>
-        <tr *ngFor="let xofer of xofers" [ngClass]="{'sin_camion': xofer.id_camio.id === 1 || xofer.id_remolc.id === 1}">
-            <td class="xofer" (click)="openDialog(xofer)" [ngClass]="{'no_disponible_xofer': noDisponible(xofer, dataAvuiFormatejada), 'sin_camion_xofer': noDisponibleCamio(xofer, dataAvuiFormatejada)}">{{ xofer.nom }}</td>
+        <tr *ngFor="let xofer of xofers" [ngClass]="{'sin_camion': xofer.id_camio.id === 1 || xofer.id_remolc.id === 1, 'separador': xofer.separador === 1}">
+            <td class="xofer" [ngClass]="{'no_disponible_xofer': noDisponible(xofer, dataAvuiFormatejada), 'sin_camion_xofer': noDisponibleCamio(xofer, dataAvuiFormatejada)}">
+              <svg (click)="pujarXofer(xofer)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up chevron" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
+              </svg>
+              <span (click)="openDialog(xofer)">{{ xofer.nom }}</span>
+              <svg (click)="baixarXofer(xofer)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down chevron" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+              </svg>
+            </td>
             <td class="icones" [matMenuTriggerFor]="menu1" [ngClass]="{'no_disponible': noDisponible(xofer, dataAvuiFormatejada), 'sin_camion': noDisponibleCamio(xofer, dataAvuiFormatejada)}">
               <div *ngFor="let icona of icones" style="width: 100%;">
                 <button *ngIf="icona.data === dataAvuiFormatejada && icona.id_xofer.id === xofer.id;" style="border: none; height: 100%; width: 100%;">
@@ -66,7 +74,15 @@
                 <ng-container *ngIf="colocarPipes(ruta, dataAvuiFormatejada) && !pipeAzul(ruta, false, this.dateService.dataAvui)"><span class="pipe" [ngClass]="{'azul': pipeAzul(ruta, false, this.dateService.dataAvui)}"> | </span></ng-container>
               </div>
             </td>
-            <td class="xofer" (click)="openDialog(xofer)" [ngClass]="{'no_disponible_xofer': noDisponible(xofer, dataDemaFormatejada), 'sin_camion_xofer': noDisponibleCamio(xofer, dataDemaFormatejada)}">{{ xofer.nom }}</td>
+            <td class="xofer" [ngClass]="{'no_disponible_xofer': noDisponible(xofer, dataDemaFormatejada), 'sin_camion_xofer': noDisponibleCamio(xofer, dataDemaFormatejada)}">
+              <svg (click)="pujarXofer(xofer)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up chevron" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
+              </svg>
+              <span (click)="pujarXofer(xofer)"n (click)="openDialog(xofer)">{{ xofer.nom }}</span>
+              <svg (click)="baixarXofer(xofer)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down chevron" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+              </svg>
+            </td>
             <td class="icones" [matMenuTriggerFor]="menu2" [ngClass]="{'no_disponible': noDisponible(xofer, dataDemaFormatejada), 'sin_camion': noDisponibleCamio(xofer, dataDemaFormatejada)}">
               <div *ngFor="let icona of icones" style="width: 100%;">
                 <button *ngIf="icona.data === dataDemaFormatejada && icona.id_xofer.id === xofer.id;" style="border: none; height: 100%; width: 100%;">

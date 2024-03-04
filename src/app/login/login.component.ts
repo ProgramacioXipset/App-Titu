@@ -28,13 +28,13 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     const authToken = sessionStorage.getItem('auth-token');
     const authUsername = sessionStorage.getItem('auth-username');
-  
+
     if (authToken && authUsername) {
       // Aquí puedes realizar una verificación adicional del token si es necesario
       this.isLoggedIn = true;
       this.loginService.login();
     }
-  
+
     const savedUsername = sessionStorage.getItem('rememberedUsername');
     if (savedUsername) {
       this.login.username = savedUsername;
@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit {
       next: (response) => {
         this.token = response;
         this.submitted = true;
-        console.log(response);
         window.sessionStorage.setItem('auth-token', this.token.token);
         window.sessionStorage.setItem('auth-username', this.login.username);
         this.isLoginFailed = false;

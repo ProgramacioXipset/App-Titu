@@ -107,3 +107,15 @@ td, th {
   flex-direction: column;
   justify-content: center;
 }
+
+.chevron {
+  display: none;
+}
+
+.xofer:hover .chevron {
+  display: inline;
+}
+
+.separador {
+  border-bottom: 4px solid black;
+}

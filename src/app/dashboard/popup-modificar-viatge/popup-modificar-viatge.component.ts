@@ -78,6 +78,8 @@ export class PopupModificarViatgeComponent {
   }
 
   submitForm() {
+    console.log("Es: " + this.options.valid);
+
     console.log(this.data.viatge.comentari);
     if (this.options.valid) {
       const formData = this.options.value;
@@ -103,15 +105,18 @@ export class PopupModificarViatgeComponent {
         id: this.data.viatge.id,
         id_direccio_origen: { id: +this.data.viatge.id_direccio_origen.id },
         id_direccio_desti: { id: +this.data.viatge.id_direccio_desti.id },
+        id_ruta: this.data.viatge.id_ruta ? { id: +this.data.viatge.id_ruta.id } : null,
         comentari: comentariValue,
         externa: varExtern,
+        dia: this.selectedDate.value,
         tipus: this.obtenerTipo(),
         data_inicial: this.data_inicial,
         n_comanda: this.comandaControl.value,
-        amagat: varAmagat
+        amagat: varAmagat,
+        ordre: this.data.viatge.ordre
       };
 
-      console.log(requestBody);
+      console.log("Request");
 
 
       if (endpoint) {

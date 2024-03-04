@@ -62,8 +62,6 @@ export class LoginService {
   }
 
   getIsAuthenticated(): boolean {
-    console.log(this.isAuthenticated);
-
     return this.isAuthenticated;
   }
 

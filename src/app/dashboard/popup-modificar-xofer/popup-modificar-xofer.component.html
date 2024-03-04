@@ -1,98 +1,104 @@
 <div class="contenidor-popup d-flex flex-column justify-content-around">
-    <div class="text-center titulo">
-      <h1 style="margin-right: 5px;">Modificar Xofer</h1>
-      <svg (click)="copiarInfo()" style="margin-left: 5px;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
-      </svg>
-    </div>
-    <form [formGroup]="options" class="h-75 d-flex flex-column justify-content-around" (ngSubmit)="submitForm()">
-      <div class="camps d-flex justify-content-around">
-        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
-          <mat-label>Nom</mat-label>
-          <input required matInput value="{{data.xofer.nom}}" [formControl]="nomControl">
-          <mat-error *ngIf="nomControl.hasError('required')">Es requereix el camp</mat-error>
-        </mat-form-field>
-
-        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
-          <mat-label>Cognoms</mat-label>
-          <input matInput [formControl]="cognomControl" value="{{data.xofer.cognoms}}">
-        </mat-form-field>
-      </div>
-
-      <div class="camps d-flex justify-content-around">
-        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
-          <mat-label>Telèfon</mat-label>
-          <input type="number" required matInput [formControl]="telefonControl" value="{{data.xofer.telefon}}">
-          <mat-error *ngIf="telefonControl.hasError('required')">Es requereix el camp</mat-error>
-          <mat-error *ngIf="telefonControl.hasError('pattern')">El telèfon ha de tenir 9 digits</mat-error>
-        </mat-form-field>
-
-        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
-          <mat-label>DNI</mat-label>
-          <input required matInput [formControl]="dniControl" value="{{data.xofer.dni}}">
-          <mat-error *ngIf="dniControl.hasError('required')">Es requereix el camp</mat-error>
-          <mat-error *ngIf="dniControl.hasError('pattern')">El DNI ha de tenir 8 digits seguits d'una lletra</mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="camps d-flex justify-content-around">
-        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" [floatLabel]="getFloatLabelValue()" class="camp">
-            <mat-label>Camió</mat-label>
-            <mat-select [(value)]="data.xofer.id_camio.id" [formControl]="camioSeleccionat">
-              <mat-option *ngFor="let camio of camions" [value]="camio.id">{{ camio.matricula + "(" + camio.marca_model + ")" }}</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <div class="d-flex flex-column align-items-center">
-          <svg (click)="openCamio()" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-          </svg>
-
-          <svg (click)="openModificarCamio()" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-          </svg>
-        </div>
-
-        <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" [floatLabel]="getFloatLabelValue()" class="camp">
-          <mat-label>Remolc</mat-label>
-          <mat-select [(value)]="data.xofer.id_remolc.id" [formControl]="remolcSeleccionat">
-            <mat-option *ngFor="let remolc of remolcs" [value]="remolc.id">{{remolc.matricula}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <div class="d-flex flex-column align-items-center">
-          <svg (click)="openRemolc()" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-          </svg>
-
-          <svg (click)="openModificarRemolc()" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-          </svg>
-        </div>
-      </div>
-
-      <div class="camps d-flex justify-content-around">
-        <div class="calendari">
-          <mat-form-field class="w-100">
-            <ngx-multiple-dates [matDatepicker]="pickerPredefined" placeholder="Dies no disponibles"
-            name="diesNoDisponibles"
-            [min]="dataService.getDataAvui()"
-            [formControl]="reactiveControl">
-            </ngx-multiple-dates>
-            <mat-datepicker-toggle matPrefix [for]="pickerPredefined"></mat-datepicker-toggle>
-            <mat-datepicker #pickerPredefined></mat-datepicker>
-            <button class="btn btn-primary w-100" type="button" (click)="actualizarNoDisponible()">Actualitzar</button>
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div *ngIf="enviado !== null" class="text-center" [ngClass]="{'text-success': enviado === true, 'text-danger': enviado === false}">
-        {{ enviado ? 'El formulario se ha enviado correctamente.' : 'Ha ocurrido un error al enviar el formulario. Por favor, inténtalo nuevamente.' }}
-      </div>
-
-      <div class="text-center d-flex flex-row justify-content-around">
-        <button mat-raised-button color="primary" type="submit" class="btn btn-success w-50">Enviar</button>
-        <button mat-raised-button class="btn btn-danger w-25" (click)="submitDelete()">Eliminar</button>
-      </div>
-    </form>
+  <div class="text-center titulo">
+    <h1 style="margin-right: 5px;">Modificar Xofer</h1>
   </div>
+  <form [formGroup]="options" class="h-75 d-flex flex-column justify-content-around" (ngSubmit)="submitForm()">
+    <div class="text-center titulo">
+      <mat-checkbox class="example-margin" [formControl]="afegirSeparadorControl">Afegir separador</mat-checkbox>
+      <div>
+        <svg (click)="copiarInfo()" style="margin-left: 5px;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
+        </svg>
+        Copiar
+      </div>
+    </div>
+    <div class="camps d-flex justify-content-around">
+      <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
+        <mat-label>Nom</mat-label>
+        <input required matInput value="{{data.xofer.nom}}" [formControl]="nomControl">
+        <mat-error *ngIf="nomControl.hasError('required')">Es requereix el camp</mat-error>
+      </mat-form-field>
+
+      <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
+        <mat-label>Cognoms</mat-label>
+        <input matInput [formControl]="cognomControl" value="{{data.xofer.cognoms}}">
+      </mat-form-field>
+    </div>
+
+    <div class="camps d-flex justify-content-around">
+      <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
+        <mat-label>Telèfon</mat-label>
+        <input type="number" required matInput [formControl]="telefonControl" value="{{data.xofer.telefon}}">
+        <mat-error *ngIf="telefonControl.hasError('required')">Es requereix el camp</mat-error>
+        <mat-error *ngIf="telefonControl.hasError('pattern')">El telèfon ha de tenir 9 digits</mat-error>
+      </mat-form-field>
+
+      <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" class="camp">
+        <mat-label>DNI</mat-label>
+        <input required matInput [formControl]="dniControl" value="{{data.xofer.dni}}">
+        <mat-error *ngIf="dniControl.hasError('required')">Es requereix el camp</mat-error>
+        <mat-error *ngIf="dniControl.hasError('pattern')">El DNI ha de tenir 8 digits seguits d'una lletra</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="camps d-flex justify-content-around">
+      <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" [floatLabel]="getFloatLabelValue()" class="camp">
+          <mat-label>Camió</mat-label>
+          <mat-select [(value)]="data.xofer.id_camio.id" [formControl]="camioSeleccionat">
+            <mat-option *ngFor="let camio of camions" [value]="camio.id">{{ camio.matricula + "(" + camio.marca_model + ")" }}</mat-option>
+          </mat-select>
+      </mat-form-field>
+
+      <div class="d-flex flex-column align-items-center">
+        <svg (click)="openCamio()" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+
+        <svg (click)="openModificarCamio()" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+          <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+        </svg>
+      </div>
+
+      <mat-form-field [hideRequiredMarker]="hideRequiredControl.value" [floatLabel]="getFloatLabelValue()" class="camp">
+        <mat-label>Remolc</mat-label>
+        <mat-select [(value)]="data.xofer.id_remolc.id" [formControl]="remolcSeleccionat">
+          <mat-option *ngFor="let remolc of remolcs" [value]="remolc.id">{{remolc.matricula}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="d-flex flex-column align-items-center">
+        <svg (click)="openRemolc()" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+
+        <svg (click)="openModificarRemolc()" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+          <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="camps d-flex justify-content-around">
+      <div class="calendari">
+        <mat-form-field class="w-100">
+          <ngx-multiple-dates [matDatepicker]="pickerPredefined" placeholder="Dies no disponibles"
+          name="diesNoDisponibles"
+          [min]="dataService.getDataAvui()"
+          [formControl]="reactiveControl">
+          </ngx-multiple-dates>
+          <mat-datepicker-toggle matPrefix [for]="pickerPredefined"></mat-datepicker-toggle>
+          <mat-datepicker #pickerPredefined></mat-datepicker>
+          <button class="btn btn-primary w-100" type="button" (click)="actualizarNoDisponible()">Actualitzar</button>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div *ngIf="enviado !== null" class="text-center" [ngClass]="{'text-success': enviado === true, 'text-danger': enviado === false}">
+      {{ enviado ? 'El formulario se ha enviado correctamente.' : 'Ha ocurrido un error al enviar el formulario. Por favor, inténtalo nuevamente.' }}
+    </div>
+
+    <div class="text-center d-flex flex-row justify-content-around">
+      <button mat-raised-button color="primary" type="submit" class="btn btn-success w-50">Enviar</button>
+      <button mat-raised-button class="btn btn-danger w-25" (click)="submitDelete()">Eliminar</button>
+    </div>
+  </form>
+</div>

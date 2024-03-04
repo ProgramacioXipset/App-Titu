@@ -67,6 +67,7 @@ export class TaulaPrincipalComponent {
   cargarXofers() {
     this.xoferService.retornarXofer()
       .subscribe((result: any) => {
+        result.sort((a: any, b: any) => a.ordre - b.ordre);
         this.xofers = result;
       });
   }
@@ -110,7 +111,7 @@ export class TaulaPrincipalComponent {
       this.cargarXofers(); // Actualiza los xofers al cerrar el diálogo
     });
   }
-  
+
   colocarPipes(ruta: any, dia:string): boolean {
     for (const viatge of ruta.viatge) {
       if (viatge.dia === dia && viatge.tipus === 1) {
@@ -312,7 +313,7 @@ export class TaulaPrincipalComponent {
         dividit: viaje.dividit
       };
     }
-    
+
 
     console.log(requestBody);
 
@@ -337,7 +338,6 @@ export class TaulaPrincipalComponent {
 
   updateFormData(endpoint: string, formData: any) {
     const token = window.sessionStorage.getItem("auth-token"); // Reemplaza con el valor real de tu token
-    console.log(token);
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -377,9 +377,6 @@ export class TaulaPrincipalComponent {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    // Verifica si la tecla deseada está presionada
-    console.log(event.key);
-
     if (event.key === 'Backspace' || event.key === 'Delete') { // Cambia 'Enter' a la tecla que desees usar
       // Llama al método que corresponde al evento (click)
       this.eliminar();
@@ -554,6 +551,140 @@ export class TaulaPrincipalComponent {
     }
 
     return false;
+  }
+
+  pujarXofer(xofer: any) {
+    for (const xoferSuperior of this.xofers) {
+      if (xoferSuperior.ordre == xofer.ordre - 1) {
+        var endpoint = "http://localhost:8181/Xofer/" + xoferSuperior.id;
+
+        var requestBody = {
+          id: xoferSuperior.id,
+          nom: xoferSuperior.nom,
+          cognoms: xoferSuperior.cognoms,
+          telefon: xoferSuperior.telefon,
+          email: xoferSuperior.email,
+          dni: xoferSuperior.dni,
+          id_camio: { id: +xoferSuperior.id_camio.id },
+          id_remolc: { id: +xoferSuperior.id_remolc.id },
+          ordre: +xofer.ordre
+        };
+
+        console.log(requestBody);
+
+        if (endpoint) {
+          this.updateFormData(endpoint, requestBody).subscribe(
+            (response) => {
+              console.log('Formulario enviado correctamente');
+            },
+            (error) => {
+              console.error('Error al enviar el formulario:', error);
+              this.enviado = false;
+            }
+          );
+        } else {
+          console.error('Endpoint no válido');
+        }
+
+        endpoint = "http://localhost:8181/Xofer/" + xofer.id;
+
+        requestBody = {
+          id: xofer.id,
+          nom: xofer.nom,
+          cognoms: xofer.cognoms,
+          telefon: xofer.telefon,
+          email: xofer.email,
+          dni: xofer.dni,
+          id_camio: { id: +xofer.id_camio.id },
+          id_remolc: { id: +xofer.id_remolc.id },
+          ordre: +xoferSuperior.ordre
+        };
+
+        console.log(requestBody);
+
+        if (endpoint) {
+          this.updateFormData(endpoint, requestBody).subscribe(
+            (response) => {
+              console.log('Formulario enviado correctamente');
+              this.cargarXofers();
+            },
+            (error) => {
+              console.error('Error al enviar el formulario:', error);
+              this.enviado = false;
+            }
+          );
+        } else {
+          console.error('Endpoint no válido');
+        }
+      }
+    }
+  }
+
+  baixarXofer(xofer: any) {
+    for (const xoferInferior of this.xofers) {
+      if (xoferInferior.ordre == xofer.ordre + 1) {
+        var endpoint = "http://localhost:8181/Xofer/" + xoferInferior.id;
+
+        var requestBody = {
+          id: xoferInferior.id,
+          nom: xoferInferior.nom,
+          cognoms: xoferInferior.cognoms,
+          telefon: xoferInferior.telefon,
+          email: xoferInferior.email,
+          dni: xoferInferior.dni,
+          id_camio: { id: +xoferInferior.id_camio.id },
+          id_remolc: { id: +xoferInferior.id_remolc.id },
+          ordre: +xofer.ordre
+        };
+
+        console.log(requestBody);
+
+        if (endpoint) {
+          this.updateFormData(endpoint, requestBody).subscribe(
+            (response) => {
+              console.log('Formulario enviado correctamente');
+            },
+            (error) => {
+              console.error('Error al enviar el formulario:', error);
+              this.enviado = false;
+            }
+          );
+        } else {
+          console.error('Endpoint no válido');
+        }
+
+        endpoint = "http://localhost:8181/Xofer/" + xofer.id;
+
+        requestBody = {
+          id: xofer.id,
+          nom: xofer.nom,
+          cognoms: xofer.cognoms,
+          telefon: xofer.telefon,
+          email: xofer.email,
+          dni: xofer.dni,
+          id_camio: { id: +xofer.id_camio.id },
+          id_remolc: { id: +xofer.id_remolc.id },
+          ordre: +xoferInferior.ordre
+        };
+
+        console.log(requestBody);
+
+        if (endpoint) {
+          this.updateFormData(endpoint, requestBody).subscribe(
+            (response) => {
+              console.log('Formulario enviado correctamente');
+              this.cargarXofers();
+            },
+            (error) => {
+              console.error('Error al enviar el formulario:', error);
+              this.enviado = false;
+            }
+          );
+        } else {
+          console.error('Endpoint no válido');
+        }
+      }
+    }
   }
 }
 

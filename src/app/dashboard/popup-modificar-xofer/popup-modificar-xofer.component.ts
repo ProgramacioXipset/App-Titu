@@ -35,6 +35,7 @@ export class PopupModificarXoferComponent {
   telefonControl;
   emailControl;
   dniControl;
+  afegirSeparadorControl;
   options: FormGroup;
   camions: any = null;
   remolcs: any = null;
@@ -65,6 +66,7 @@ export class PopupModificarXoferComponent {
     this.telefonControl = new FormControl(this.data.xofer.telefon, Validators.pattern(telPattern));
     this.emailControl = new FormControl(this.data.xofer.email, Validators.email);
     this.dniControl = new FormControl(this.data.xofer.dni, Validators.required);
+    this.afegirSeparadorControl = new FormControl(this.data.xofer.separador);
     this.xofersNoDisponibles = this.data.xofer.xofer_no_disponible;
 
     this.pasarADateYAssignar();
@@ -75,7 +77,8 @@ export class PopupModificarXoferComponent {
       cognomControl: this.cognomControl,
       telefonControl: this.telefonControl,
       emailControl: this.emailControl,
-      dniControl: this.dniControl
+      dniControl: this.dniControl,
+      afegirSeparadorControl: this.afegirSeparadorControl
     });
   }
   ngOnInit(): void {
@@ -101,6 +104,13 @@ export class PopupModificarXoferComponent {
       const telefonValue = this.telefonControl.value;
       const emailValue = this.emailControl.value;
       const dniValue = this.dniControl.value;
+      var afegirSeparadorValue;
+
+      if (this.afegirSeparadorControl.value) {
+        afegirSeparadorValue = 1;
+      } else {
+        afegirSeparadorValue = 0;
+      }
 
       const requestBody = {
         id: this.data.xofer.id,
@@ -110,7 +120,9 @@ export class PopupModificarXoferComponent {
         email: emailValue,
         dni: dniValue,
         id_camio: { id: +this.camioSeleccionat.value },
-        id_remolc: { id: +this.remolcSeleccionat.value }
+        id_remolc: { id: +this.remolcSeleccionat.value },
+        ordre: this.data.xofer.ordre,
+        separador: afegirSeparadorValue
       };
 
       console.log(requestBody);

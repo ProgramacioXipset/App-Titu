@@ -10,6 +10,8 @@ export class OrdenarPorExternoPipe implements PipeTransform {
       return items;
     }
 
+    items.sort((a: any, b: any) => a.ordre - b.ordre);
+
     const segundos = items.filter(item => item.externa && !item.id_ruta);
     const primeros = items.filter(item => !item.externa && !item.id_ruta);
     const terceros = items.filter(item => item.id_ruta);

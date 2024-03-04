@@ -14,3 +14,11 @@ table, th, td {
   color: green;
   background-color: rgb(155, 228, 155);
 }
+
+.chevron {
+  display: none;
+}
+
+td:hover .chevron {
+  display: inline;
+}

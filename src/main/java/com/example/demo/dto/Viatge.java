@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -57,6 +58,9 @@ public class Viatge {
 	
 	@Column(name = "dividit")//no hace falta si se llama igual
 	private Integer dividit;
+	
+	@Column(name = "ordre")//no hace falta si se llama igual
+	private Integer ordre;
 
 	public Viatge() {
 		super();
@@ -64,7 +68,7 @@ public class Viatge {
 
 	public Viatge(int id, Direccio id_direccio_origen, Direccio id_direccio_desti, String comentari, String dia,
 			Ruta id_ruta, String externa, Integer tipus, String data_inicial, String n_comanda, Integer amagat,
-			Integer dividit) {
+			Integer dividit, Integer ordre) {
 		super();
 		this.id = id;
 		this.id_direccio_origen = id_direccio_origen;
@@ -78,8 +82,14 @@ public class Viatge {
 		this.n_comanda = n_comanda;
 		this.amagat = amagat;
 		this.dividit = dividit;
+		this.ordre = ordre;
 	}
 
+	@PrePersist
+	protected void onCreate() {
+		this.ordre = Math.toIntExact(this.id);
+	}
+	
 	public Integer getAmagat() {
 		return amagat;
 	}
@@ -176,12 +186,20 @@ public class Viatge {
 		this.dividit = dividit;
 	}
 
+	public Integer getOrdre() {
+		return ordre;
+	}
+
+	public void setOrdre(Integer ordre) {
+		this.ordre = ordre;
+	}
+
 	@Override
 	public String toString() {
 		return "Viatge [id=" + id + ", id_direccio_origen=" + id_direccio_origen + ", id_direccio_desti="
 				+ id_direccio_desti + ", comentari=" + comentari + ", dia=" + dia + ", id_ruta=" + id_ruta
 				+ ", externa=" + externa + ", tipus=" + tipus + ", data_inicial=" + data_inicial + ", n_comanda="
-				+ n_comanda + ", amagat=" + amagat + ", dividit=" + dividit + "]";
+				+ n_comanda + ", amagat=" + amagat + ", dividit=" + dividit + ", ordre=" + ordre + "]";
 	}
 
 }

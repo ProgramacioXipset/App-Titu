@@ -56,10 +56,11 @@ public class XoferController {
 		Xofer_seleccionado.setNom(Xofer.getNom());
 		Xofer_seleccionado.setCognoms(Xofer.getCognoms());
 		Xofer_seleccionado.setTelefon(Xofer.getTelefon());
-		Xofer_seleccionado.setEmail(Xofer.getEmail());
 		Xofer_seleccionado.setDni(Xofer.getDni());
 		Xofer_seleccionado.setId_camio(Xofer.getId_camio());
 		Xofer_seleccionado.setId_remolc(Xofer.getId_remolc());
+		Xofer_seleccionado.setOrdre(Xofer.getOrdre());
+		Xofer_seleccionado.setSeparador(Xofer.getSeparador());
 
 		Xofer_actualizado = XoferServiceImpl.actualizarXofer(Xofer_seleccionado);
 

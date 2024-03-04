@@ -41,7 +41,10 @@ public class ViatgeServiceIMPL implements IViatgeService {
 	@Override
 	public Viatge guardarViatge(Viatge Viatge) {
 		// TODO Auto-generated method stub
-		return iViatgeDAO.save(Viatge);
+		Viatge viatgeGuardado = iViatgeDAO.save(Viatge);
+		viatgeGuardado.setOrdre(viatgeGuardado.getId());
+		
+		return iViatgeDAO.save(viatgeGuardado);
 	}
 
 	@Override

@@ -78,6 +78,7 @@ public class ViatgeController {
 		Viatge_seleccionado.setN_comanda(Viatge.getN_comanda());
 		Viatge_seleccionado.setAmagat(Viatge.getAmagat());
 		Viatge_seleccionado.setDividit(Viatge.getDividit());
+		Viatge_seleccionado.setOrdre(Viatge.getOrdre());
 
 		Viatge_actualizado = ViatgeServiceImpl.actualizarViatge(Viatge_seleccionado);
 

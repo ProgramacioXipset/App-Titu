@@ -29,9 +29,6 @@ public class Xofer {
 	@Column(name="telefon")
 	private Integer telefon;
 	
-	@Column(name="email")
-	private String email;
-	
 	@Column(name="dni")
 	private String dni;
 
@@ -45,6 +42,12 @@ public class Xofer {
     @JsonIgnoreProperties("xofer")
 	Remolc id_remolc;
 	
+	@Column(name="ordre")
+	private Integer ordre;
+	
+	@Column(name="separador")
+	private Integer separador;
+	
 	@OneToMany(mappedBy = "id_xofer", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("id_xofer")
 	private List<Ruta> ruta;
@@ -57,17 +60,18 @@ public class Xofer {
 		super();
 	}
 
-	public Xofer(int id, String nom, String cognoms, Integer telefon, String email, String dni, Camio id_camio,
-			Remolc id_remolc, List<Ruta> ruta, List<XoferNoDisponible> xofer_no_disponible) {
+	public Xofer(int id, String nom, String cognoms, Integer telefon, String dni, Camio id_camio, Remolc id_remolc,
+			Integer ordre, Integer separador, List<Ruta> ruta, List<XoferNoDisponible> xofer_no_disponible) {
 		super();
 		this.id = id;
 		this.nom = nom;
 		this.cognoms = cognoms;
 		this.telefon = telefon;
-		this.email = email;
 		this.dni = dni;
 		this.id_camio = id_camio;
 		this.id_remolc = id_remolc;
+		this.ordre = ordre;
+		this.separador = separador;
 		this.ruta = ruta;
 		this.xofer_no_disponible = xofer_no_disponible;
 	}
@@ -104,14 +108,6 @@ public class Xofer {
 		this.telefon = telefon;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getDni() {
 		return dni;
 	}
@@ -136,6 +132,14 @@ public class Xofer {
 		this.id_remolc = id_remolc;
 	}
 
+	public Integer getOrdre() {
+		return ordre;
+	}
+
+	public void setOrdre(Integer ordre) {
+		this.ordre = ordre;
+	}
+
 	public List<Ruta> getRuta() {
 		return ruta;
 	}
@@ -151,11 +155,19 @@ public class Xofer {
 	public void setXofer_no_disponible(List<XoferNoDisponible> xofer_no_disponible) {
 		this.xofer_no_disponible = xofer_no_disponible;
 	}
+	
+	public Integer getSeparador() {
+		return separador;
+	}
+
+	public void setSeparador(Integer separador) {
+		this.separador = separador;
+	}
 
 	@Override
 	public String toString() {
-		return "Xofer [id=" + id + ", nom=" + nom + ", cognoms=" + cognoms + ", telefon=" + telefon + ", email=" + email
-				+ ", dni=" + dni + ", id_camio=" + id_camio + ", id_remolc=" + id_remolc + ", ruta=" + ruta
-				+ ", xofer_no_disponible=" + xofer_no_disponible + "]";
+		return "Xofer [id=" + id + ", nom=" + nom + ", cognoms=" + cognoms + ", telefon=" + telefon + ", dni=" + dni
+				+ ", id_camio=" + id_camio + ", id_remolc=" + id_remolc + ", ordre=" + ordre + ", separador="
+				+ separador + ", ruta=" + ruta + ", xofer_no_disponible=" + xofer_no_disponible + "]";
 	}
 }
